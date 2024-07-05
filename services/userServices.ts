@@ -1,0 +1,13 @@
+import db  from '../config/config-db';
+import User from '../Dto/UserDto';
+import generateHash from '../Helpers/generateHash';
+import UserRepository from '../repositories/UserRepository';
+
+class UserService {
+    static async register(user: User){
+        user.contrasenia = await generateHash(user.contrasenia);
+        return  await UserRepository.add(user);
+    }
+}
+
+export default UserService
