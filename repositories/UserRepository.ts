@@ -9,24 +9,6 @@ class UserRepository {
         const values = [user.nombre, user.apellido, user.numeroDeDocumento, user.numeroDeTelefono, user.email, user.contrasenia];
         return db.execute(sql, values);
     }
-
-    static async login(auth: Auth){
-       const sql = 'SELECT IdUsuario, contraseniaUsuario AS contrasenia FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador, contrasenaAdministrador AS contrasenia FROM administrador WHERE correoAdministrador=?'
-       const values = [auth.email, auth.email];
-       const result: any = await db.execute(sql, values);
-       if(result[0].length > 0){
-        const esContraseniaValida = await bcrypt.compare(auth.contrasenia, result[0][0].contrasenia);
-        if (esContraseniaValida) {
-            return {logged: true, status: "Successful authentication", id: result[0][0].id };
-        };
-        return {logged: false, status: "Invalid username or password" };
-
-       }
-       return {logged: false, status: "Invalid username or password" };
-    }
-
-    
-    
 }
 
 export default UserRepository;
