@@ -1,4 +1,11 @@
 node_modules
 .env
 dist
-w
+registerVeterinary-controller.ts
+auth-controllers.ts
+authDto.ts
+createAppointmentDto.ts
+veterinaryDto.ts
+generateToken.ts 
+VerifyToken.ts
+auth.ts

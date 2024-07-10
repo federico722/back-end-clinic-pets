@@ -13,13 +13,29 @@ let register = async (req: Request, res: Response) => {
             email,
             contrasenia
         } =req.body
+        console.log(req.body);
+        
         const registerUser = await UserService.register(new User(nombre, apellido, numeroDeDocumento, numeroDeTelefono, email, contrasenia))
-        return res.status(201).json(
-            { status: 'register ok'}
-        );
+        console.log(registerUser);
+
+        if (registerUser) {
+            return res.status(201).json(
+                { status: 'register ok'}
+            );
+        } else {
+            return res.status(500).json(
+                { status: 'el usuario ya esta registrado'}
+            );
+        }
+        
+
     } catch (error: any) {
         if (error && error.code == "ER_DUP_ENTRY") {
             return res.status(500).json({ errorInfo: error.sqlMessage });
+        }else{
+            console.error(error.message);
+            
+            
         }
     }
 }
