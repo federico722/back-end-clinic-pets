@@ -5,7 +5,7 @@ import generateToken from "../Helpers/generateToken";
 import dotenv from "dotenv";
 dotenv.config();
 
-
+ 
 let auth = async (req: Request, res: Response) => {
     try {
         const { email, contrasenia } = req.body;
