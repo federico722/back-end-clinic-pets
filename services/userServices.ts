@@ -5,10 +5,10 @@ import generateHash from '../Helpers/generateHash';
 import UserRepository from '../repositories/UserRepository';
 
 class UserService {
-    static async register(user: User){
+   /* static async register(user: User){
         user.contrasenia = await generateHash(user.contrasenia);
         return  await UserRepository.add(user);
-    }
+    }*/
 
     static async login(auth: Auth) {
         return await UserRepository.login(auth);

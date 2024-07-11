@@ -9,6 +9,7 @@ import jwt from "jsonwebtoken";
  * @returns 
  */
 
+
 export interface TokenPayload {
     id: number | string;
     // Otros campos relevantes

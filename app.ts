@@ -11,7 +11,7 @@ const app = express().use(bodyParser.json());
 
 app.use(cors());
 
-app.use('/register', register);
+//app.use('/register', register);
 app.use('/auth', auth);
 
 

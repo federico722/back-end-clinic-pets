@@ -18,7 +18,6 @@ export let validatorParamsLogin = [
 ];
 
 
-
 export function validatorLogin(req: Request, res: Response, next: NextFunction) {
 
     const errors = validationResult(req);

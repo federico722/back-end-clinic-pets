@@ -8,6 +8,7 @@ class Auth {
         this._contrasenia = contrasenia;
 
     }
+    
 
     //Getters
 

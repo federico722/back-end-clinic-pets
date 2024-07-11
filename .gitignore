@@ -1,3 +1,12 @@
 node_modules
 .env
 dist
+registerUser-controller.ts
+registerVeterinary-controller.ts
+createAppointmentDto.ts
+UserDto.ts
+veterinaryDto.ts
+generateHash.ts
+registerUser-validator.ts
+VerifyToken.ts
+registerUser.ts

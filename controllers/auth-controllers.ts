@@ -16,7 +16,7 @@ let auth = async (req: Request, res: Response) => {
                 token: generateToken({id: login.id}, process.env.KEY_TOKEN, 5)
             });
         } 
-
+    
         
 
     } catch (error) {
