@@ -1,13 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Veterinary {
-    constructor(nombre, apellido, email, contrasenia) {
+    constructor(idVeterinario, idAdministrador, nombre, apellido, email, contrasenia) {
+        this._idVeterinario = idVeterinario;
+        this._idAdministrador = idAdministrador;
         this._nombre = nombre;
         this._apellido = apellido;
         this._email = email;
         this._contrasenia = contrasenia;
     }
     //Getters
+    get idVeterinario() {
+        return this._idVeterinario;
+    }
+    get idAdministrador() {
+        return this._idAdministrador;
+    }
     get nombre() {
         return this._nombre;
     }

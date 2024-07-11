@@ -1,15 +1,18 @@
 class Veterinary {
-     
+    private _idVeterinario: string;
+    private _idAdministrador: string;
     private _nombre: string;
     private _apellido: string;
     private _email: string;
     private _contrasenia: string;
 
     constructor( 
-        nombre: string, apellido: string,
+        idVeterinario: string, idAdministrador: string ,nombre: string, apellido: string,
         email: string, contrasenia: string
     ) 
     {
+        this._idVeterinario = idVeterinario;
+        this._idAdministrador = idAdministrador;
         this._nombre = nombre;
         this._apellido = apellido;
         this._email = email;
@@ -17,6 +20,16 @@ class Veterinary {
     }
 
      //Getters
+     get idVeterinario(): string{
+        return this._idVeterinario;
+    }
+
+
+     get idAdministrador(): string{
+        return this._idAdministrador;
+    }
+
+
      get nombre(): string{
         return this._nombre;
     }

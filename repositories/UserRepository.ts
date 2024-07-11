@@ -13,6 +13,7 @@ class UserRepository {
 
     static async addVeterinary(veterinary: Veterinary){
         const sql = 'INSERT INTO veterinario (idVeterinario, idAdministrador ,nombreVeterinario, apellidoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?)';
+        
     }
 
     static async login(auth: Auth){
