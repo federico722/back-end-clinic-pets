@@ -3,6 +3,7 @@ import cors from "cors";
 import bodyParser from 'body-parser';
 import register from './routes/registerUser'
 import auth from './routes/auth';
+import scheduleAppointment from './routes/scheduleAppointment';
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -13,6 +14,7 @@ app.use(cors());
 
 app.use('/register', register);
 app.use('/auth', auth);
+app.use('/schedule', scheduleAppointment)
 
 
 const PORT = process.env.PORT || 10101;

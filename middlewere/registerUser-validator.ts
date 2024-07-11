@@ -38,9 +38,11 @@ export let validatorParams = [
 
     // Validación para el campo 'contrasenia'
     check('contrasenia')
-    .exists().withMessage('La contraseña debe existir')
-    .isString().withMessage('La contraseña debe ser una cadena de texto')
-    .withMessage('La contraseña es requerida')
+    .isLength({ min: 8, max: 15 }).withMessage('La contraseña debe tener entre 8 y 15 caracteres')
+    .matches(/[A-Z]/).withMessage('La contraseña debe contener al menos una letra mayúscula')
+    .matches(/[a-z]/).withMessage('La contraseña debe contener al menos una letra minúscula')
+    .matches(/\d/).withMessage('La contraseña debe contener al menos un número')
+    .custom((value, { req }) => value == req.body.confirmarContrasenia).withMessage('Las contraseñas no coinciden')    
 ];
 
 

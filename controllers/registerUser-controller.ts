@@ -11,7 +11,8 @@ let register = async (req: Request, res: Response) => {
             numeroDeDocumento,
             numeroDeTelefono,
             email,
-            contrasenia
+            contrasenia,
+            confirmarContrasenia
         } =req.body
         console.log(req.body);
         
@@ -39,4 +40,4 @@ let register = async (req: Request, res: Response) => {
     }
 }
 
-export default register
+export default register;

@@ -1,6 +1,7 @@
 import db from '../config/config-db';
 import User from '../Dto/UserDto';
 import Auth from '../Dto/authDto';
+import Schedule from '../Dto/ScheduleAppointmentDto';
 import Veterinary from '../Dto/veterinaryDto';
 import bcrypt from 'bcryptjs';
 
@@ -30,7 +31,40 @@ class UserRepository {
        return {logged: false, status: "Invalid username or password" };
     }
 
+    static async scheduleAppointment(schedule: Schedule) {
+        console.log('Datos para la base de datos:', schedule);
     
+        const sql = 'INSERT INTO cita (fecha, hora, nombreUsuario, numeroTelefonoUsuario, correoUsuario, direccion, nombreMascota, edadMascota, estadoVacunacion, especie, raza, sexo, tipoCita, motivoConsulta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const values = [
+            schedule.fecha,
+            schedule.hora,
+            schedule.nombre,
+            schedule.telefono,
+            schedule.correo,
+            schedule.direccion,
+            schedule.nombreMascota,
+            schedule.edad,
+            schedule.estadoVacunacion,
+            schedule.especie,
+            schedule.raza,
+            schedule.sexo,
+            schedule.tipoCita,
+            schedule.motivoConsulta
+        ];
+    
+        console.log('Valores para la consulta:', values);
+    
+        try {
+            const connection = await db.getConnection();
+            const [result] = await connection.execute(sql, values);
+            connection.release();
+            console.log("Appointment successfully scheduled:", result);
+            return { success: true, message: "Appointment successfully scheduled" };
+        } catch (error) {
+            console.error("Error scheduling appointment:", error);
+            return { success: false, message: "Error scheduling appointment", error };
+        }
+    }
     
 }
 
