@@ -1,11 +1,12 @@
 node_modules
 .env
-dist
+distgit 
 registerVeterinary-controller.ts
-auth-controllers.ts
-authDto.ts
+registerUser-controller.ts
 createAppointmentDto.ts
 veterinaryDto.ts
-generateToken.ts 
+UserDto.ts
+generateHash.ts
+registerUser-validator.ts
 VerifyToken.ts
-auth.ts
+registerUser.ts

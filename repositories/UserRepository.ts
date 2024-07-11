@@ -1,6 +1,7 @@
 import db from '../config/config-db';
 import User from '../Dto/UserDto';
 import Auth from '../Dto/authDto';
+import Veterinary from '../Dto/veterinaryDto';
 import bcrypt from 'bcryptjs';
 
 class UserRepository {
@@ -8,6 +9,10 @@ class UserRepository {
         const sql = 'INSERT INTO usuario (nombreUsuario, apellidoUsuario, numeroDeDocumento, numeroDeTelefono, correoUsuario, contraseniaUsuario) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [user.nombre, user.apellido, user.numeroDeDocumento, user.numeroDeTelefono, user.email, user.contrasenia];
         return db.execute(sql, values);
+    }
+
+    static async addVeterinary(veterinary: Veterinary){
+        const sql = 'INSERT INTO veterinario (idVeterinario, idAdministrador ,nombreVeterinario, apellidoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?)';
     }
 
     static async login(auth: Auth){
