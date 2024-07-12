@@ -47,6 +47,14 @@ class Veterinary {
     }
 
     // Setters
+    set idVeterinario(idVeterinario: string){
+        this._idVeterinario = idVeterinario
+    }
+
+    set idAdministrador(idAdministrador: string){
+        this._idAdministrador = idAdministrador;
+    }
+
     set nombre(nombre: string){
         this._nombre = nombre;
     }

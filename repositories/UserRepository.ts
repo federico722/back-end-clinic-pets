@@ -11,11 +11,6 @@ class UserRepository {
         return db.execute(sql, values);
     }
 
-    static async addVeterinary(veterinary: Veterinary){
-        const sql = 'INSERT INTO veterinario (idVeterinario, idAdministrador ,nombreVeterinario, apellidoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?)';
-        
-    }
-
     static async login(auth: Auth){
        const sql = 'SELECT IdUsuario, contraseniaUsuario AS contrasenia FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador, contrasenaAdministrador AS contrasenia FROM administrador WHERE correoAdministrador=?'
        const values = [auth.email, auth.email];
