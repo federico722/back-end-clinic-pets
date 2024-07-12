@@ -7,9 +7,12 @@ class User {
     private _contrasenia: string;
 
     constructor(
-        nombre: string, apellido: string,
-        numeroDeDocumento: string, numeroDeTelefono: string,
-        email: string, contrasenia: string
+        nombre: string, 
+        apellido: string,
+        numeroDeDocumento: string, 
+        numeroDeTelefono: string,
+        email: string, 
+        contrasenia: string
     ) {
         this._nombre = nombre;
         this._apellido = apellido;

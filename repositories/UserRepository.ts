@@ -7,8 +7,8 @@ import bcrypt from 'bcryptjs';
 
 class UserRepository {
     static async add(user: User){
-        const sql = 'INSERT INTO usuario (nombreUsuario, apellidoUsuario, numeroDeDocumento, numeroDeTelefono, correoUsuario, contraseniaUsuario) VALUES (?, ?, ?, ?, ?, ?)';
-        const values = [user.nombre, user.apellido, user.numeroDeDocumento, user.numeroDeTelefono, user.email, user.contrasenia];
+        const sql = 'INSERT INTO usuario (IdUsuario, nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario, contrasenaUsuario) VALUES (?, ?, ?, ?, ?, ?)';
+        const values = [user.numeroDeDocumento, user.nombre, user.apellido, , user.numeroDeTelefono, user.email, user.contrasenia];
         return db.execute(sql, values);
     }
 
