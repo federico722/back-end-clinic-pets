@@ -1,5 +1,6 @@
 import User from '../Dto/UserDto';
 import Auth from '../Dto/authDto';
+import Profile from '../Dto/EditProfileDto';
 import Veterinary from '../Dto/veterinaryDto';
 import generateHash from '../Helpers/generateHash';
 import Schedule from '../Dto/ScheduleAppointmentDto';
@@ -23,7 +24,14 @@ class UserService {
 
     static async registerVeterinary(veterinary: Veterinary){
         return await UserRepository.addVeterinary(veterinary);
- }
-}
+    }
+
+    static async updateProfile(profile: Profile) {
+        try {
+            return await UserRepository.updateProfile(profile);
+        } catch (error) {
+            throw error;
+        }
+    }}
 
 export default UserService

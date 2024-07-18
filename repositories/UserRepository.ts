@@ -3,6 +3,7 @@ import User from '../Dto/UserDto';
 import Auth from '../Dto/authDto';
 import Schedule from '../Dto/ScheduleAppointmentDto';
 import Veterinary from '../Dto/veterinaryDto';
+import Profile from '../Dto/EditProfileDto';
 import bcrypt from 'bcryptjs';
 
 class UserRepository {
@@ -36,6 +37,12 @@ class UserRepository {
 
        }
        return {logged: false, status: "Invalid username or password" };
+    }
+
+    static async updateProfile(profile: Profile){
+        const sql = 'UPDATE usuario SET IdUsuario = ?, nombreUsuario = ?, apellidoUsuario = ?, telefonoUsuario = ?, correoUsuario = ? WHERE IdUsuario = ?';
+        const values = [profile.numeroDeDocumento, profile.nombre, profile.apellido, profile.numeroDeTelefono, profile.email, profile.numeroDocumentoAntiguo];
+        return await db.execute(sql, values);
     }
 
     static async scheduleAppointment(schedule: Schedule) {

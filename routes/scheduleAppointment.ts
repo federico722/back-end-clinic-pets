@@ -4,7 +4,7 @@ import scheduleController from "../controllers/scheduleAppointment-controller";
 const router = express.Router();
 
 
-router.post('/', scheduleController);
+router.post('/', verifyToken, scheduleController);
 
 
 export default router;
