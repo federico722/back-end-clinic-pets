@@ -22,11 +22,6 @@ class UserRepository {
             return config_db_1.default.execute(sql, values);
         });
     }
-    static addVeterinary(veterinary) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const sql = 'INSERT INTO veterinario (idVeterinario, idAdministrador ,nombreVeterinario, apellidoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?)';
-        });
-    }
     static login(auth) {
         return __awaiter(this, void 0, void 0, function* () {
             const sql = 'SELECT IdUsuario, contraseniaUsuario AS contrasenia FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador, contrasenaAdministrador AS contrasenia FROM administrador WHERE correoAdministrador=?';

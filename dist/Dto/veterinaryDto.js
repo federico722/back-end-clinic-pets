@@ -29,6 +29,12 @@ class Veterinary {
         return this._contrasenia;
     }
     // Setters
+    set idVeterinario(idVeterinario) {
+        this._idVeterinario = idVeterinario;
+    }
+    set idAdministrador(idAdministrador) {
+        this._idAdministrador = idAdministrador;
+    }
     set nombre(nombre) {
         this._nombre = nombre;
     }
