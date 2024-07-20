@@ -12,25 +12,49 @@ let updateProfile = async (req: Request, res: Response) => {
         const { 
             nombre,
             apellido,
-            numeroDeDocumento,
+           // numeroDeDocumento,
             numeroDeTelefono,
             email,
-            numeroDocumentoAntiguo
         } = req.body;
+
+        const IdUsuario: any = req.user?.id
+
+        console.log("datos mandados desde postman",req.body);
+        
          
         const editProfile = await UserService.updateProfile(new Profile( 
             nombre,
             apellido,
-            numeroDeDocumento,
+           // numeroDeDocumento,
             numeroDeTelefono,
             email,
-            numeroDocumentoAntiguo
+            IdUsuario
         ));
 
-        return res.status(200).json({
-            status: 'success',
-            message: 'Profile updated successfully'
-        });
+        console.log(editProfile);
+
+        if (editProfile.Update) {
+            return res.status(200).json({
+                status: 'success',
+                message: 'Profile updated successfully'
+            });
+        }else{
+            if (editProfile.status === "Invalid Id or data") {
+                return res.status(400).json({
+                    status: 'failed',
+                    message: 'Invalid user ID or data provided',
+                });
+            }else{
+                return res.status(500).json({
+                    status: 'failed',
+                    message: 'Failed to update profile',
+                    error: editProfile.status
+                })
+
+            }
+        }
+        
+        
     } catch (error:any) {
         return res.status(500).json({
             status: 'error',

@@ -10,7 +10,7 @@ dotenv.config()
  */
 
 interface JwtPayload {
-    data: {id: number},
+    data: {id: string},
     exp: number,
     iat: number
 }
@@ -25,14 +25,36 @@ interface JwtPayload {
  * @returns  Una respuesta JSON con un código de estado si hay un error, o llama a next() si la verificación es exitosa
  */
 
+
+// Extender la interfaz Request para incluir la propiedad user
+declare global {
+    namespace Express {
+        interface Request {
+            user?: {id: string}
+        }
+    }
+}
+
+
+
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     // Obtiene el header de autorización
     let authorization = req.get('Authorization');
+    console.log('Authorization header:', authorization);
+
+
+    if (!authorization) {
+        return res.status(401).json({ status: 'error', message: 'No token provided' });
+      }
+
+    
+
 
     if (authorization) {
          // Extrae el token del header de autorización
 
         const token = authorization.split(' ')[1]
+
         if (!token) {
             return res.status(401).json(
                 {status: 'you have not sent a token'}
@@ -41,13 +63,22 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
         try {
             // Verifica el token
             let decoded = jwt.verify(token, process.env.KEY_TOKEN as string) as JwtPayload;
+            console.log('Token decodificado:', decoded);
 
-             // Añade el ID del usuario al cuerpo de la solicitud
-            req.body.id = decoded.data.id;
+            // Añade el ID del usuario a req.user en lugar de req.body
+            req.user = {id: decoded.data.id};
+
+            //req.body.id = decoded.data.id;
 
             // Pasa al siguiente middleware
             next()
         } catch (error) {
+            console.error('Error al verificar el token:', error);
+
+            if (error instanceof jwt.TokenExpiredError) {
+                return res.status(403).json({ status: 'error', message: 'Token expired' });
+              }
+
             // Si la verificación falla, devuelve un error 403
             return res.status(403).json(
                 {status: 'Unauthorized'}

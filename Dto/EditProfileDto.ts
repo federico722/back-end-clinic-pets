@@ -1,24 +1,25 @@
 class Profile {
     private _nombre: string;
     private _apellido: string;
-    private _numeroDeDocumento: string;
+   // private _numeroDeDocumento: string;
     private _numeroDeTelefono: string;
     private _email: string;   
-    private _numeroDocumentoAntiguo: string;
+    private _IdUsuario: string;
+    
     constructor(
         nombre: string,
         apellido: string,
-        numeroDeDocumento: string,
+      //  numeroDeDocumento: string,
         numeroDeTelefono: string,
         email: string,
-        numeroDocumentoAntiguo: string
+        IdUsuario: string
     ) {
         this._nombre = nombre;
         this._apellido = apellido;
-        this._numeroDeDocumento = numeroDeDocumento;
+       // this._numeroDeDocumento = numeroDeDocumento;
         this._numeroDeTelefono = numeroDeTelefono;
         this._email = email;
-        this._numeroDocumentoAntiguo = numeroDocumentoAntiguo;
+        this._IdUsuario = IdUsuario;
     }
     
     public get nombre() : string {
@@ -29,9 +30,9 @@ class Profile {
         return this._apellido;
     }
 
-    public get numeroDeDocumento() : string {
+   /* public get numeroDeDocumento() : string {
         return this._numeroDeDocumento;
-    }
+    }*/
     
     public get numeroDeTelefono() : string {
         return this._numeroDeTelefono;
@@ -41,8 +42,8 @@ class Profile {
         return this._email;
     }
     
-    public get numeroDocumentoAntiguo() : string {
-        return this._numeroDocumentoAntiguo;
+    public get IdUsuario() : string {
+        return this._IdUsuario;
     }
       
     
@@ -57,9 +58,9 @@ class Profile {
         this._apellido = apellido;
     }
 
-    public set numeroDeDocumento(numeroDocumento : string) {
+   /* public set numeroDeDocumento(numeroDocumento : string) {
         this._numeroDeDocumento = numeroDocumento;
-    }
+    } */
 
     public set numeroDeTelefono(numeroDeTelefono : string) {
         this._numeroDeTelefono = numeroDeTelefono;
@@ -69,8 +70,8 @@ class Profile {
         this._email = email;
     }
     
-    public set numeroDocumentoAntiguo(numeroDocumentoAntiguo : string) {
-        this._numeroDocumentoAntiguo = numeroDocumentoAntiguo;
+    public set IdUsuario(IdUsuario : string) {
+        this._IdUsuario = IdUsuario;
     }
 }
 

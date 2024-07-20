@@ -1,6 +1,7 @@
 import User from '../Dto/UserDto';
 import Auth from '../Dto/authDto';
 import Profile from '../Dto/EditProfileDto';
+import CallDataUser from '../Dto/callDataUserDto';
 import Veterinary from '../Dto/veterinaryDto';
 import generateHash from '../Helpers/generateHash';
 import Schedule from '../Dto/ScheduleAppointmentDto';
@@ -32,6 +33,18 @@ class UserService {
         } catch (error) {
             throw error;
         }
-    }}
+    }
+
+    static async  callDataUser(callDataUser: CallDataUser){
+         try {
+            return await UserRepository.callDataUser(callDataUser);
+         } catch (error) {
+            throw error;
+         }
+    }
+
+}
+
+   
 
 export default UserService

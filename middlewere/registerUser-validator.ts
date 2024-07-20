@@ -6,6 +6,13 @@ import { Request, Response, NextFunction } from "express";
  * Cada validador verifica un campo específico de la solicitud
  */
 export let validatorParams = [
+   // Validación para el campo 'numeroDeDocumento'
+   check('numeroDeDocumento')
+   .exists().withMessage('El número de documento debe existir')
+   .isString().withMessage('El número de documento debe ser una cadena de texto')
+   .notEmpty().withMessage('El documento es requerido'),
+
+
     // Validación para el campo 'nombre'
     check('nombre')
     .exists().withMessage('El nombre debe existir')
@@ -17,12 +24,6 @@ export let validatorParams = [
     .exists().withMessage('El apellido debe existir')
     .isString().withMessage('El apellido debe ser una cadena de texto')
     .notEmpty().withMessage('El apellido es requerido'),
-
-    // Validación para el campo 'numeroDeDocumento'
-    check('numeroDeDocumento')
-    .exists().withMessage('El número de documento debe existir')
-    .isString().withMessage('El número de documento debe ser una cadena de texto')
-    .notEmpty().withMessage('El documento es requerido'),
 
     // Validación para el campo 'numeroDeTelefono'
     check('numeroDeTelefono')

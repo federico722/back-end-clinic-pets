@@ -6,9 +6,9 @@ import User from "../Dto/UserDto";
 let register = async (req: Request, res: Response) => {
     try {
         const {
+            numeroDeDocumento,
             nombre,
             apellido,
-            numeroDeDocumento,
             numeroDeTelefono,
             email,
             contrasenia,
@@ -16,7 +16,7 @@ let register = async (req: Request, res: Response) => {
         } =req.body
         console.log(req.body);
         
-        const registerUser = await UserService.register(new User(nombre, apellido, numeroDeDocumento, numeroDeTelefono, email, contrasenia))
+        const registerUser = await UserService.register(new User(numeroDeDocumento, nombre, apellido, numeroDeTelefono, email, contrasenia))
         console.log(registerUser);
 
         if (registerUser) {

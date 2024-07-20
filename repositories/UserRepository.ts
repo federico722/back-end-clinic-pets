@@ -4,13 +4,16 @@ import Auth from '../Dto/authDto';
 import Schedule from '../Dto/ScheduleAppointmentDto';
 import Veterinary from '../Dto/veterinaryDto';
 import Profile from '../Dto/EditProfileDto';
+import CallDataUser from '../Dto/callDataUserDto';
 import bcrypt from 'bcryptjs';
+import {RowDataPacket} from "mysql2"
 
 class UserRepository {
     static async add(user: User){
         const sql = 'INSERT INTO usuario (IdUsuario, nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario, contrasenaUsuario) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [user.numeroDeDocumento, user.nombre, user.apellido, , user.numeroDeTelefono, user.email, user.contrasenia];
-        return db.execute(sql, values);
+        const [result] = await db.execute(sql, values);
+        return result 
     }
 
     static async addVeterinary(veterinary: Veterinary){
@@ -21,17 +24,22 @@ class UserRepository {
     }
 
     static async login(auth: Auth){
-       const sql = 'SELECT IdUsuario, contrasenaUsuario AS contrasenia FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador, contrasenaAdministrador AS contrasenia FROM administrador WHERE correoAdministrador=?'
+       const sql = 'SELECT IdUsuario AS Id, contrasenaUsuario AS contrasenia FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador AS Id, contrasenaAdministrador AS contrasenia FROM administrador WHERE correoAdministrador=?'
        const values = [auth.email, auth.email];
        const result: any = await db.execute(sql, values);
        if(result[0].length > 0){
+        console.log("ID encontrado:", result[0][0].Id);
+        
         console.log('Valores para la consulta:', values);
+       
+        
 
         const esContraseniaValida = await bcrypt.compare(auth.contrasenia, result[0][0].contrasenia);
         if (esContraseniaValida) {
+            console.log("ID encontrado:", result[0][0].Id);
             console.log('logrado');
             
-            return {logged: true, status: "Successful authentication", id: result[0][0].id };
+            return {logged: true, status: "Successful authentication", id: result[0][0].Id };
         };
         return {logged: false, status: "Invalid username or password" };
 
@@ -40,10 +48,35 @@ class UserRepository {
     }
 
     static async updateProfile(profile: Profile){
-        const sql = 'UPDATE usuario SET IdUsuario = ?, nombreUsuario = ?, apellidoUsuario = ?, telefonoUsuario = ?, correoUsuario = ? WHERE IdUsuario = ?';
-        const values = [profile.numeroDeDocumento, profile.nombre, profile.apellido, profile.numeroDeTelefono, profile.email, profile.numeroDocumentoAntiguo];
-        return await db.execute(sql, values);
+        const sql = 'UPDATE usuario SET nombreUsuario = ?, apellidoUsuario = ?, telefonoUsuario = ?, correoUsuario = ? WHERE IdUsuario = ?';
+        const values = [profile.nombre, profile.apellido, profile.numeroDeTelefono, profile.email, profile.IdUsuario];
+        try {
+            const [result]: any = await db.execute(sql, values);
+
+            console.log(`valores para la consulta: ${values}`);
+            console.log("Resultado de la actualización:", result);
+
+            if (result. affectedRows > 0) {
+                return { Update: true, status: "Successful Update", Result: result };
+            }else{
+                return { Update: false, status: "No rows updated. Invalid Id or no changes made." };
+            }
+        } catch (error: any) {
+            console.error("Error al actualizar el perfil:", error);
+            return { Update: false, status: "Database error", error: error.message };
+        }
+       
     }
+
+    static async callDataUser(callDataUser: CallDataUser){
+        const sql = 'SELECT nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario FROM usuario WHERE IdUsuario = ?';
+        const values = [callDataUser.IdUsuario];
+        const [result] = await db.execute(sql, values);
+
+        return result ;
+
+    }
+
 
     static async scheduleAppointment(schedule: Schedule) {
         console.log('Datos para la base de datos:', schedule);

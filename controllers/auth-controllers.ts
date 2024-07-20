@@ -11,18 +11,37 @@ let auth = async (req: Request, res: Response) => {
         const { email, contrasenia } = req.body;
         const login = await UserService.login( new Auth(email, contrasenia));
         if (login.logged) {
+
+    // Asegúrate de que login.id exista y sea válido
+    console.log(login.id);
+    
+    
+    
+      if (!login.id) {
+        return res.status(500).json({
+          status: 'error',
+          message: 'User ID not found after successful login'
+        })};
             
             return res.status(200).json({
                 status: login.status,
-                token: generateToken({id: login.id}, process.env.KEY_TOKEN, 5)
+                token: generateToken({id: login.id}, process.env.KEY_TOKEN, 50)
             });
-        } 
+        } else {
+            return res.status(401).json({
+              status: 'error',
+              message: 'Invalid credentials'
+            });
+          }
 
 
     } catch (error) {
-        console.log(error);
-        
-    }
+        console.error('Error in auth:', error);
+        return res.status(500).json({
+          status: 'error',
+          message: 'Internal server error'
+        });
+      }
 }
 
 export default auth
