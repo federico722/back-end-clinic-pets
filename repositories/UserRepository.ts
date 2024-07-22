@@ -119,7 +119,6 @@ class UserRepository {
             return { success: false, message: "Error scheduling appointment", error };
         }
     }
-    
 }
 
 export default UserRepository;
