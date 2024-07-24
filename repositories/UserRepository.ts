@@ -6,9 +6,20 @@ import Veterinary from '../Dto/veterinaryDto';
 import Profile from '../Dto/EditProfileDto';
 import CallDataUser from '../Dto/callDataUserDto';
 import bcrypt from 'bcryptjs';
-import {RowDataPacket} from "mysql2"
 
+/**
+ * Clase que maneja las operaciones de base de datos relacionadas con usuarios y citas.
+ */
 class UserRepository {
+
+    /**
+     * Agrega un nuevo usuario a la base de datos.
+     * @param user Objeto con los datos del usuario a agregar.
+     * @returns  esultado de la operación de inserción.
+     */
+
+
+
     static async add(user: User){
         const sql = 'INSERT INTO usuario (IdUsuario, nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario, contrasenaUsuario) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [user.numeroDeDocumento, user.nombre, user.apellido, , user.numeroDeTelefono, user.email, user.contrasenia];
@@ -16,12 +27,28 @@ class UserRepository {
         return result 
     }
 
+    /**
+     * 
+     * Agrega un nuevo veterinario a la base de datos.
+     * 
+     * @param veterinary  Objeto con los datos del veterinario a agregar.
+     * @returns  Resultado de la operación de inserción.
+     */
+
     static async addVeterinary(veterinary: Veterinary){
         const sql = 'INSERT INTO veterinario (idVeterinario, idAdministrador ,nombreVeterinario, apellidoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [veterinary.idVeterinario, veterinary.idAdministrador, veterinary.nombre, veterinary.apellido, veterinary.email, veterinary.contrasenia];
         return db.execute(sql, values);
         
     }
+
+    /**
+     * 
+     * Realiza el proceso de login para un usuario o administrador.
+     * 
+     * @param auth  Objeto con las credenciales de autenticación.
+     * @returns Resultado del intento de login.
+     */
 
     static async login(auth: Auth){
        const sql = 'SELECT IdUsuario AS Id, contrasenaUsuario AS contrasenia FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador AS Id, contrasenaAdministrador AS contrasenia FROM administrador WHERE correoAdministrador=?'
@@ -47,6 +74,13 @@ class UserRepository {
        return {logged: false, status: "Invalid username or password" };
     }
 
+
+    /**
+     * Actualiza el perfil de un usuario.
+     * @param profile Objeto con los datos actualizados del perfil.
+     * @returns  Resultado de la actualización.
+     */
+
     static async updateProfile(profile: Profile){
         const sql = 'UPDATE usuario SET nombreUsuario = ?, apellidoUsuario = ?, telefonoUsuario = ?, correoUsuario = ? WHERE IdUsuario = ?';
         const values = [profile.nombre, profile.apellido, profile.numeroDeTelefono, profile.email, profile.IdUsuario];
@@ -68,6 +102,14 @@ class UserRepository {
        
     }
 
+    /**
+     * 
+     * Obtiene los datos de un usuario específico.
+     * 
+     * @param callDataUser Objeto con el ID del usuario a consultar.
+     * @returns Datos del usuario.
+     */
+
     static async callDataUser(callDataUser: CallDataUser){
         const sql = 'SELECT nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario FROM usuario WHERE IdUsuario = ?';
         const values = [callDataUser.IdUsuario];
@@ -76,6 +118,15 @@ class UserRepository {
         return result ;
 
     }
+
+
+    /**
+     * 
+     * Programa una nueva cita.
+     * 
+     * @param schedule Objeto con los detalles de la cita a programar.
+     * @returns Resultado de la programación de la cita.
+     */
 
 
     static async scheduleAppointment(schedule: Schedule) {

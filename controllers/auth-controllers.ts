@@ -27,6 +27,7 @@ let auth = async (req: Request, res: Response) => {
                 status: login.status,
                 token: generateToken({id: login.id}, process.env.KEY_TOKEN, 50)
             });
+            
         } else {
             return res.status(401).json({
               status: 'error',
