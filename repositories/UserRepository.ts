@@ -12,6 +12,13 @@ import bcrypt from 'bcryptjs';
  */
 class UserRepository {
 
+    static async addAdmin(user: User){
+        const sql = 'INSERT INTO administrador (IdAdministrador, nombreAdministrador, apellidoAdministrador, telefonoAdministrador, correoAdministrador, contrasenaAdministrador) VALUES (?, ?, ?, ?, ?, ?)';
+        const values = [user.numeroDeDocumento, user.nombre, user.apellido, , user.numeroDeTelefono, user.email, user.contrasenia];
+        const [result] = await db.execute(sql, values);
+        return result 
+    }
+
     /**
      * Agrega un nuevo usuario a la base de datos.
      * @param user Objeto con los datos del usuario a agregar.
@@ -163,7 +170,6 @@ class UserRepository {
             return { success: false, message: "Error scheduling appointment", error };
         }
     }
-    
 }
 
 export default UserRepository;
