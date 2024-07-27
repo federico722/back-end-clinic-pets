@@ -1,6 +1,6 @@
 import Express  from "express";
 import callDataController from "../controllers/callDataUser-controllers"
-import verifyToken from "../middlewere/VerifyToken";7
+import verifyToken from "../middlewere/VerifyToken";
 
 /**
  * 

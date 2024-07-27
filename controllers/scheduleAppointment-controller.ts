@@ -6,6 +6,8 @@ let schedule = async (req: Request, res: Response) => {
     try {
         console.log('Datos recibidos en el backend:', req.body);
 
+        const IdUsuario:  any = req.user?.id;
+
         const {
             nombre, 
             telefono, 
@@ -56,7 +58,7 @@ let schedule = async (req: Request, res: Response) => {
             fecha, 
             hora
         ));
-
+        
         console.log('Resultado de la programación de la cita:', newScheduleAppointment);
 
         return res.status(201).json({ status: 'schedule appointment created', schedule: newScheduleAppointment });

@@ -1,15 +1,16 @@
-class callDataUser {
+class callDateUser {
     private _IdUsuario: string;
 
-    constructor (
+    constructor(
         IdUsuario: string
     ){
-        this._IdUsuario = IdUsuario
+        this._IdUsuario = IdUsuario;
+
     }
 
-
-    //Getters
-    public get IdUsuario() : string {
+  
+     //Getters
+     public get IdUsuario() : string {
         return this._IdUsuario;
     }
 
@@ -21,4 +22,4 @@ class callDataUser {
  
 }
 
-export default callDataUser;
+export default callDateUser;

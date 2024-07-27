@@ -2,6 +2,8 @@ import User from '../Dto/UserDto';
 import Auth from '../Dto/authDto';
 import Profile from '../Dto/EditProfileDto';
 import CallDataUser from '../Dto/callDataUserDto';
+import CallDateUser from '../Dto/callDateUserDto';
+import DeleteDataUser from '../Dto/deleteDataUserDto'
 import Veterinary from '../Dto/veterinaryDto';
 import generateHash from '../Helpers/generateHash';
 import Schedule from '../Dto/ScheduleAppointmentDto';
@@ -13,8 +15,6 @@ class UserService {
         return  await UserRepository.add(user);
         //return  await UserRepository.addAdmin(user);
     }
-
-    
 
     static async login(auth: Auth) {
         return await UserRepository.login(auth);
@@ -42,6 +42,22 @@ class UserService {
          } catch (error) {
             throw error;
          }
+    }
+
+    static async callDateUser(callDateUser: CallDateUser){
+        try {
+           return await UserRepository.callDateUser(callDateUser);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async deleteDataUser(deleteDataUser: DeleteDataUser){
+        try {
+            return await UserRepository.deleteDataUser(deleteDataUser);
+        } catch (error) {
+            throw error;
+        }
     }
 
 }

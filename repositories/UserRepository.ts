@@ -5,6 +5,8 @@ import Schedule from '../Dto/ScheduleAppointmentDto';
 import Veterinary from '../Dto/veterinaryDto';
 import Profile from '../Dto/EditProfileDto';
 import CallDataUser from '../Dto/callDataUserDto';
+import CallDateUser from '../Dto/callDateUserDto';
+import DeleteDataUser from '../Dto/deleteDataUserDto';
 import bcrypt from 'bcryptjs';
 
 /**
@@ -122,8 +124,26 @@ class UserRepository {
         const values = [callDataUser.IdUsuario];
         const [result] = await db.execute(sql, values);
 
-        return result ;
+        return result;
 
+    }
+
+    static async callDateUser(callDateUser: CallDateUser){
+        const sql = 'SELECT IdCita, fecha, hora, nombreUsuario, tipoCita, estado FROM cita WHERE IdUsuario = ?';
+        const values = [callDateUser.IdUsuario];
+        const [result] = await db.execute(sql, values);
+
+        return result;
+    }
+
+
+    static async deleteDataUser(deleteDataUser:DeleteDataUser){
+       // const sql = 'UPDATE cita SET deleted = 1 WHERE IdCita = ?';}
+       const sql = 'DELETE FROM cita WHERE IdCita = ? '
+        const values = [deleteDataUser.IdCita];
+        const [result] = await db.execute(sql, values);
+
+        return result;
     }
 
 
@@ -139,7 +159,7 @@ class UserRepository {
     static async scheduleAppointment(schedule: Schedule) {
         console.log('Datos para la base de datos:', schedule);
     
-        const sql = 'INSERT INTO cita (fecha, hora, nombreUsuario, numeroTelefonoUsuario, correoUsuario, direccion, nombreMascota, edadMascota, estadoVacunacion, especie, raza, sexo, tipoCita, motivoConsulta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO cita (IdUsuario, fecha, hora, nombreUsuario, numeroTelefonoUsuario, correoUsuario, direccion, nombreMascota, edadMascota, estadoVacunacion, especie, raza, sexo, tipoCita, motivoConsulta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         const values = [
             schedule.fecha,
             schedule.hora,
