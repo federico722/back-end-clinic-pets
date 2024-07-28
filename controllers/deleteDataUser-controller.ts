@@ -15,13 +15,19 @@ let deleteData = async (req: Request, res: Response) => {
         if (typeof IdCita !== 'string' ) {
             return res.status(400).json({
                 tatus: 'error',
-                messege: 'User ID not found in token or has invalid type'
+                message: 'User ID not found in token or has invalid type'
             });
         }  
 
         const deleteDataUser: any = await UserService.deleteDataUser(new DeleteDataUser(IdCita));
         console.log('Datos borrados', deleteDataUser);
         
+        //Enviar respuesta de exito 
+        return res.status(200).json({
+            status: 'succes',
+            message: 'Data delete successfully',
+            data: deleteDataUser
+        });
 
         
     } catch (error: any) {

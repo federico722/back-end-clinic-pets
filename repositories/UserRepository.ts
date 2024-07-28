@@ -24,7 +24,7 @@ class UserRepository {
     /**
      * Agrega un nuevo usuario a la base de datos.
      * @param user Objeto con los datos del usuario a agregar.
-     * @returns  esultado de la operación de inserción.
+     * @returns  Resultado de la operación de inserción.
      */
 
 
