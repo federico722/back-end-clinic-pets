@@ -7,6 +7,8 @@ let schedule = async (req: Request, res: Response) => {
         console.log('Datos recibidos en el backend:', req.body);
 
         const IdUsuario:  any = req.user?.id;
+        console.log(' id del usuario para agregar cita: ',IdUsuario);
+        
 
         const {
             nombre, 
@@ -43,6 +45,7 @@ let schedule = async (req: Request, res: Response) => {
         });
 
         const newScheduleAppointment = await UserService.scheduleAppointment(new Schedule(
+            IdUsuario,
             nombre, 
             telefono, 
             correo,

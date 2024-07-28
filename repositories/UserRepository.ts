@@ -161,6 +161,7 @@ class UserRepository {
     
         const sql = 'INSERT INTO cita (IdUsuario, fecha, hora, nombreUsuario, numeroTelefonoUsuario, correoUsuario, direccion, nombreMascota, edadMascota, estadoVacunacion, especie, raza, sexo, tipoCita, motivoConsulta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         const values = [
+            schedule.IdUsuario,
             schedule.fecha,
             schedule.hora,
             schedule.nombre,

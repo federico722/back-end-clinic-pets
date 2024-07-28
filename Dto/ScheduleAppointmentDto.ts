@@ -1,4 +1,5 @@
 class Schedule {
+    private _IdUsuario: string;
     private _nombre: string;
     private _telefono: string;
     private _correo: string;
@@ -15,6 +16,7 @@ class Schedule {
     private _hora: string;
 
     constructor(
+        IdUsuario: string,
         nombre: string, 
         telefono: string, 
         correo: string,
@@ -30,6 +32,7 @@ class Schedule {
         fecha: string, 
         hora: string
     ) {
+        this._IdUsuario = IdUsuario;
         this._nombre = nombre;
         this._telefono = telefono;
         this._correo = correo;
@@ -44,6 +47,10 @@ class Schedule {
         this._tipoCita = tipoCita;
         this._fecha = fecha;
         this._hora = hora;
+    }
+
+    public get IdUsuario() : string {
+        return this._IdUsuario;
     }
 
     public get nombre() : string {
@@ -100,6 +107,10 @@ class Schedule {
 
     public get fecha() : string {
         return this._fecha;
+    }
+
+    public set IdUsuario(IdUsuario: string){
+        this._IdUsuario = IdUsuario;
     }
 
     public set nombre(nombre : string) {
