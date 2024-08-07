@@ -8,7 +8,7 @@ import updateProfile from './routes/updateProfile';
 import callData from './routes/callDataUser';
 import callDate from './routes/callDateUser';
 import deleteData from './routes/deleteDataUser';
-
+import verifyRolUser from './routes/verifyRol';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -23,6 +23,7 @@ app.use('/editar-perfil', updateProfile);
 app.use('/callData', callData);
 app.use('/callDate', callDate);
 app.use('/deleteData', deleteData);
+app.use('/verifyRolUser', verifyRolUser);
 
 
 const PORT = process.env.PORT || 10101;

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import UserService from '../services/userServices';
 import { validationResult } from "express-validator";
-import Profile from "../Dto/EditProfileDto";
+import Profile from "../Dto/editProfileDto";
 
 /**
  * @description Controlador para actualizar el perfil de un usuario.

@@ -1,12 +1,13 @@
 import db from '../config/config-db';
-import User from '../Dto/UserDto';
+import User from '../Dto/userDto';
 import Auth from '../Dto/authDto';
-import Schedule from '../Dto/ScheduleAppointmentDto';
+import Schedule from '../Dto/scheduleAppointmentDto';
 import Veterinary from '../Dto/veterinaryDto';
-import Profile from '../Dto/EditProfileDto';
+import Profile from '../Dto/editProfileDto';
 import CallDataUser from '../Dto/callDataUserDto';
 import CallDateUser from '../Dto/callDateUserDto';
 import DeleteDataUser from '../Dto/deleteDataUserDto';
+import VerifyRol from '../Dto/verifyRol';
 import bcrypt from 'bcryptjs';
 
 /**
@@ -144,6 +145,28 @@ class UserRepository {
         const [result] = await db.execute(sql, values);
 
         return result;
+    }
+
+    static async verifyRol(verifyRol: VerifyRol){
+        console.log('repository funciona');
+        
+
+       const sql = 'SELECT rol  FROM usuario WHERE IdUsuario = ? UNION SELECT rol FROM administrador WHERE IdAdministrador= ? UNION  SELECT rol FROM veterinario WHERE Idveterinario = ?'
+       const values = [verifyRol.IdUsuario, verifyRol.IdUsuario, verifyRol.IdUsuario];
+       const [result]: any = await db.execute(sql, values);
+
+       console.log("valor de result: ", result);
+       console.log("valor de rol:", result[0].rol);
+    
+
+       if (result.length > 0) {
+        console.log("ID encontrado:", result[0].rol);
+
+        return { VerifyRol: true, status: "Confirmed user role", rol: result[0].rol};
+        
+       }else{
+        return { VerifyRol: false, status: "User role not found"};
+       }
     }
 
 

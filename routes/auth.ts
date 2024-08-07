@@ -16,4 +16,4 @@ const router = express.Router();
 
 router.post('/', authController);
 
-export default router;
+export default router; //
