@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import UserService from "../services/userServices";
-import User from "../Dto/UserDto";
+import User from "../Dto/userDto";
 
 
 /**

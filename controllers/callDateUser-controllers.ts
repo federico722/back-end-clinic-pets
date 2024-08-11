@@ -2,6 +2,13 @@ import {Request, Response} from "express";
 import UserService from "../services/userServices";
 import CallDateUser from "../Dto/callDateUserDto";
 
+/**
+ * Función para manejar la solicitud de obtención de datos de usuario.
+ * @param req - Objeto de solicitud de Express.
+ * @param res - Objeto de respuesta de Express.
+ * @returns  Respuesta en formato JSON con el estado y los datos del usuario.
+ */
+
 let callDate = async (req: Request ,res: Response) =>{
     try {
 
@@ -19,6 +26,7 @@ let callDate = async (req: Request ,res: Response) =>{
          });
         }
 
+        // Llamar al servicio para obtener los datos del usuario
         const callDateUser: any = await UserService.callDateUser(new CallDateUser(IdUsuario));
         console.log('Datos del usuario obtenidos:', callDateUser);
 
@@ -51,3 +59,4 @@ let callDate = async (req: Request ,res: Response) =>{
 }
 
 export default callDate;
+

@@ -11,6 +11,7 @@ import deleteData from './routes/deleteDataUser';
 import callDateAppointment from './routes/callDateAppointmentsUser'
 import updateAppointment from './routes/updateAppointmentUser'
 import cancelAppointment from './routes/cancelAppointmentUser'
+import verifyRolUser from './routes/verifyRol';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -28,6 +29,8 @@ app.use('/deleteData', deleteData);
 app.use('/callDateAppointments', callDateAppointment);
 app.use('/updateAppointment', updateAppointment);
 app.use('/updateAppointment', cancelAppointment);
+app.use('/verifyRolUser', verifyRolUser);
+
 
 const PORT = process.env.PORT || 10101;
 
