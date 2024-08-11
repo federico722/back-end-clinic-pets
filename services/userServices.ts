@@ -9,11 +9,15 @@ import generateHash from '../Helpers/generateHash';
 import Schedule from '../Dto/scheduleAppointmentDto';
 import VerifyRol from '../Dto/verifyRol';
 import UserRepository from '../repositories/UserRepository';
-
+import CallDateAppointment from '../Dto/callDateAppointmentDto';
+import UpdateAppointment from '../Dto/UpdateAppointmentDto';
+import CancelAppointment from '../Dto/cancelAppointmentDto';
 class UserService {
     static async register(user: User){
         user.contrasenia = await generateHash(user.contrasenia);
         return  await UserRepository.add(user);
+        
+        //return  await UserRepository.addAdmin(user);
         //return  await UserRepository.addAdmin(user);
     }
 
@@ -27,6 +31,22 @@ class UserService {
 
     static async scheduleAppointment(schedule: Schedule) {
         return await UserRepository.scheduleAppointment(schedule);
+    }
+
+    static async updateAppointment(update: UpdateAppointment) {
+        try {
+            return await UserRepository.updateAppointment(update);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async cancelAppointment(update: CancelAppointment) {
+        try {
+            return await UserRepository.cancelAppointment(update);
+        } catch (error) {
+            throw error;
+        }
     }
 
     static async registerVeterinary(veterinary: Veterinary){
@@ -57,6 +77,16 @@ class UserService {
         }
     }
 
+    static async callDateAppointment(date: CallDateAppointment){
+        try {
+           return await UserRepository.getAppointmentsByDate(date);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+
     static async deleteDataUser(deleteDataUser: DeleteDataUser){
         try {
             return await UserRepository.deleteDataUser(deleteDataUser);
@@ -70,3 +100,4 @@ class UserService {
    
 
 export default UserService
+
