@@ -8,6 +8,7 @@ import CallDataUser from '../Dto/callDataUserDto';
 import CallDateUser from '../Dto/callDateUserDto';
 import DeleteDataUser from '../Dto/deleteDataUserDto';
 import VerifyRol from '../Dto/verifyRol';
+import RecoverPassword from '../Dto/recoverPassword';
 import bcrypt from 'bcryptjs';
 
 /**
@@ -37,6 +38,10 @@ class UserRepository {
         return result 
     }
 
+    static async recover(recoverPassword: RecoverPassword) {
+        const sql = 'UPDATE usuario SET contrasenaUsuario = ? WHERE correoUsuario = ?'
+    }
+
     /**
      * 
      * Agrega un nuevo veterinario a la base de datos.
@@ -52,6 +57,7 @@ class UserRepository {
         
     }
 
+
     /**
      * 
      * Realiza el proceso de login para un usuario o administrador.
@@ -61,8 +67,8 @@ class UserRepository {
      */
 
     static async login(auth: Auth){
-       const sql = 'SELECT IdUsuario AS Id, contrasenaUsuario AS contrasenia FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador AS Id, contrasenaAdministrador AS contrasenia FROM administrador WHERE correoAdministrador=?'
-       const values = [auth.email, auth.email];
+       const sql = 'SELECT IdUsuario AS Id, contrasenaUsuario AS contrasenia, rol  FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador AS Id, contrasenaAdministrador AS contrasenia, rol FROM administrador WHERE correoAdministrador=? UNION SELECT IdVeterinario AS Id, contrasenaVeterinario AS contrasenia, rol FROM veterinario WHERE correoVeterinario=?'
+       const values = [auth.email, auth.email, auth.email];
        const result: any = await db.execute(sql, values);
        if(result[0].length > 0){
         console.log("ID encontrado:", result[0][0].Id);
@@ -76,7 +82,7 @@ class UserRepository {
             console.log("ID encontrado:", result[0][0].Id);
             console.log('logrado');
             
-            return {logged: true, status: "Successful authentication", id: result[0][0].Id };
+            return {logged: true, status: "Successful authentication", id: result[0][0].Id, rol: result[0][0].rol };
         };
         return {logged: false, status: "Invalid username or password" };
 
@@ -160,7 +166,6 @@ class UserRepository {
     
 
        if (result.length > 0) {
-        console.log("ID encontrado:", result[0].rol);
 
         return { VerifyRol: true, status: "Confirmed user role", rol: result[0].rol};
         

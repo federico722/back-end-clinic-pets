@@ -24,6 +24,9 @@ let auth = async (req: Request, res: Response) => {
 
       // Llama al método de login del servicio de usuarios con los datos de autenticación
         const login = await UserService.login( new Auth(email, contrasenia));
+
+        console.log("existe el rol en auth:",login.rol);
+        
       
     // Verifica si el inicio de sesión fue exitoso
         if (login.logged) {
@@ -42,7 +45,8 @@ let auth = async (req: Request, res: Response) => {
           // Responde con el estado de éxito y el token generado
             return res.status(200).json({
                 status: login.status,
-                token: generateToken({id: login.id}, process.env.KEY_TOKEN, 50)
+                token: generateToken({id: login.id}, process.env.KEY_TOKEN, 50),
+                rol: login.rol
             });
             
         } else {
@@ -65,4 +69,4 @@ let auth = async (req: Request, res: Response) => {
       }
 }
 
-export default auth
+export default auth;
