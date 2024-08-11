@@ -8,7 +8,9 @@ import updateProfile from './routes/updateProfile';
 import callData from './routes/callDataUser';
 import callDate from './routes/callDateUser';
 import deleteData from './routes/deleteDataUser';
-
+import callDateAppointment from './routes/callDateAppointmentsUser'
+import updateAppointment from './routes/updateAppointmentUser'
+import cancelAppointment from './routes/cancelAppointmentUser'
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -23,7 +25,9 @@ app.use('/editar-perfil', updateProfile);
 app.use('/callData', callData);
 app.use('/callDate', callDate);
 app.use('/deleteData', deleteData);
-
+app.use('/callDateAppointments', callDateAppointment);
+app.use('/updateAppointment', updateAppointment);
+app.use('/updateAppointment', cancelAppointment);
 
 const PORT = process.env.PORT || 10101;
 

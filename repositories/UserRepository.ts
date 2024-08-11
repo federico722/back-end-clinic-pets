@@ -7,6 +7,9 @@ import Profile from '../Dto/EditProfileDto';
 import CallDataUser from '../Dto/callDataUserDto';
 import CallDateUser from '../Dto/callDateUserDto';
 import DeleteDataUser from '../Dto/deleteDataUserDto';
+import CallDateAppointment from '../Dto/callDateAppointmentDto';
+import UpdateAppointment from '../Dto/UpdateAppointmentDto';
+import CancelAppointment from '../Dto/cancelAppointmentDto';
 import bcrypt from 'bcryptjs';
 
 /**
@@ -189,6 +192,53 @@ class UserRepository {
         } catch (error) {
             console.error("Error scheduling appointment:", error);
             return { success: false, message: "Error scheduling appointment", error };
+        }
+    }
+
+    static async getAppointmentsByDate(date: CallDateAppointment) {
+        console.log('data');
+        
+        const sql = 'SELECT hora FROM cita WHERE fecha = ?';
+        const values = [date.fecha];
+    
+        try {
+            const connection = await db.getConnection();
+            const [results] = await connection.execute(sql, values);
+            connection.release();
+            console.log('SQL Results:', results); // Agrega esta línea para depuración
+
+            return results;
+        } catch (error) {
+            console.error("Error fetching appointments:", error);
+            throw error;
+        }
+    }
+
+    static async updateAppointment(update: UpdateAppointment) {
+        const sql = 'UPDATE cita SET fecha = ?, hora = ? WHERE IdCita = ?';
+        const values = [update.fecha, update.hora, update.idCita];
+        console.log('base', values);
+        
+        try {
+            const connection = await db.getConnection();
+            await connection.execute(sql, values);
+            connection.release();
+        } catch (error) {
+            console.error('Error updating appointment:', error);
+            throw error;
+        }
+    }
+
+    static async cancelAppointment(update: CancelAppointment) {
+        const sql = 'UPDATE cita SET estado = ? WHERE IdCita = ?';
+        const values = [update.estado, update.idCita];
+        try {
+            const connection = await db.getConnection();
+            await connection.execute(sql, values);
+            connection.release();
+        } catch (error) {
+            console.error('Error updating appointment status:', error);
+            throw error;
         }
     }
 }

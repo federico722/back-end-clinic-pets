@@ -34,7 +34,7 @@ let callDate = async (req: Request ,res: Response) =>{
         // Devolver respuesta exitosa con los datos del usuario
         return res.status(200).json({
          status: 'success',
-         data: callDateUser[0]
+         data: callDateUser
         })
          
     } catch (error: any) {

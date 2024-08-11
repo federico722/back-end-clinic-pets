@@ -4,9 +4,9 @@ dotenv.config();
 
 const db = mysql.createPool({
     host: process.env.DB_HOST,
-    user:"root",
-    //user: "root",
-    port: 3307, // 3306
+    //user:"root",
+    user: process.env.DB_USER,
+    //port: 3307, 
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     connectionLimit: 10,
