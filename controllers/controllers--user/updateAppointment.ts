@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import UserService from "../services/userServices";
-import UpdateAppointment from "../Dto/UpdateAppointmentDto";
-import CancelAppointment from "../Dto/cancelAppointmentDto";
+import UserService from "../../services/userServices";
+import UpdateAppointment from "../../Dto/Dto-User/UpdateAppointmentDto";
+import CancelAppointment from "../../Dto/Dto-User/cancelAppointmentDto";
 
 const updateAppointment = async(req: Request, res: Response) => {
     try {
@@ -9,7 +9,7 @@ const updateAppointment = async(req: Request, res: Response) => {
         const { fecha, hora, estado } = req.body;
         console.log('datos recibidos', fecha, hora);
 
-        if (estado === 'Cancelado') {
+        if (estado === 'Cancelada') {
             await UserService.cancelAppointment(new CancelAppointment(idCita, estado));
         } else {
             await UserService.updateAppointment(new UpdateAppointment(idCita, fecha, hora));

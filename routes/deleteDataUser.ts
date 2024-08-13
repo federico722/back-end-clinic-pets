@@ -1,5 +1,5 @@
 import Express from "express";
-import DeleteDataUser from "../controllers/deleteDataUser-controller";
+import DeleteDataUser from "../controllers/controllers--user/deleteDataUser-controller";
 
 const router = Express.Router();
 

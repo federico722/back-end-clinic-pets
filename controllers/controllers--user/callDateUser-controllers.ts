@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
-import UserService from "../services/userServices";
-import CallDateUser from "../Dto/callDateUserDto";
+import UserService from "../../services/userServices";
+import CallDateUser from "../../Dto/Dto-User/callDateUserDto";
 
 /**
  * Función para manejar la solicitud de obtención de datos de usuario.

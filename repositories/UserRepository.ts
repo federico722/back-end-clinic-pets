@@ -1,15 +1,15 @@
 import db from '../config/config-db';
-import User from '../Dto/userDto';
+import User from '../Dto/Dto-User/userDto';
 import Auth from '../Dto/authDto';
-import Schedule from '../Dto/scheduleAppointmentDto';
-import Veterinary from '../Dto/veterinaryDto';
+import Schedule from '../Dto/Dto-User/scheduleAppointmentDto';
+import Veterinary from '../Dto/Dto-Admin/veterinaryDto';
 import Profile from '../Dto/editProfileDto';
-import CallDataUser from '../Dto/callDataUserDto';
-import CallDateUser from '../Dto/callDateUserDto';
-import DeleteDataUser from '../Dto/deleteDataUserDto';
-import CallDateAppointment from '../Dto/callDateAppointmentDto';
-import UpdateAppointment from '../Dto/UpdateAppointmentDto';
-import CancelAppointment from '../Dto/cancelAppointmentDto';
+import CallDataUser from '../Dto/Dto-User/callDataUserDto';
+import CallDateUser from '../Dto/Dto-User/callDateUserDto';
+import DeleteDataUser from '../Dto/Dto-User/deleteDataUserDto';
+import CallDateAppointment from '../Dto/Dto-User/callDateAppointmentDto';
+import UpdateAppointment from '../Dto/Dto-User/UpdateAppointmentDto';
+import CancelAppointment from '../Dto/Dto-User/cancelAppointmentDto';
 import VerifyRol from '../Dto/verifyRol';
 import RecoverPassword from '../Dto/recoverPassword';
 import bcrypt from 'bcryptjs';
@@ -19,7 +19,7 @@ import bcrypt from 'bcryptjs';
  */
 class UserRepository {
 
-    static async addAdmin(user: User){
+    static async addAdmin(user: User){  
         const sql = 'INSERT INTO administrador (IdAdministrador, nombreAdministrador, apellidoAdministrador, telefonoAdministrador, correoAdministrador, contrasenaAdministrador) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [user.numeroDeDocumento, user.nombre, user.apellido, , user.numeroDeTelefono, user.email, user.contrasenia];
         const [result] = await db.execute(sql, values);
@@ -31,8 +31,6 @@ class UserRepository {
      * @param user Objeto con los datos del usuario a agregar.
      * @returns  Resultado de la operación de inserción.
      */
-
-
 
     static async add(user: User){
         const sql = 'INSERT INTO usuario (IdUsuario, nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario, contrasenaUsuario) VALUES (?, ?, ?, ?, ?, ?)';
@@ -59,7 +57,6 @@ class UserRepository {
         return db.execute(sql, values);
         
     }
-
 
     /**
      * 
@@ -92,7 +89,6 @@ class UserRepository {
        }
        return {logged: false, status: "Invalid username or password" };
     }
-
 
     /**
      * Actualiza el perfil de un usuario.
@@ -258,8 +254,8 @@ class UserRepository {
     }
 
     static async cancelAppointment(update: CancelAppointment) {
-        const sql = 'UPDATE cita SET estado = ? WHERE IdCita = ?';
-        const values = [update.estado, update.idCita];
+        const sql = 'UPDATE cita SET estado = "Cancelada" WHERE IdCita = ?';
+        const values = [update.idCita];
         try {
             const connection = await db.getConnection();
             await connection.execute(sql, values);

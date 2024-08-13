@@ -1,5 +1,5 @@
 import { Request ,Response } from "express";
-import Auth from '../Dto/authDto';
+import Auth from "../Dto/authDto";
 import UserService from "../services/userServices";
 import generateToken from "../Helpers/generateToken";
 import dotenv from "dotenv";

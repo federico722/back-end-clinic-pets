@@ -1,5 +1,5 @@
 import Express from "express";
-import updateAppointment from "../controllers/updateAppointment";
+import updateAppointment from "../controllers/controllers--user/updateAppointment";
 
 const router = Express.Router();
 

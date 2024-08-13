@@ -1,5 +1,5 @@
 import express from "express";
-import registerController from '../controllers/registerUser-controller';
+import registerController from '../controllers/controllers--user/registerUser-controller';
 import { validator, validatorParams } from "../middlewere/registerUser-validator";
 
 /**

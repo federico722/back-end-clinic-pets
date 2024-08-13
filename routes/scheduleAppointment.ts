@@ -1,6 +1,6 @@
 import express from "express";
 import verifyToken from "../middlewere/VerifyToken";
-import scheduleController from "../controllers/scheduleAppointment-controller";
+import scheduleController from "../controllers/controllers--user/scheduleAppointment-controller";
 
 /**
  * 

@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
-import UserService from "../services/userServices";
-import CallDateAppointment from "../Dto/callDateAppointmentDto";
+import UserService from "../../services/userServices";
+import CallDateAppointment from "../../Dto/Dto-User/callDateAppointmentDto";
 
 let callDateAppointment = async (req: Request, res: Response) =>{
     try {

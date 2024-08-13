@@ -1,23 +1,22 @@
-import User from '../Dto/userDto';
+import User from '../Dto/Dto-User/userDto';
 import Auth from '../Dto/authDto';
 import Profile from '../Dto/editProfileDto';
-import CallDataUser from '../Dto/callDataUserDto';
-import CallDateUser from '../Dto/callDateUserDto';
-import DeleteDataUser from '../Dto/deleteDataUserDto'
-import Veterinary from '../Dto/veterinaryDto';
+import CallDataUser from '../Dto/Dto-User/callDataUserDto';
+import CallDateUser from '../Dto/Dto-User/callDateUserDto';
+import DeleteDataUser from '../Dto/Dto-User/deleteDataUserDto'
+import Veterinary from '../Dto/Dto-Admin/veterinaryDto';
 import generateHash from '../Helpers/generateHash';
-import Schedule from '../Dto/scheduleAppointmentDto';
+import Schedule from '../Dto/Dto-User/scheduleAppointmentDto';
 import VerifyRol from '../Dto/verifyRol';
 import UserRepository from '../repositories/UserRepository';
-import CallDateAppointment from '../Dto/callDateAppointmentDto';
-import UpdateAppointment from '../Dto/UpdateAppointmentDto';
-import CancelAppointment from '../Dto/cancelAppointmentDto';
+import CallDateAppointment from '../Dto/Dto-User/callDateAppointmentDto';
+import UpdateAppointment from '../Dto/Dto-User/UpdateAppointmentDto';
+import CancelAppointment from '../Dto/Dto-User/cancelAppointmentDto';
 class UserService {
     static async register(user: User){
         user.contrasenia = await generateHash(user.contrasenia);
         return  await UserRepository.add(user);
         
-        //return  await UserRepository.addAdmin(user);
         //return  await UserRepository.addAdmin(user);
     }
 

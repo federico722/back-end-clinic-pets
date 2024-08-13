@@ -13,6 +13,8 @@ import updateAppointment from './routes/updateAppointmentUser'
 import cancelAppointment from './routes/cancelAppointmentUser'
 import verifyRolUser from './routes/verifyRol';
 import dotenv from "dotenv";
+import AdminRepository from "./routes/getAppointmentAdmin";
+
 dotenv.config();
 
 const app = express().use(bodyParser.json());
@@ -30,7 +32,7 @@ app.use('/callDateAppointments', callDateAppointment);
 app.use('/updateAppointment', updateAppointment);
 app.use('/updateAppointment', cancelAppointment);
 app.use('/verifyRolUser', verifyRolUser);
-
+app.use('/appointments', AdminRepository);
 
 const PORT = process.env.PORT || 10101;
 
