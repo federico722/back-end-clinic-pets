@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import VerifyRol from '../Dto/verifyRol';
-import UserService from "../services/userServices";
+import UserService from "../services/UserServices";
 
 /**
  * Controlador para verificar el rol de un usuario.

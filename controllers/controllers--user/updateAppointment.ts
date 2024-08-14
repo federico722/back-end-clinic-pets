@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import UserService from "../../services/userServices";
 import UpdateAppointment from "../../Dto/Dto-User/UpdateAppointmentDto";
 import CancelAppointment from "../../Dto/Dto-User/cancelAppointmentDto";
+import UserService from "../../services/UserServices";
+
 
 const updateAppointment = async(req: Request, res: Response) => {
     try {
