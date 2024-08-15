@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import UserService from '../services/userServices';
+import UserService from '../services/UserServices';
 import { validationResult } from "express-validator";
 import Profile from "../Dto/editProfileDto";
 

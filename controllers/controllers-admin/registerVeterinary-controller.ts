@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import UserService from "../services/userServices";
-import Veterinary from "../Dto/veterinaryDto";
+import Veterinary from "../../Dto/Dto-Admin/veterinaryDto";
+import UserService from "../../services/UserServices";
 
 /**
  * Función para manejar la solicitud de registro de un veterinario.

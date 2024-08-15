@@ -1,12 +1,15 @@
 import db from '../config/config-db';
-import User from '../Dto/userDto';
+import User from '../Dto/Dto-User/userDto';
 import Auth from '../Dto/authDto';
-import Schedule from '../Dto/scheduleAppointmentDto';
-import Veterinary from '../Dto/veterinaryDto';
+import Schedule from '../Dto/Dto-User/scheduleAppointmentDto';
+import Veterinary from '../Dto/Dto-Admin/veterinaryDto';
 import Profile from '../Dto/editProfileDto';
-import CallDataUser from '../Dto/callDataUserDto';
-import CallDateUser from '../Dto/callDateUserDto';
-import DeleteDataUser from '../Dto/deleteDataUserDto';
+import CallDataUser from '../Dto/Dto-User/callDataUserDto';
+import CallDateUser from '../Dto/Dto-User/callDateUserDto';
+import DeleteDataUser from '../Dto/Dto-User/deleteDataUserDto';
+import CallDateAppointment from '../Dto/Dto-User/callDateAppointmentDto';
+import UpdateAppointment from '../Dto/Dto-User/UpdateAppointmentDto';
+import CancelAppointment from '../Dto/Dto-User/cancelAppointmentDto';
 import VerifyRol from '../Dto/verifyRol';
 import RecoverPassword from '../Dto/recoverPassword';
 import CallTutorData from '../Dto/callTutorData';
@@ -17,7 +20,7 @@ import bcrypt from 'bcryptjs';
  */
 class UserRepository {
 
-    static async addAdmin(user: User){
+    static async addAdmin(user: User){  
         const sql = 'INSERT INTO administrador (IdAdministrador, nombreAdministrador, apellidoAdministrador, telefonoAdministrador, correoAdministrador, contrasenaAdministrador) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [user.numeroDeDocumento, user.nombre, user.apellido, , user.numeroDeTelefono, user.email, user.contrasenia];
         const [result] = await db.execute(sql, values);
@@ -29,8 +32,6 @@ class UserRepository {
      * @param user Objeto con los datos del usuario a agregar.
      * @returns  Resultado de la operación de inserción.
      */
-
-
 
     static async add(user: User){
         const sql = 'INSERT INTO usuario (IdUsuario, nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario, contrasenaUsuario) VALUES (?, ?, ?, ?, ?, ?)';
@@ -137,7 +138,6 @@ class UserRepository {
         
     }
 
-
     /**
      * 
      * Realiza el proceso de login para un usuario o administrador.
@@ -169,7 +169,6 @@ class UserRepository {
        }
        return {logged: false, status: "Invalid username or password" };
     }
-
 
     /**
      * Actualiza el perfil de un usuario.
@@ -333,6 +332,53 @@ class UserRepository {
         } catch (error) {
             console.error("Error scheduling appointment:", error);
             return { success: false, message: "Error scheduling appointment", error };
+        }
+    }
+
+    static async getAppointmentsByDate(date: CallDateAppointment) {
+        console.log('data');
+        
+        const sql = 'SELECT hora FROM cita WHERE fecha = ?';
+        const values = [date.fecha];
+    
+        try {
+            const connection = await db.getConnection();
+            const [results] = await connection.execute(sql, values);
+            connection.release();
+            console.log('SQL Results:', results); // Agrega esta línea para depuración
+
+            return results;
+        } catch (error) {
+            console.error("Error fetching appointments:", error);
+            throw error;
+        }
+    }
+
+    static async updateAppointment(update: UpdateAppointment) {
+        const sql = 'UPDATE cita SET fecha = ?, hora = ? WHERE IdCita = ?';
+        const values = [update.fecha, update.hora, update.idCita];
+        console.log('base', values);
+        
+        try {
+            const connection = await db.getConnection();
+            await connection.execute(sql, values);
+            connection.release();
+        } catch (error) {
+            console.error('Error updating appointment:', error);
+            throw error;
+        }
+    }
+
+    static async cancelAppointment(update: CancelAppointment) {
+        const sql = 'UPDATE cita SET estado = "Cancelada" WHERE IdCita = ?';
+        const values = [update.idCita];
+        try {
+            const connection = await db.getConnection();
+            await connection.execute(sql, values);
+            connection.release();
+        } catch (error) {
+            console.error('Error updating appointment status:', error);
+            throw error;
         }
     }
 }
