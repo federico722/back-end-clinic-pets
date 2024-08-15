@@ -8,6 +8,7 @@ import Veterinary from '../Dto/veterinaryDto';
 import generateHash from '../Helpers/generateHash';
 import Schedule from '../Dto/scheduleAppointmentDto';
 import VerifyRol from '../Dto/verifyRol';
+import callTutorData from '../Dto/callTutorData';
 import UserRepository from '../repositories/UserRepository';
 
 class UserService {
@@ -55,6 +56,11 @@ class UserService {
         } catch (error) {
             throw error;
         }
+    }
+
+    static async callTutorData(callDataTutor: callTutorData){
+
+        return await UserRepository.callTutorData(callDataTutor);
     }
 
     static async deleteDataUser(deleteDataUser: DeleteDataUser){

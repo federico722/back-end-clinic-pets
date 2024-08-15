@@ -9,6 +9,7 @@ import callData from './routes/callDataUser';
 import callDate from './routes/callDateUser';
 import deleteData from './routes/deleteDataUser';
 import verifyRolUser from './routes/verifyRol';
+import callTutorData from './routes/callTutorData';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use('/callData', callData);
 app.use('/callDate', callDate);
 app.use('/deleteData', deleteData);
 app.use('/verifyRolUser', verifyRolUser);
+app.use('/callTutorData', callTutorData);
 
 
 const PORT = process.env.PORT || 10101;

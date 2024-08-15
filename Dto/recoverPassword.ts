@@ -1,21 +1,32 @@
 class recoverPassword {
-    private _email: string
+    private _contrasenaUsuario: string;
+    private _correoUsuario: string;
 
     constructor (
-        email: string
+        contrasenaUsuario: string,
+        correoUsuario: string
     ){
-        this._email = email
+        this._contrasenaUsuario = contrasenaUsuario;
+        this._correoUsuario = correoUsuario;
 
     }
 
     //Getters
-    get email(): string{
-      return this._email;
+    get contrasenaUsuario(): string{
+      return this._contrasenaUsuario;
+    }
+
+    get correoUsuario(): string {
+        return this._correoUsuario;
     }
 
     //Setters
-    set email(email: string) {
-        this._email = email;
+    set contrasenaUsuario(contrasenaUsuario: string) {
+        this._contrasenaUsuario = contrasenaUsuario;
+    }
+
+    set correoUsuario(correoUsuario: string){
+        this._correoUsuario = correoUsuario;
     }
 }
 
