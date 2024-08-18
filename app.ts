@@ -13,8 +13,12 @@ import updateAppointment from './routes/updateAppointmentUser'
 import cancelAppointment from './routes/cancelAppointmentUser'
 import verifyRolUser from './routes/verifyRol';
 import callTutorData from './routes/callTutorData';
-import dotenv from "dotenv";
+
 import AdminRepository from "./routes/getAppointmentAdmin";
+import RecoverPassword from './routes/recoverPassword';
+
+
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -28,12 +32,14 @@ app.use('/schedule', scheduleAppointment);
 app.use('/editar-perfil', updateProfile);
 app.use('/callData', callData);
 app.use('/callDate', callDate);
+app.use('/callTutorData',callTutorData);
 app.use('/deleteData', deleteData);
 app.use('/callDateAppointments', callDateAppointment);
 app.use('/updateAppointment', updateAppointment);
 app.use('/updateAppointment', cancelAppointment);
 app.use('/verifyRolUser', verifyRolUser);
 app.use('/appointments', AdminRepository);
+app.use('/recoverPassword', RecoverPassword);
 
 const PORT = process.env.PORT || 10101;
 

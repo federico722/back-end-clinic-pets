@@ -13,12 +13,19 @@ import UserRepository from '../repositories/UserRepository';
 import CallDateAppointment from '../Dto/Dto-User/callDateAppointmentDto';
 import UpdateAppointment from '../Dto/Dto-User/UpdateAppointmentDto';
 import CancelAppointment from '../Dto/Dto-User/cancelAppointmentDto';
+import RecoverPassword from '../Dto/recoverPasswordDto';
+
 class UserService {
     static async register(user: User){
         user.contrasenia = await generateHash(user.contrasenia);
         return  await UserRepository.add(user);
         
         //return  await UserRepository.addAdmin(user);
+    }
+
+    static async recover(recoverPassword: RecoverPassword ) {
+        recoverPassword.contrasenaUsuario = await generateHash(recoverPassword.contrasenaUsuario);
+        return await UserRepository.recover(recoverPassword);
     }
 
     static async login(auth: Auth) {
@@ -81,6 +88,7 @@ class UserService {
 
         return await UserRepository.callTutorData(callDataTutor);
     }
+    
 
     static async callDateAppointment(date: CallDateAppointment){
         try {

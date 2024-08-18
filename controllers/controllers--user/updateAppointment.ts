@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import UpdateAppointment from "../../Dto/Dto-User/UpdateAppointmentDto";
 import CancelAppointment from "../../Dto/Dto-User/cancelAppointmentDto";
-import UserService from "../../services/UserServices";
+import UserService from "../../services/userServices";
 
 
 const updateAppointment = async(req: Request, res: Response) => {

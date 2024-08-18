@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Schedule from "../../Dto/Dto-User/scheduleAppointmentDto";
-import UserService from '../../services/UserServices';
+import UserService from '../../services/userServices';
 
 let schedule = async (req: Request, res: Response) => {
     try {

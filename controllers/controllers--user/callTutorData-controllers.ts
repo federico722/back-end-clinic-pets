@@ -1,6 +1,6 @@
 import { Request, Response} from "express";
-import CallDataTutor from '../Dto/callTutorData';
-import UserService from "../services/userServices";
+import CallDataTutor from '../../Dto/callTutorData';
+import UserService from "../../services/userServices";
 
 let callTutorData = async (req: Request, res: Response) => {
     try {

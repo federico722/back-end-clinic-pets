@@ -11,9 +11,12 @@ import CallDateAppointment from '../Dto/Dto-User/callDateAppointmentDto';
 import UpdateAppointment from '../Dto/Dto-User/UpdateAppointmentDto';
 import CancelAppointment from '../Dto/Dto-User/cancelAppointmentDto';
 import VerifyRol from '../Dto/verifyRol';
-import RecoverPassword from '../Dto/recoverPassword';
+import RecoverPassword from '../Dto/recoverPasswordDto';
 import CallTutorData from '../Dto/callTutorData';
 import bcrypt from 'bcryptjs';
+
+//importacion de funciones de recoverPassword
+import {updatePasswordUser, capitalizeFirstLetter, querySql} from '../repositories/UserFunction/recoverPassword-function'
 
 /**
  * Clase que maneja las operaciones de base de datos relacionadas con usuarios y citas.
@@ -42,68 +45,11 @@ class UserRepository {
 
 
     static async recover(recoverPassword: RecoverPassword) {
-        let rolUser: string | null = null;
         let resultadoTipoRol: string | null = null;
-        
-
-        function capitalizeFirstLetter(str: string) {
-            if (!str) return str; // Verifica si la cadena está vacía
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-
-         async function  querySql(tipoUsuario:string) {
-            const sql_query = `SELECT rol  FROM ${tipoUsuario} WHERE correoUsuario = ?`;
-            const values_query = [recoverPassword.correoUsuario];
-
-            try {
-
-                const [result_query]: any = await db.execute(sql_query,values_query);
-
-                if (result_query.length > 0) {
-                    rolUser = result_query[0].rol;
-                    return { resultQuery: true, rolUser}
-                }else {
-    
-                    return  { resultQuery: false}
-                }
-                
-            } catch (error: any) {
-                console.error("Error al hacer consulta:", error);
-                return { resultQuery: false, status: "Database error", error: error.message };
-            }
-
-        }
-
-        async function updatePasswordUser(tipoUsuario:string) {
- 
-            const typeRol = capitalizeFirstLetter(tipoUsuario);
-
-
-            const sql = `UPDATE ${typeRol} SET contrasena${typeRol} = ? WHERE correoUsuario = ? AND rol = "${typeRol}"` ;
-            const values = [recoverPassword.contrasenaUsuario, recoverPassword.correoUsuario];
-            
-            try {
-                const [result]: any = await db.execute(sql, values);  
-
-                console.log( 'resultado de actualizar clave', result[0].contrasenaUsuario);
-                
-                if (result.affectedRows > 0) {
-                    return { updatePassword: true, status: "Successful update password", newPassword: result[0].contrasenaUsuario}; 
-                } else {
-                    return { updatePassword: false, status: " Password update failed ", result: result}
-                }
-                
-            } catch (error: any) {
-                console.error("Error al actualizar la contraseña:", error);
-                return { Update: false, status: "Database error", error: error.message };
-                
-            }
-        }
-
-  
+          
         const tiposUsuario = ['usuario', 'administrador', 'veterinario'];
         for (let tipo of tiposUsuario) {
-            let resultado: any | null = await querySql(tipo);
+            let resultado: any | null = await querySql(recoverPassword, tipo);
             if (resultado.resultQuery) {
                 resultadoTipoRol = resultado.rolUser;
                 break;
@@ -111,12 +57,11 @@ class UserRepository {
                 return resultado;
             }
             
-        }
-
-        
+        };
 
         if (resultadoTipoRol) {
-            return updatePasswordUser(resultadoTipoRol);
+            
+            return updatePasswordUser( recoverPassword ,resultadoTipoRol);
         }else {
             return { updatePassword: false, status: "User not found" };
         }
