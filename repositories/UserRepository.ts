@@ -28,7 +28,7 @@ class UserRepository {
         const values = [user.numeroDeDocumento, user.nombre, user.apellido, , user.numeroDeTelefono, user.email, user.contrasenia];
         const [result] = await db.execute(sql, values);
         return result 
-    }
+    }  
 
     /**
      * Agrega un nuevo usuario a la base de datos.
