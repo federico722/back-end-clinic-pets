@@ -13,6 +13,7 @@ import CancelAppointment from '../Dto/Dto-User/cancelAppointmentDto';
 import VerifyRol from '../Dto/verifyRol';
 import RecoverPassword from '../Dto/recoverPasswordDto';
 import CallTutorData from '../Dto/callTutorData';
+import AddProductCart from '../Dto/Dto-User/addProductCartDto';
 import bcrypt from 'bcryptjs';
 
 //importacion de funciones de recoverPassword
@@ -326,6 +327,33 @@ class UserRepository {
             throw error;
         }
     }
+
+    static async addProductCart(addProductCart: AddProductCart) {
+        const sql = 'INSERT INTO usuarioProducto (IdUsuario, IdProducto, cantidad, precioUnitario, precioTotal) VALUES (?, ?, ?, ?, ?)';
+        const values = [
+            addProductCart.IdUsuario, 
+            addProductCart.IdProducto, 
+            addProductCart.cantidad, 
+            addProductCart.precioUnitario, 
+            addProductCart.precioTotal
+        ];
+    
+        try {
+            const [result]: any = await db.execute(sql, values);
+    
+            console.log('Valores para la inserción:', values);
+            console.log('Resultado de la inserción:', result);
+    
+            if (result && result.affectedRows > 0) {
+                return { status: 'Product added to cart', insertToCart: true };
+            } else {
+                return { status: 'Failed to add to cart', insertToCart: false, errorSql: result };
+            }
+        } catch (error: any) {
+            console.error('Error al insertar datos en la tabla:', error);
+            return { status: 'Error inserting data', insertToCart: false, error: error.message };
+        }
+    }
 }
 
-export default UserRepository;
+export default UserRepository; 

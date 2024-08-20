@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs';
 import GetAppointment from "../Dto/Dto-Veterinary/GetAppointmentVeterinary";
 import CreateHistorial from "../Dto/Dto-Veterinary/createHistorialDto";
 
+import { consultarUsuario } from "./UserFunction/createHistorial-function";
+
 class VeterinaryRepository {
 
     static async getAppointment(fecha: GetAppointment) {
@@ -22,8 +24,42 @@ class VeterinaryRepository {
 
     static async createHistorial(createHistorial: CreateHistorial){
 
-        const sql = 'INSERT INTO historialCita ( nombre, telefono, direccion, email, nombreMascota, edadMascota, estadoDeVacunacion, especie, raza, tipoDeCita, nombreVeterinario, tituloEspecialidad, especialMedicina, telefonoVeterinario, emailVeterinario, motivoConsulta, tratamiento, diagnostico, examenMedico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        const values = [createHistorial.nombre, createHistorial.telefono, createHistorial.direccion, createHistorial.email, createHistorial.nombreMascota, createHistorial.edadMascota, createHistorial.estadoDeVacunacion, createHistorial.especie, createHistorial.raza, createHistorial.tipoDeCita, createHistorial.nombreVeterinario, createHistorial.tituloEspecialidad, createHistorial.especialidadMedicina, createHistorial.telefonoVeterinario, createHistorial.emailVeterinario, createHistorial.motivoConsulta, createHistorial.tratamiento, createHistorial.diagnostico, createHistorial.examenMedico];
+        let IdUsuario: string | null = null;
+
+        const consultaDelIdUsuario = await consultarUsuario( createHistorial)
+
+        if (consultaDelIdUsuario.consultUser) {
+
+            IdUsuario = consultaDelIdUsuario.IdUsuario;
+            
+        } else {
+            return { error: consultaDelIdUsuario.error, status: consultaDelIdUsuario.status  }
+        }
+
+        const sql = 'INSERT INTO historialCita (IdVeterinario, IdUsuario, nombre, telefono, direccion, email, nombreMascota, edadMascota, estadoDeVacunacion, especie, raza, tipoDeCita, nombreVeterinario, tituloEspecialidad, especialMedicina, telefonoVeterinario, emailVeterinario, motivoConsulta, tratamiento, diagnostico, examenMedico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const values = [
+            createHistorial.IdVeterinario, 
+            IdUsuario,
+            createHistorial.nombre, 
+            createHistorial.telefono, 
+            createHistorial.direccion, 
+            createHistorial.email, 
+            createHistorial.nombreMascota, 
+            createHistorial.edadMascota, 
+            createHistorial.estadoDeVacunacion, 
+            createHistorial.especie, 
+            createHistorial.raza, 
+            createHistorial.tipoDeCita, 
+            createHistorial.nombreVeterinario, 
+            createHistorial.tituloEspecialidad, 
+            createHistorial.especialidadMedicina, 
+            createHistorial.telefonoVeterinario, 
+            createHistorial.emailVeterinario, 
+            createHistorial.motivoConsulta, 
+            createHistorial.tratamiento, 
+            createHistorial.diagnostico, 
+            createHistorial.examenMedico
+        ]; 
        
 
         try {
@@ -38,7 +74,7 @@ class VeterinaryRepository {
                 return { status: 'Data insertion successful', insert: true }
                 
             }else{
-                return { insert: false, status: 'Could not insert data' }
+                return { insert: false, status: 'Could not insert data', errorSql: result }
             }
         } catch (error: any) {
             console.error("Error al insertar datos en la tabla:", error);

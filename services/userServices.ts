@@ -14,10 +14,11 @@ import CallDateAppointment from '../Dto/Dto-User/callDateAppointmentDto';
 import UpdateAppointment from '../Dto/Dto-User/UpdateAppointmentDto';
 import CancelAppointment from '../Dto/Dto-User/cancelAppointmentDto';
 import RecoverPassword from '../Dto/recoverPasswordDto';
+import AddProductCart from '../Dto/Dto-User/addProductCartDto';
 
 class UserService {
     static async register(user: User){
-        user.contrasenia = await generateHash(user.contrasenia);
+        user.contrasenia = await generateHash(user.contrasenia); 
         return  await UserRepository.add(user);
         
         //return  await UserRepository.addAdmin(user);
@@ -106,6 +107,10 @@ class UserService {
         } catch (error) {
             throw error;
         }
+    }
+
+    static async addProductCart(addProduct: AddProductCart){
+        return await UserRepository.addProductCart(addProduct);
     }
 
 }

@@ -16,7 +16,7 @@ export async function  querySql(recoverPassword: RecoverPassword, tipoUsuario:st
     const sql = `SELECT rol  FROM ${tipoUsuario} WHERE correoUsuario = ?`;
     const values= [recoverPassword.correoUsuario];
 
-    try {
+    try { 
 
         const [result]: any = await db.execute(sql,values);
 

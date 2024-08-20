@@ -16,6 +16,7 @@ import callTutorData from './routes/callTutorData';
 
 import AdminRepository from "./routes/getAppointmentAdmin";
 import RecoverPassword from './routes/recoverPassword';
+import addProductsAdmin from "./routes/addProductsAdmin";
 
 
 import dotenv from "dotenv";
@@ -40,6 +41,7 @@ app.use('/updateAppointment', cancelAppointment);
 app.use('/verifyRolUser', verifyRolUser);
 app.use('/appointments', AdminRepository);
 app.use('/recoverPassword', RecoverPassword);
+app.use('/addProductsAdmin', addProductsAdmin);
 
 const PORT = process.env.PORT || 10101;
 

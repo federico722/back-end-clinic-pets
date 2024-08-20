@@ -1,5 +1,8 @@
 class createHistorial {
 
+    private _IdVeterinario: string;
+    private _IdUsuario: string;
+
     // Informacion del propietario
     private _nombre: string;
     private _telefono: string;
@@ -28,6 +31,7 @@ class createHistorial {
     private _examenMedico: string;
 
     constructor(
+        IdVeterinario: string, IdUsuario: string,
         //Informacion del propietario
         nombre: string, telefono: string, direccion: string, email: string,
         // Informacion de la mascota 
@@ -37,6 +41,8 @@ class createHistorial {
         //campos de historial 
         motivoConsulta: string, tratamiento: string, diagnostico: string, examenMedico: string
     ){
+       this._IdVeterinario = IdVeterinario;
+       this._IdUsuario = IdUsuario;
     // Informacion del propietario 
        this._nombre = nombre;
        this._telefono = telefono;
@@ -68,6 +74,14 @@ class createHistorial {
 
     // getters
 
+    public get IdVeterinario(): string {
+        return this._IdVeterinario;
+    }
+
+    public get IdUsuario(): string {
+        return this._IdUsuario;
+    }
+
     //Informacion del propietario 
     public get nombre(): string {
         return this._nombre;
@@ -86,6 +100,7 @@ class createHistorial {
     }
 
     // Informacion de la mascota 
+
     public get nombreMascota(): string {
         return this._nombreMascota;
     }
@@ -149,7 +164,15 @@ class createHistorial {
         return this._examenMedico;
     }
 
-    //Setters
+    //Setters 
+
+    public set IdVeterinario(IdVeterinario: string){
+        this._IdVeterinario = IdVeterinario;
+    }
+
+    public set IdUsuario(IdUsuario: string) {
+        this._IdUsuario = IdUsuario;
+    }
 
     public set nombre(nombre: string) {
         this._nombre = nombre;
