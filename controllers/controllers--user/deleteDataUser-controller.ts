@@ -23,7 +23,7 @@ let deleteData = async (req: Request, res: Response) => {
         // Validar el ID de cita
         if (typeof IdCita !== 'string' ) {
             return res.status(400).json({
-                tatus: 'error',
+                status: 'error',
                 message: 'User ID not found in token or has invalid type'
             });
         }  
@@ -34,7 +34,7 @@ let deleteData = async (req: Request, res: Response) => {
         
        // Enviar respuesta exitosa con el resultado de la eliminación
         return res.status(200).json({
-            status: 'succes',
+            status: 'success',
             message: 'Data delete successfully',
             data: deleteDataUser
         });

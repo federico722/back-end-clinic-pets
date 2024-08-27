@@ -1,19 +1,25 @@
 class addProductCart {
+
     private _IdUsuario: string;
     private _IdProducto: string;
-    private _imagenProducto: string;
+  //  private _imagenProducto: string;
     private _nombre: string;
     private _precioUnitario: string;
     private _precioTotal: string;
     private _cantidad: string;
    
     constructor (
-        IdUsuario: string, IdProducto: string, imagenProducto: string, nombre: string, precioUnitario: string ,precioTotal: string,
+        IdUsuario: string, 
+        IdProducto: string, 
+       // imagenProducto: string, 
+        nombre: string, 
+        precioUnitario: string,
+        precioTotal: string,
         cantidad: string,
     ){
         this._IdUsuario = IdUsuario;
         this._IdProducto = IdProducto;
-        this._imagenProducto = imagenProducto;
+     // this._imagenProducto = imagenProducto;
         this._nombre = nombre;
         this._precioUnitario = precioUnitario;
         this._precioTotal = precioTotal;
@@ -30,9 +36,9 @@ class addProductCart {
         return this._IdProducto;
     }
 
-    public get imagenProducto(): string {
+    /*public get imagenProducto(): string {
         return this._imagenProducto;
-    }
+    }*/
 
     public get nombre(): string {
         return this._nombre;
@@ -61,9 +67,9 @@ class addProductCart {
     }
 
 
-    public set imagenProducto(imagenProducto: string) {
+    /*public set imagenProducto(imagenProducto: string) {
         this._imagenProducto = imagenProducto;
-    }
+    }*/
 
     public set nombre(nombre: string) {
         this._nombre = nombre;

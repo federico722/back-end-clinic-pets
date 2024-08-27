@@ -3,7 +3,7 @@ import VeterinaryService from "../../services/VeterinaryServices";
 import createHistorial from "../../Dto/Dto-Veterinary/createHistorialDto";
 
 let createHistoryMedical =  async (req: Request, res: Response) =>{
-
+ 
     try { 
 
        const  {   
@@ -13,22 +13,22 @@ let createHistoryMedical =  async (req: Request, res: Response) =>{
         direccion,
         email,
         nombreMascota,
-        edadMascota,
-        estadoDeVacunacion,
+        edad,
+        estadovacunacion,
         especie,
         raza,
-        tipoDeCita,
+        tipocita,
         // Informacion del veterinario
-        nombreVeterinario,
-        tituloEspecialidad,
-        especialidadMedicina,
-        telefonoVeterinario,
-        emailVeterinario,
+        nombreveterinario,
+        especialidad,
+        especialidadmedica,
+        telefonovet,
+        emailvet,
         //campos de historial 
-        motivoConsulta,
-        tratamiento,
+        motivoconsulta,
         diagnostico,
-        examenMedico,
+        tratamiento,
+        examen,
         } = req.body
         
         // Extraer el ID de usuario de la solicitud
@@ -52,20 +52,20 @@ let createHistoryMedical =  async (req: Request, res: Response) =>{
             direccion,
             email,
             nombreMascota,
-            edadMascota,
-            estadoDeVacunacion,
+            edad,
+            estadovacunacion,
             especie,
             raza,
-            tipoDeCita,
-            nombreVeterinario,
-            tituloEspecialidad,
-            especialidadMedicina,
-            telefonoVeterinario,
-            emailVeterinario,
-            motivoConsulta,
+            tipocita,
+            nombreveterinario,
+            especialidad,
+            especialidadmedica,
+            telefonovet,
+            emailvet,
+            motivoconsulta,
             tratamiento,
             diagnostico,
-            examenMedico
+            examen
         ));
         console.log('datos del historial veterinario',historialCreado);
         if (! historialCreado.insert) {

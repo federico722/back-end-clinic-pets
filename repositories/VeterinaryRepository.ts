@@ -2,10 +2,60 @@ import db from "../config/config-db";
 import bcrypt from 'bcryptjs';
 import GetAppointment from "../Dto/Dto-Veterinary/GetAppointmentVeterinary";
 import CreateHistorial from "../Dto/Dto-Veterinary/createHistorialDto";
+import veterinary from "../Dto/Dto-Veterinary/registerVeterinaryDto";
+import { consultIdAdmin } from "./VetFunction/consultAdmin-function";
 
 import { consultarUsuario } from "./UserFunction/createHistorial-function";
 
 class VeterinaryRepository {
+
+    static async addVeterinary(veterinary: veterinary ){
+        
+        let IdAdministrador: string | null = null;
+
+        const consultaIdAdmin  = await consultIdAdmin();
+
+        
+
+        if (consultaIdAdmin.consultAdmin) {
+            IdAdministrador = consultaIdAdmin.IdAdministrador;
+            
+        } else {
+            console.log('activated error');
+            
+            return { error: consultaIdAdmin.error, status: consultaIdAdmin.error  }
+        }
+
+        const sql = 'INSERT INTO veterinario (idVeterinario, idAdministrador ,nombreVeterinario, apellidoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?)';
+        const values = [veterinary.idVeterinario, IdAdministrador, veterinary.nombre, veterinary.apellido, veterinary.email, veterinary.contrasenia];
+        
+        
+        try {
+
+            const [result]: any = await db.execute(sql,values);
+
+         //  console.log('imprimo valores para la consulta:', values);
+            
+          //  console.log('imprimir INSERCION de datos:', result);
+
+         //   console.log( "consultIdAdmin",IdAdministrador );
+         
+           if (result && result.affectedRows > 0) {
+
+            return { status: 'Data insertion successful', insertVeterinary: true };
+
+           } else {
+           // console.log('se detecto un error');
+            return { insertVeterinary: false, status: 'Could not insert data', errorSql: result }
+            
+           }
+                
+        } catch (error: any) {
+           // console.error("Error al insertar datos en la tabla:", error);
+            return { insertVeterinary: false, status: 'error inserting data', error: error.message}
+        }
+        
+    }
 
     static async getAppointment(fecha: GetAppointment) {
         const sql = 'SELECT * FROM cita WHERE fecha = ?';
@@ -22,11 +72,13 @@ class VeterinaryRepository {
         return result //formattedResult;
     }
 
+
     static async createHistorial(createHistorial: CreateHistorial){
 
         let IdUsuario: string | null = null;
+        const correoUsuario: string = createHistorial.email;
 
-        const consultaDelIdUsuario = await consultarUsuario( createHistorial)
+        const consultaDelIdUsuario = await consultarUsuario(correoUsuario);
 
         if (consultaDelIdUsuario.consultUser) {
 
@@ -36,7 +88,7 @@ class VeterinaryRepository {
             return { error: consultaDelIdUsuario.error, status: consultaDelIdUsuario.status  }
         }
 
-        const sql = 'INSERT INTO historialCita (IdVeterinario, IdUsuario, nombre, telefono, direccion, email, nombreMascota, edadMascota, estadoDeVacunacion, especie, raza, tipoDeCita, nombreVeterinario, tituloEspecialidad, especialMedicina, telefonoVeterinario, emailVeterinario, motivoConsulta, tratamiento, diagnostico, examenMedico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO historialCita (IdVeterinario, IdUsuario, nombre, telefono, direccion, email, nombreMascota, edadMascota, estadoDeVacunacion, especie, raza, tipoDeCita, nombreVeterinario, tituloEspecialidad, especialidadMedicina, telefonoVeterinario, emailVeterinario, motivoConsulta, tratamiento, diagnostico, examenMedico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         const values = [
             createHistorial.IdVeterinario, 
             IdUsuario,

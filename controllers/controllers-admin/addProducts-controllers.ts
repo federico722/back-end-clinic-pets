@@ -2,23 +2,23 @@ import { Request, Response } from "express";
 import UploadProducts from "../../Dto/Dto-Admin/uploadProductsDto";
 import AdminServices from "../../services/AdminServices";
 
-let uploadProduct = async (req: Request, res: Response) => {
+let uploadProduct = async (req: Request, res: Response) => { 
 
     try {
 
     const {
-        nombreProducto,
-        descripcion,
+        nombre,
         precio,
-        stock,
-        categoria
+        cantidad,
+        categoria,
+        descripcion
     } = req.body
 
     const productoCreado: any = await AdminServices.uploadProducts(new UploadProducts(
-        nombreProducto,
+        nombre,
         precio,
         descripcion,
-        stock,
+        cantidad,
         categoria
     ));
     console.log('datos de los productos:',productoCreado);

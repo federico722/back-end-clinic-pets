@@ -14,6 +14,9 @@ import VerifyRol from '../Dto/verifyRol';
 import RecoverPassword from '../Dto/recoverPasswordDto';
 import CallTutorData from '../Dto/callTutorData';
 import AddProductCart from '../Dto/Dto-User/addProductCartDto';
+import AddPet from '../Dto/Dto-User/addPetDto';
+import DeleteProductCart from '../Dto/Dto-User/deleteProductCartDto';
+import RemoveAllProduct from '../Dto/Dto-User/removeAllProductDto';
 import bcrypt from 'bcryptjs';
 
 //importacion de funciones de recoverPassword
@@ -214,6 +217,45 @@ class UserRepository {
         return result;
     }
 
+    static async deleteProductCartUser(deleteProductCart: DeleteProductCart){
+      const sql = 'DELETE FROM usuarioProducto WHERE IdProducto = ? AND nombreProducto = ?';
+      const values = [deleteProductCart.IdProducto, deleteProductCart.nombreProducto];
+
+      try {
+        const [result]: any = await db.execute(sql, values);
+
+        if (result.affectedRows > 0 ) {
+            
+            return { status: "deleted product to cart user", statusDelete: true,  }
+        }else{
+            return { status: "failed deleted product to cart user", statusDelete: false }
+        };
+        
+      } catch (error: any) {
+         console.error("error al eliminar, el producto del carrito de usuario", error);
+        return { status: 'error delete to DB', statusDelete: false, error: error.message }
+         
+      };
+      
+    };
+
+    static async removeAllProduct(removeAllProduct: RemoveAllProduct){
+        const sql = 'DELETE FROM usuarioProduct WHERE IdUsuario = ?';
+        const values = [removeAllProduct.IdUsuario];
+
+        try {
+            const [result]: any = await db.execute(sql, values);
+            if (result.affectedRows > 0) {
+                return { status: "remove all products", statusRemove: true }
+            }else {
+                return { status: "failed remove all products", statusRemove: false}
+            }
+        } catch (error: any) {
+            console.error('error al remover todos los productos de la tabla ', error);
+            return { status: "error remove to table ", statusRemove: false, error: error.message};
+        };
+    };
+
     static async verifyRol(verifyRol: VerifyRol){
         console.log('repository funciona');
         
@@ -329,10 +371,11 @@ class UserRepository {
     }
 
     static async addProductCart(addProductCart: AddProductCart) {
-        const sql = 'INSERT INTO usuarioProducto (IdUsuario, IdProducto, cantidad, precioUnitario, precioTotal) VALUES (?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO usuarioProducto (IdUsuario, IdProducto, nombreProducto, cantidad, precioUnitario, precioTotal) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [
             addProductCart.IdUsuario, 
             addProductCart.IdProducto, 
+            addProductCart.nombre,
             addProductCart.cantidad, 
             addProductCart.precioUnitario, 
             addProductCart.precioTotal
@@ -354,6 +397,35 @@ class UserRepository {
             return { status: 'Error inserting data', insertToCart: false, error: error.message };
         }
     }
+
+    static async addPets(addPets: AddPet ){
+        const sql = 'INSERT INTO adopcionMascota (IdUsuario, nombreMascota, edadMascota, especieMascota, razaMascota, sexo, esterilizacionMascota, estadoVacunacionMascota, numeroTelefono, ubicacion, historia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+        const values = [ addPets.IdUsuario, addPets.nombre, addPets.edad, addPets.especie, addPets.raza, addPets.sexo, addPets.esterilizacion, addPets.estadoDeVacunacion, addPets.telefono, addPets.ubicacion, addPets.historia];
+
+        console.log('values:', values);
+        
+
+        try {
+            const [result]: any = await db.execute(sql,values);
+
+            console.log('Valores para la insercion de datos de la mascota:', values);
+            console.log('Resultado de la insercion de datos de la mascota:', result);
+
+            if (result && result.affectedRows > 0) {
+                return {status: 'Card pet added', insertToPet: true};
+            } else{
+                return { status: 'Failed added card pet', insertToPet: false};
+            }
+             
+        } catch (error: any) {
+            console.error('Error al insertar datos en la tabla de adopcionMascota:', error);
+            return { status: 'Error inserting data pet', insertToPet: false, error: error.message };
+            
+        };
+    };
+
+
 }
 
 export default UserRepository; 

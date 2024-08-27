@@ -15,13 +15,16 @@ import UpdateAppointment from '../Dto/Dto-User/UpdateAppointmentDto';
 import CancelAppointment from '../Dto/Dto-User/cancelAppointmentDto';
 import RecoverPassword from '../Dto/recoverPasswordDto';
 import AddProductCart from '../Dto/Dto-User/addProductCartDto';
+import AddPet from '../Dto/Dto-User/addPetDto';
+import DeleteProductCart from '../Dto/Dto-User/deleteProductCartDto';
+import RemoveAllProducts from '../Dto/Dto-User/removeAllProductDto';
 
 class UserService {
     static async register(user: User){
         user.contrasenia = await generateHash(user.contrasenia); 
-        return  await UserRepository.add(user);
+        //return  await UserRepository.add(user);
         
-        //return  await UserRepository.addAdmin(user);
+        return  await UserRepository.addAdmin(user);
     }
 
     static async recover(recoverPassword: RecoverPassword ) {
@@ -111,6 +114,18 @@ class UserService {
 
     static async addProductCart(addProduct: AddProductCart){
         return await UserRepository.addProductCart(addProduct);
+    }
+
+    static async addPetUser(addPet: AddPet){
+        return await UserRepository.addPets(addPet);
+    }
+
+    static async deleteProductCart(deleteProductCart: DeleteProductCart){
+        return await UserRepository.deleteProductCartUser(deleteProductCart);
+    }
+
+    static async removeAllProducts(removeAllProducts: RemoveAllProducts){
+        return await UserRepository.removeAllProduct(removeAllProducts);
     }
 
 }

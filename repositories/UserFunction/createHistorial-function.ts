@@ -1,10 +1,11 @@
 import db from "../../config/config-db";
 import CreateHistorial from "../../Dto/Dto-Veterinary/createHistorialDto";
 
-export async function consultarUsuario(createHistorial:CreateHistorial) {
+export async function consultarUsuario(correoUsuario:string) {
 
+    
     const sql = 'SELECT IdUsuario FROM usuario WHERE correoUsuario = ? ';
-    const values = [createHistorial.email];
+    const values = [correoUsuario];
 
     try {
         const [result]: any = await db.execute(sql, values);
@@ -22,7 +23,7 @@ export async function consultarUsuario(createHistorial:CreateHistorial) {
         
     } catch (error: any) {
         console.error('Error en la consulta del IdUsuario:', error);
-        return { consultUser: false, status: 'Error during user lookup', error: error.message };
+        return { consultUser: false, status: 'Error during user search', error: error.message };
         
     }
     
