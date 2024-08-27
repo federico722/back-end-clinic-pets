@@ -54,7 +54,7 @@ app.use('/addProductCart', AddProductCart);
 app.use('/addPetsUser', addPetUser);
 app.use('/deleteProductCart', deleteProductCart);
 
-app.use("/files", fileRoutes);
+app.use("/files/upload", fileRoutes);
 
 
 const PORT = process.env.PORT || 10101;
