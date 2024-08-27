@@ -23,6 +23,8 @@ import addPetUser from "./routes/addPetsUser";
 import deleteProductCart from "./routes/deleteProductCart";
 import registerVet from "./routes/registerVet";
 
+import fileRoutes from "./routes/fileRoutes";
+
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -51,6 +53,8 @@ app.use('/createHistorialMedicVet',createHistorialMedicVet);
 app.use('/addProductCart', AddProductCart);
 app.use('/addPetsUser', addPetUser);
 app.use('/deleteProductCart', deleteProductCart);
+
+app.use("/files", fileRoutes);
 
 
 const PORT = process.env.PORT || 10101;
