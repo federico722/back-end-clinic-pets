@@ -3,11 +3,12 @@ class veterinary {
   //  private _idAdministrador: string;
     private _nombre: string;
     private _apellido: string;
+    private _telefono: string;
     private _email: string;
     private _contrasenia: string;
 
     constructor( 
-        idVeterinario: string, /*idAdministrador: string */nombre: string, apellido: string,
+        idVeterinario: string, /*idAdministrador: string */nombre: string, apellido: string, telefono: string,
         email: string, contrasenia: string
     ) 
     {
@@ -15,6 +16,7 @@ class veterinary {
        // this._idAdministrador = idAdministrador;
         this._nombre = nombre;
         this._apellido = apellido;
+        this._telefono = telefono;
         this._email = email;
         this._contrasenia = contrasenia;
     }
@@ -36,6 +38,10 @@ class veterinary {
 
     get apellido(): string{
         return this._apellido;
+    }
+
+    get telefono(): string {
+        return this._telefono;
     }
 
     get email(): string{
@@ -62,6 +68,10 @@ class veterinary {
 
     set apellido(apellido: string){
         this._apellido = apellido;
+    }
+
+    set telefono(telefono: string){
+        this._telefono = telefono
     }
 
     set email(email: string){

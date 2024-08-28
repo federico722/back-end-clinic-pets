@@ -25,6 +25,12 @@ export let validatorParams = [
     .isString().withMessage('El apellido debe ser una cadena de texto')
     .notEmpty().withMessage('El apellido es requerido'),
 
+    // Validación para el campo 'numeroDeTelefono'
+    check('telefono')
+    .exists().withMessage('El número de teléfono debe existir')
+    .isString().withMessage('El número de teléfono debe ser una cadena de texto')
+    .notEmpty().withMessage('El teléfono es requerido'),
+
     // Validación para el campo 'email'
     check('email')
     .exists().withMessage('El email debe existir')

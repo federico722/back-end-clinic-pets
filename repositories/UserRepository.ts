@@ -21,6 +21,8 @@ import bcrypt from 'bcryptjs';
 
 //importacion de funciones de recoverPassword
 import {updatePasswordUser, capitalizeFirstLetter, querySql} from '../repositories/UserFunction/recoverPassword-function'
+//importaciones de funciones de updateProfile
+import { updateAdmin, updateUser, updateVet } from './UserFunction/updateProfile-function';
 
 /**
  * Clase que maneja las operaciones de base de datos relacionadas con usuarios y citas.
@@ -126,12 +128,39 @@ class UserRepository {
      */
 
     static async updateProfile(profile: Profile){
-        const sql = 'UPDATE usuario SET nombreUsuario = ?, apellidoUsuario = ?, telefonoUsuario = ?, correoUsuario = ? WHERE IdUsuario = ?';
-        const values = [profile.nombre, profile.apellido, profile.numeroDeTelefono, profile.email, profile.IdUsuario];
-        try {
-            const [result]: any = await db.execute(sql, values);
 
-            console.log(`valores para la consulta: ${values}`);
+     async function devolverRol(profile:Profile) {
+        const sql = ' SELECT rol FROM usuario WHERE IdUsuario = ? UNION SELECT rol FROM administrador WHERE IdAdministrador = ? UNION SELECT rol FROM veterinario WHERE IdVeterinario = ?';
+        const values = [profile.IdUsuario, profile.IdUsuario, profile.IdUsuario];
+
+        const [result]: any = await db.execute(sql, values);
+
+        const rolConsultado: string = result[0]?.rol;
+
+        return rolConsultado;
+     }
+
+     const rol: any = await devolverRol(profile);
+     let result: any = null;
+
+     switch (rol) {
+        case 'usuario':
+            result = await updateUser(profile);
+            break;
+        case 'administrador':
+            result = await updateAdmin(profile);
+            break;
+        case 'veterinario':
+            result = await updateVet(profile);
+            break;
+     
+        default:
+            result = null;
+            break;
+     }
+       
+        try {
+           
             console.log("Resultado de la actualización:", result);
 
             if (result.affectedRows > 0) {
@@ -155,8 +184,8 @@ class UserRepository {
      */
 
     static async callDataUser(callDataUser: CallDataUser){
-        const sql = 'SELECT nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario FROM usuario WHERE IdUsuario = ?';
-        const values = [callDataUser.IdUsuario];
+        const sql = 'SELECT nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario FROM usuario WHERE IdUsuario = ? UNION SELECT nombreAdministrador, apellidoAdministrador, telefonoAdministrador, correoAdministrador FROM administrador WHERE IdAdministrador = ? UNION SELECT nombreVeterinario, apellidoVeterinario, telefonoVeterinario, correoVeterinario FROM veterinario WHERE IdVeterinario = ?';
+        const values = [callDataUser.IdUsuario, callDataUser.IdUsuario, callDataUser.IdUsuario];
         const [result] = await db.execute(sql, values);
 
         return result;

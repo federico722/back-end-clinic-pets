@@ -26,8 +26,8 @@ class VeterinaryRepository {
             return { error: consultaIdAdmin.error, status: consultaIdAdmin.error  }
         }
 
-        const sql = 'INSERT INTO veterinario (idVeterinario, idAdministrador ,nombreVeterinario, apellidoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?)';
-        const values = [veterinary.idVeterinario, IdAdministrador, veterinary.nombre, veterinary.apellido, veterinary.email, veterinary.contrasenia];
+        const sql = 'INSERT INTO veterinario (idVeterinario, idAdministrador ,nombreVeterinario, apellidoVeterinario, telefonoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        const values = [veterinary.idVeterinario, IdAdministrador, veterinary.nombre, veterinary.apellido, veterinary.telefono, veterinary.email, veterinary.contrasenia];
         
         
         try {

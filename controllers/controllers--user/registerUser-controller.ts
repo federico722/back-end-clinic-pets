@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import UserService from "../../services/userServices";
 import User from "../../Dto/Dto-User/userDto";
-
+import { sendWelcomeEmail } from "../../services/emailService";
 
 /**
 * @description Controlador para registrar un nuevo usuario.
@@ -43,6 +43,15 @@ let register = async (req: Request, res: Response) => {
 
         // Verifica si el registro del usuario fue exitoso
         if (registerUser) {
+
+             // Envía el correo de bienvenida
+             try {
+                await sendWelcomeEmail(email, nombre);
+                console.log("Correo de bienvenida enviado");
+            } catch (emailError) {
+                console.error("Error al enviar el correo de bienvenida:", emailError);
+                // Nota: No devolvemos un error al cliente aquí porque el registro fue exitoso
+            }
             return res.status(201).json(
                 { status: 'register ok'}
             );
@@ -59,7 +68,7 @@ let register = async (req: Request, res: Response) => {
             return res.status(500).json({ errorInfo: error.sqlMessage });
         }else{
             console.error(error.message);
-              
+            return res.status(500).json({ status: 'Error interno del servidor' });
         }
     }
 }
