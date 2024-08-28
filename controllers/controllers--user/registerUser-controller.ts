@@ -44,24 +44,14 @@ let register = async (req: Request, res: Response) => {
         // Verifica si el registro del usuario fue exitoso
         if (registerUser) {
 
-             // Envía el correo de bienvenida
-             try {
-                await sendWelcomeEmail(email, nombre);
-                console.log("Correo de bienvenida enviado");
-            } catch (emailError) {
-                console.error("Error al enviar el correo de bienvenida:", emailError);
-                // Nota: No devolvemos un error al cliente aquí porque el registro fue exitoso
-            }
-            return res.status(201).json(
-                { status: 'register ok'}
-            );
-        } else {
-            return res.status(500).json(
-                { status: 'el usuario ya esta registrado'}
-            );
-        }
-        
+             res.status(201).json({ status: 'register ok'});
 
+            sendWelcomeEmail(email,nombre)
+               .then(() => console.log("Correo de bienvenida enviado"))
+               .catch(emailError => console.error("Error al enviar el correo de bienvenida:", emailError));
+        } else {
+            return res.status(500).json({ status: 'el usuario ya esta registrado'});
+        }
     } catch (error: any) {
      // Maneja el error específico de entrada duplicada en la base de datos
         if (error && error.code == "ER_DUP_ENTRY") {
