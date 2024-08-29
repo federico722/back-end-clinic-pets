@@ -10,7 +10,9 @@ export async function sendWelcomeEmail(to: string, name: string) {
             content: {
                 subject: "Bienvenido a Clinic Pet's",
                 plainText: `Hola ${name}, bienvenido a nuestra clínica veterinaria.`,
-                html: `<h1>Bienvenido ${name}</h1><p>Gracias por registrarte en nuestra clínica veterinaria.</p>`
+                html: `
+                <h1>Bienvenido ${name}</h1><p>Gracias por registrarte en nuestra clínica veterinaria.</p>
+                `
             },
             recipients: {
                 to: [{ address: to }],

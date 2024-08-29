@@ -7,7 +7,12 @@ const containerName = "imagenesclinicpetstiendaadopciones" // nombre del contene
 async function uploadFileToBlob(filePath: string, fileName: string): Promise<string> {
     const containerClient = blobServiceClient.getContainerClient(containerName);
     const blockBlobClient: BlockBlobClient = containerClient.getBlockBlobClient(fileName);
-    const response = await blockBlobClient.uploadFile(filePath);
+
+    const contentType = fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') ? 'image/jpeg' : 'image/png';
+
+    const response = await blockBlobClient.uploadFile(filePath, {
+      blobHTTPHeaders: { blobContentType: contentType }
+    });
   
     if (response._response.status !== 201) {
       throw new Error(`Failed to upload file to blob. Status code: ${response._response.status}`);

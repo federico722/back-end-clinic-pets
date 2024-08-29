@@ -1,12 +1,12 @@
-import  Express  from "express";
-import { uploadFile } from "../controllers/someController";
-import multer from "multer";
+import express from 'express';
+import { uploadFile } from '../controllers/someController';
+import multer from 'multer';
+import verifyToken from '../middlewere/VerifyToken';
 
-const router = Express.Router();
-const upload = multer({ dest: "uploads/"});
+const router = express.Router();
+const upload = multer({ dest: 'uploads/' });
 
-router.post("/upload", upload.single("file"), uploadFile);
+// Asegúrate de que esta ruta coincida con la que estás usando en el frontend
+router.post('', verifyToken, upload.single('image'), uploadFile);
 
 export default router;
-
-

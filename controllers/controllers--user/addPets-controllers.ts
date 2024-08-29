@@ -19,7 +19,9 @@ let addPetUser = async (req: Request, res: Response) => {
          estadovacunacion,
          telefono,
          ubicacion,
-         historia
+         historia,
+         imagen
+
      } = req.body
 
      console.log(req.body);
@@ -32,7 +34,7 @@ let addPetUser = async (req: Request, res: Response) => {
          })
      }
  
-     const addPetUser: any = await UserService.addPetUser( new addPet(IdUsuario, nombre, edad, especie, raza, sexo, Esterilizacion, estadovacunacion, telefono, ubicacion, historia));
+     const addPetUser: any = await UserService.addPetUser( new addPet(IdUsuario, imagen, nombre, edad, especie, raza, sexo, Esterilizacion, estadovacunacion, telefono, ubicacion, historia));
      console.log("datos de las mascota", addPetUser);
  
      if (!addPetUser.insertToPet) {

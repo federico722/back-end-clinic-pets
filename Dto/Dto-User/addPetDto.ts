@@ -1,6 +1,6 @@
 class addPet {
     private _IdUsuario: string;
-   // private _ImagenMascota: string;
+    private _imagen: string;
     private _nombre: string;
     private _edad: string;
     private _especie: string;
@@ -13,13 +13,13 @@ class addPet {
     private _historia: string;
 
     constructor(
-        IdUsuario: string, /*ImagenMascota: string,*/ nombre: string, edad: string, especie: string, raza: string,
+        IdUsuario: string, imagen: string, nombre: string, edad: string, especie: string, raza: string,
         sexo: string, esterilizacion: string, estadoDeVacunacion: string, telefono: string,
         ubicacion: string, historia: string
     ){
 
         this._IdUsuario = IdUsuario;
-        //this._ImagenMascota = ImagenMascota;
+        this._imagen = imagen;
         this._nombre = nombre;
         this._edad = edad;
         this._especie = especie;
@@ -39,9 +39,9 @@ class addPet {
     }
 
     // Getters
-   /* public get ImagenMascota(): string {
-        return this._ImagenMascota;
-    } */
+    public get imagen(): string {
+        return this._imagen;
+    } 
 
     public get nombre(): string {
         return this._nombre;
@@ -90,9 +90,9 @@ class addPet {
     }
 
 
-   /* public set ImagenMascota(ImagenMascota: string) {
-        this._ImagenMascota = ImagenMascota;
-    } */
+    public set imagen(imagen: string) {
+        this._imagen = imagen;
+    } 
 
     public set nombre(nombre: string) {
         this._nombre = nombre;

@@ -428,9 +428,9 @@ class UserRepository {
     }
 
     static async addPets(addPets: AddPet ){
-        const sql = 'INSERT INTO adopcionMascota (IdUsuario, nombreMascota, edadMascota, especieMascota, razaMascota, sexo, esterilizacionMascota, estadoVacunacionMascota, numeroTelefono, ubicacion, historia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO adopcionMascota (IdUsuario, imagenMascota, nombreMascota, edadMascota, especieMascota, razaMascota, sexo, esterilizacionMascota, estadoVacunacionMascota, numeroTelefono, ubicacion, historia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
-        const values = [ addPets.IdUsuario, addPets.nombre, addPets.edad, addPets.especie, addPets.raza, addPets.sexo, addPets.esterilizacion, addPets.estadoDeVacunacion, addPets.telefono, addPets.ubicacion, addPets.historia];
+        const values = [ addPets.IdUsuario, addPets.imagen, addPets.nombre, addPets.edad, addPets.especie, addPets.raza, addPets.sexo, addPets.esterilizacion, addPets.estadoDeVacunacion, addPets.telefono, addPets.ubicacion, addPets.historia];
 
         console.log('values:', values);
         
