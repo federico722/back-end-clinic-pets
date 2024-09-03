@@ -18,6 +18,7 @@ import AddProductCart from '../Dto/Dto-User/addProductCartDto';
 import AddPet from '../Dto/Dto-User/addPetDto';
 import DeleteProductCart from '../Dto/Dto-User/deleteProductCartDto';
 import RemoveAllProducts from '../Dto/Dto-User/removeAllProductDto';
+import UpdatePets from '../Dto/Dto-User/updatePetsDto';
 
 class UserService {
     static async register(user: User){
@@ -126,6 +127,14 @@ class UserService {
 
     static async removeAllProducts(removeAllProducts: RemoveAllProducts){
         return await UserRepository.removeAllProduct(removeAllProducts);
+    }
+
+    static async askForAllPets(){
+        return await UserRepository.askForAllPets();
+    }
+
+    static async updatePets(updatePets: UpdatePets){
+        return await UserRepository.updatePets(updatePets);
     }
 
 }

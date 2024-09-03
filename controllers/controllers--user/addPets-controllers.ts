@@ -16,7 +16,7 @@ let addPetUser = async (req: Request, res: Response) => {
          raza,
          sexo,
          Esterilizacion,
-         estadovacunacion,
+         estadovacunacion, 
          telefono,
          ubicacion,
          historia,

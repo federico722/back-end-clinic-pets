@@ -21,4 +21,4 @@ const updateAppointment = async(req: Request, res: Response) => {
     }
 }
 
-export default updateAppointment;
+export default updateAppointment; 

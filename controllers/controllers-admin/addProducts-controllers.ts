@@ -11,15 +11,25 @@ let uploadProduct = async (req: Request, res: Response) => {
         precio,
         cantidad,
         categoria,
-        descripcion
+        descripcion,
+        informacion,
+        seleccionTallaPresentacion,
+        imagen
     } = req.body
 
+   // console.log(req.body);
+    
+    
+
     const productoCreado: any = await AdminServices.uploadProducts(new UploadProducts(
+        imagen,
         nombre,
         precio,
         descripcion,
+        informacion,
         cantidad,
-        categoria
+        categoria,
+        seleccionTallaPresentacion
     ));
     console.log('datos de los productos:',productoCreado);
     if (! productoCreado.insert) {

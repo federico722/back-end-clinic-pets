@@ -26,10 +26,15 @@ class VeterinaryRepository {
             return { error: consultaIdAdmin.error, status: consultaIdAdmin.error  }
         }
 
-        const sql = 'INSERT INTO veterinario (idVeterinario, idAdministrador ,nombreVeterinario, apellidoVeterinario, telefonoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        const values = [veterinary.idVeterinario, IdAdministrador, veterinary.nombre, veterinary.apellido, veterinary.telefono, veterinary.email, veterinary.contrasenia];
-        
-        
+        const sql = 'INSERT INTO veterinario (IdVeterinario, IdAdministrador ,nombreVeterinario, apellidoVeterinario, telefonoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        const values = [
+            veterinary.idVeterinario, 
+            IdAdministrador, 
+            veterinary.nombre, 
+            veterinary.apellido, 
+            veterinary.telefono, 
+            veterinary.email, 
+            veterinary.contrasenia];
         try {
 
             const [result]: any = await db.execute(sql,values);
@@ -56,6 +61,7 @@ class VeterinaryRepository {
         }
         
     }
+    
 
     static async getAppointment(fecha: GetAppointment) {
         const sql = 'SELECT * FROM cita WHERE fecha = ?';

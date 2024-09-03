@@ -13,6 +13,7 @@ import updateAppointment from './routes/updateAppointmentUser'
 import cancelAppointment from './routes/cancelAppointmentUser'
 import verifyRolUser from './routes/verifyRol';
 import callTutorData from './routes/callTutorData';
+import AskForAllPets from './routes/askForAllPets';
 
 import AdminRepository from "./routes/getAppointmentAdmin";
 import RecoverPassword from './routes/recoverPassword';
@@ -22,8 +23,10 @@ import AddProductCart from "./routes/addProductsCartUser";
 import addPetUser from "./routes/addPetsUser";
 import deleteProductCart from "./routes/deleteProductCart";
 import registerVet from "./routes/registerVet";
-
+import UpdatePets from "./routes/updatePets";
+import AskForAllProducts from './routes/askForAllProducts';
 import fileRoutes from "./routes/fileRoutes";
+
 
 import dotenv from "dotenv";
 
@@ -48,12 +51,14 @@ app.use('/updateAppointment', cancelAppointment);
 app.use('/verifyRolUser', verifyRolUser);
 app.use('/appointments', AdminRepository);
 app.use('/recoverPassword', RecoverPassword);
-app.use('/addProductsAdmin', addProductsAdmin); 
-app.use('/createHistorialMedicVet',createHistorialMedicVet);
-app.use('/addProductCart', AddProductCart);
-app.use('/addPetsUser', addPetUser);
-app.use('/deleteProductCart', deleteProductCart);
-
+app.use('/addProductsAdmin', addProductsAdmin);  // agregar productos por el admin
+app.use('/createHistorialMedicVet',createHistorialMedicVet); // crear historial medico  por el vet
+app.use('/addProductCart', AddProductCart); // agregar productos al carrito del usuario
+app.use('/addPetsUser', addPetUser); // agregar mascotas por el usuario
+app.use('/deleteProductCart', deleteProductCart); // eliminar todos los productos agregados al carrito del usuario
+app.use('/askForAllPets', AskForAllPets); // llamar a todas las mascotas
+app.use('/updatePets', UpdatePets ); // actualiza los datos de la mascota 
+app.use('/askAllForProducts', AskForAllProducts);
 app.use("/filesUpload", fileRoutes);
 
 
