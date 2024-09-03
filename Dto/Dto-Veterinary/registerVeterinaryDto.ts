@@ -1,6 +1,6 @@
 class veterinary {
     private _idVeterinario: string;
-  //  private _idAdministrador: string;
+    //private _idAdministrador: string;
     private _nombre: string;
     private _apellido: string;
     private _telefono: string;
@@ -8,12 +8,12 @@ class veterinary {
     private _contrasenia: string;
 
     constructor( 
-        idVeterinario: string, /*idAdministrador: string */nombre: string, apellido: string, telefono: string,
+        idVeterinario: string, /*idAdministrador: string,*/ nombre: string, apellido: string, telefono: string,
         email: string, contrasenia: string
     ) 
     {
         this._idVeterinario = idVeterinario;
-       // this._idAdministrador = idAdministrador;
+        //this._idAdministrador = idAdministrador;
         this._nombre = nombre;
         this._apellido = apellido;
         this._telefono = telefono;
@@ -26,10 +26,10 @@ class veterinary {
         return this._idVeterinario;
     }
 
-    /*
-    get idAdministrador(): string{
+    
+    /*get idAdministrador(): string{
         return this._idAdministrador;
-    }  */
+    }*/
 
 
      get nombre(): string{
@@ -57,10 +57,10 @@ class veterinary {
         this._idVeterinario = idVeterinario
     }
 
-    /*
-    set idAdministrador(idAdministrador: string){
+    
+    /*set idAdministrador(idAdministrador: string){
         this._idAdministrador = idAdministrador;
-    }  */
+    } */
 
     set nombre(nombre: string){
         this._nombre = nombre;

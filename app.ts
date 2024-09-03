@@ -24,7 +24,8 @@ import deleteProductCart from "./routes/deleteProductCart";
 import registerVet from "./routes/registerVet";
 
 import fileRoutes from "./routes/fileRoutes";
-
+import veterinaryManagement from "./routes/veterinaryManagementAdmin"
+import veterinaryStatus from "./routes/veterinaryStatusAdmin";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -55,8 +56,8 @@ app.use('/addPetsUser', addPetUser);
 app.use('/deleteProductCart', deleteProductCart);
 
 app.use("/filesUpload", fileRoutes);
-
-
+app.use('/veterinaryManagement', veterinaryManagement);
+app.use('/veterinaryStatus', veterinaryStatus)
 const PORT = process.env.PORT || 10101;
 
 app.listen(PORT, () => {

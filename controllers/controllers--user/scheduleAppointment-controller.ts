@@ -26,6 +26,7 @@ let schedule = async (req: Request, res: Response) => {
             fecha, 
             hora
         } = req.body;
+        let precio: number;
 
         console.log('Datos para crear el Schedule:', {
             nombre, 
@@ -43,7 +44,29 @@ let schedule = async (req: Request, res: Response) => {
             fecha, 
             hora
         });
-
+        switch (tipoDeCita) {
+            case 'Consulta general':
+                precio = 20.000
+                break;
+            case 'Vacunación':
+                precio = 15.000
+                break;
+            case 'Consulta de Cirugía':
+                precio = 30.000
+                break;
+            case 'Consulta de Odontología':
+                precio = 25.000
+                break;
+            case 'Consulta de Nutrición':
+                precio = 15.000
+                break;
+            case 'Chequeo Pre-Adopción':
+                precio = 20.000
+                break;
+            default:
+                precio = 0
+                break;
+        }
         const newScheduleAppointment = await UserService.scheduleAppointment(new Schedule(
             IdUsuario,
             nombre, 
@@ -58,6 +81,7 @@ let schedule = async (req: Request, res: Response) => {
             sintomas,
             sexo,
             tipoDeCita,
+            precio,
             fecha, 
             hora
         ));

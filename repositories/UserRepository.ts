@@ -97,7 +97,49 @@ class UserRepository {
      * @returns Resultado del intento de login.
      */
 
-    static async login(auth: Auth){
+    static async login(auth: Auth) {
+        const sql = `
+            SELECT IdUsuario AS Id, contrasenaUsuario AS contrasenia, rol, NULL AS estadoVet
+            FROM usuario
+            WHERE correoUsuario=?
+            UNION
+            SELECT IdAdministrador AS Id, contrasenaAdministrador AS contrasenia, rol, NULL AS estadoVet
+            FROM administrador
+            WHERE correoAdministrador=?
+            UNION
+            SELECT IdVeterinario AS Id, contrasenaVeterinario AS contrasenia, rol, estadoVet
+            FROM veterinario
+            WHERE correoVeterinario=?
+        `;
+        const values = [auth.email, auth.email, auth.email];
+        const result: any = await db.execute(sql, values);
+    
+        if (result[0].length > 0) {
+            const user = result[0][0];
+            console.log("ID encontrado:", user.Id);
+            console.log('Valores para la consulta:', values);
+    
+            const esContraseniaValida = await bcrypt.compare(auth.contrasenia, user.contrasenia);
+    
+            if (esContraseniaValida) {
+                // Verifica el estado solo si está presente
+                if (user.estadoVet === 'Inactivo' || user.estadoVet === '') {
+                    return { logged: false, status: "Account is inactive" };
+                }
+    
+                console.log("ID encontrado:", user.Id);
+                console.log('logrado');
+    
+                return { logged: true, status: "Successful authentication", id: user.Id, rol: user.rol };
+            }
+    
+            return { logged: false, status: "Invalid username or password" };
+        }
+    
+        return { logged: false, status: "Invalid username or password" };
+    }
+    
+    /*static async login(auth: Auth){
        const sql = 'SELECT IdUsuario AS Id, contrasenaUsuario AS contrasenia, rol  FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador AS Id, contrasenaAdministrador AS contrasenia, rol FROM administrador WHERE correoAdministrador=? UNION SELECT IdVeterinario AS Id, contrasenaVeterinario AS contrasenia, rol FROM veterinario WHERE correoVeterinario=?'
        const values = [auth.email, auth.email, auth.email];
        const result: any = await db.execute(sql, values);
@@ -106,8 +148,6 @@ class UserRepository {
         
         console.log('Valores para la consulta:', values);
        
-        
-
         const esContraseniaValida = await bcrypt.compare(auth.contrasenia, result[0][0].contrasenia);
         if (esContraseniaValida) {
             console.log("ID encontrado:", result[0][0].Id);
@@ -119,7 +159,7 @@ class UserRepository {
 
        }
        return {logged: false, status: "Invalid username or password" };
-    }
+    }*/
 
     /**
      * Actualiza el perfil de un usuario.
@@ -229,7 +269,7 @@ class UserRepository {
     }
 
     static async callDateUser(callDateUser: CallDateUser){
-        const sql = 'SELECT IdCita, fecha, hora, nombreUsuario, tipoCita, estado FROM cita WHERE IdUsuario = ?';
+        const sql = 'SELECT IdCita, fecha, hora, nombreUsuario, tipoCita, estado, FROM cita WHERE IdUsuario = ?';
         const values = [callDateUser.IdUsuario];
         const [result] = await db.execute(sql, values);
 
@@ -319,7 +359,7 @@ class UserRepository {
     static async scheduleAppointment(schedule: Schedule) {
         console.log('Datos para la base de datos:', schedule);
     
-        const sql = 'INSERT INTO cita (IdUsuario, fecha, hora, nombreUsuario, numeroTelefonoUsuario, correoUsuario, direccion, nombreMascota, edadMascota, estadoVacunacion, especie, raza, sexo, tipoCita, motivoConsulta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO cita (IdUsuario, fecha, hora, nombreUsuario, numeroTelefonoUsuario, correoUsuario, direccion, nombreMascota, edadMascota, estadoVacunacion, especie, raza, sexo, tipoCita, precio, motivoConsulta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         const values = [
             schedule.IdUsuario,
             schedule.fecha,
@@ -335,6 +375,7 @@ class UserRepository {
             schedule.raza,
             schedule.sexo,
             schedule.tipoCita,
+            schedule.precio,
             schedule.motivoConsulta
         ];
     
@@ -387,8 +428,8 @@ class UserRepository {
     }
 
     static async cancelAppointment(update: CancelAppointment) {
-        const sql = 'UPDATE cita SET estado = "Cancelada" WHERE IdCita = ?';
-        const values = [update.idCita];
+        const sql = "UPDATE cita SET estado = ? WHERE IdCita = ?";
+        const values = ['Cancelada', update.idCita];
         try {
             const connection = await db.getConnection();
             await connection.execute(sql, values);
