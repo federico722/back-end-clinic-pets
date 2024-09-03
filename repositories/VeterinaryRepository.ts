@@ -56,6 +56,7 @@ class VeterinaryRepository {
         }
         
     }
+    
 
     static async getAppointment(fecha: GetAppointment) {
         const sql = 'SELECT * FROM cita WHERE fecha = ?';

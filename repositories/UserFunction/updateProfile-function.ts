@@ -8,7 +8,7 @@ async function updateUser(profile:Profile) {
         const [result]: any = await db.execute(sql, values);
         return result;
     } catch (error: any) {
-        console.error("Error en updateUser:", error);
+        console.error("Error en updateUser:", error); 
         throw error;
     }
   }

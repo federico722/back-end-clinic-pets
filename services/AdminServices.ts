@@ -11,6 +11,9 @@ class AdminServices {
     static async veterinaryStatus(vetStatus: VeterinaryStatus) {
         return await AdminRepository.veterinaryStatus(vetStatus);
     }
+    static async askForAllProducts(){
+        return await AdminRepository.askAllForProducts();
+    }
 }
 
 export default AdminServices;

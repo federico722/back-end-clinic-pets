@@ -17,12 +17,17 @@ import AddProductCart from '../Dto/Dto-User/addProductCartDto';
 import AddPet from '../Dto/Dto-User/addPetDto';
 import DeleteProductCart from '../Dto/Dto-User/deleteProductCartDto';
 import RemoveAllProduct from '../Dto/Dto-User/removeAllProductDto';
+import UpdatePets from '../Dto/Dto-User/updatePetsDto';
 import bcrypt from 'bcryptjs';
 
 //importacion de funciones de recoverPassword
 import {updatePasswordUser, capitalizeFirstLetter, querySql} from '../repositories/UserFunction/recoverPassword-function'
 //importaciones de funciones de updateProfile
 import { updateAdmin, updateUser, updateVet } from './UserFunction/updateProfile-function';
+//importar funcion para quitar am y pm 
+import { converTime } from './UserFunction/converTime-functions';
+
+
 
 /**
  * Clase que maneja las operaciones de base de datos relacionadas con usuarios y citas.
@@ -358,12 +363,14 @@ class UserRepository {
 
     static async scheduleAppointment(schedule: Schedule) {
         console.log('Datos para la base de datos:', schedule);
+
+        const horaConvertida = converTime(schedule.hora);
     
         const sql = 'INSERT INTO cita (IdUsuario, fecha, hora, nombreUsuario, numeroTelefonoUsuario, correoUsuario, direccion, nombreMascota, edadMascota, estadoVacunacion, especie, raza, sexo, tipoCita, precio, motivoConsulta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         const values = [
             schedule.IdUsuario,
             schedule.fecha,
-            schedule.hora,
+            horaConvertida,
             schedule.nombre,
             schedule.telefono,
             schedule.correo,
@@ -378,6 +385,9 @@ class UserRepository {
             schedule.precio,
             schedule.motivoConsulta
         ];
+        console.log(schedule.hora);
+
+        
     
         console.log('Valores para la consulta:', values);
     
@@ -391,6 +401,8 @@ class UserRepository {
             console.error("Error scheduling appointment:", error);
             return { success: false, message: "Error scheduling appointment", error };
         }
+
+        
     }
 
     static async getAppointmentsByDate(date: CallDateAppointment) {
@@ -414,11 +426,12 @@ class UserRepository {
 
     static async updateAppointment(update: UpdateAppointment) {
         const sql = 'UPDATE cita SET fecha = ?, hora = ? WHERE IdCita = ?';
-        const values = [update.fecha, update.hora, update.idCita];
+        const horaConvertida = converTime(update.hora);
+        const values = [update.fecha, horaConvertida, update.idCita];
         console.log('base', values);
         
         try {
-            const connection = await db.getConnection();
+            const connection = await db.getConnection(); 
             await connection.execute(sql, values);
             connection.release();
         } catch (error) {
@@ -492,6 +505,80 @@ class UserRepository {
             console.error('Error al insertar datos en la tabla de adopcionMascota:', error);
             return { status: 'Error inserting data pet', insertToPet: false, error: error.message };
             
+        };
+    };
+
+    static async updatePets(updatePets:UpdatePets) {
+      const  sql = 'UPDATE adopcionMascota SET nombreMascota = ?, imagenMascota = ?, edadMascota = ?, sexo = ?, razaMascota = ?, estadoVacunacionMascota = ?, esterilizacionMascota = ?, numeroTelefono = ?, ubicacion = ?, historia = ? WHERE IdAdopcionMascota = ?';
+      const values = [ 
+        updatePets.nombre, 
+        updatePets.imagen, 
+        updatePets.edad,  
+        updatePets.sexo, 
+        updatePets.raza, 
+        updatePets.estadoVacunacion, 
+        updatePets.esterilizacionMascota,
+        updatePets.telefono,
+        updatePets.ubicacion,
+        updatePets.historia
+    ]
+      try {
+        const [result]: any = await db.execute(sql,values);
+        console.log('values insertados', values);
+
+        if (result.affectedRows > 0) {
+          return { 
+            status: 'successful update pets', 
+            updatePets: true,
+         }
+        }else{
+            return {
+                status: " Failed to update pet data ",
+                updatePets: false,
+                errorSQl: 'No pet found with the provided ID'
+            }
+        }
+        
+      } catch (error: any) {
+        console.error('error en la actualizacion de los datos en la DATABASE', error);
+        return {
+            status: 'Error in database when updating',
+            updatePets: false,
+            error: error.message 
+        }
+        
+      }
+    }
+
+       
+
+    static async askForAllPets(){
+        const sql = 'SELECT IdAdopcionMascota, nombreMascota, imagenMascota, edadMascota, sexo, razaMascota, estadoVacunacionMascota, esterilizacionMascota FROM adopcionMascota WHERE estado = en adopcion';
+
+        try {
+            const [result]: any = await db.execute(sql);
+
+            if (result.length > 0 ) {
+                return {
+                    status: 'Calling for information on all pets',
+                    callData: true,
+                    mascotas: result // Devuelve todos los resultados
+                };
+
+            }else{
+                return {
+                    status: 'Could not call information for all pets',
+                    callData: false,
+                    errorSql: 'No pets found'
+                }
+            }
+        } catch (error: any) {
+            console.error('Error en la base de datos al llamar a las adopciones',error);
+            return {
+                status: 'Error in the data base',
+                callData: false,
+                error: error.message
+            }; 
         };
     };
 
