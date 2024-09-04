@@ -1,8 +1,41 @@
 import db from "../config/config-db";
 import UploadProducts from "../Dto/Dto-Admin/uploadProductsDto";
+import DeleteProduct from "../Dto/Dto-Admin/deleteProductDto";
 import bcrypt from 'bcryptjs';
 
 class AdminRepository {
+
+    static async deleteProduct(deleteProduct: DeleteProduct) {
+        const sql = 'DELETE FROM producto WHERE IdProducto = ? AND nombreProducto = ? ';
+        const values = [deleteProduct.IdProducto, deleteProduct.nombreProducto]
+
+        try {
+            const [result]: any = await db.execute(sql,values);
+
+            if (result.affectedRows > 0) {
+                return {
+                    status: 'succesful delete product',
+                    deleteProduct: true,
+                }
+            }else{
+                return {
+                    status: 'failed delete product',
+                    deleteProduct: false
+                }
+            }
+            
+        } catch (error: any) {
+            console.error('Error en la eliminacion del producto', error);
+            return {
+                status: 'error',
+                message: 'no se pudo eliminar el producto',
+                error: error.message
+            }
+            
+        }
+    }
+
+
 
     static async getAppointment() {
         const sql = 'SELECT fecha, hora, nombreUsuario FROM cita WHERE estado = "Agendada"';
