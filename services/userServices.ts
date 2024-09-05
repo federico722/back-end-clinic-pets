@@ -25,6 +25,7 @@ class UserService {
         user.contrasenia = await generateHash(user.contrasenia); 
         return  await UserRepository.add(user);
         
+        
         //return  await UserRepository.addAdmin(user);
     }
 

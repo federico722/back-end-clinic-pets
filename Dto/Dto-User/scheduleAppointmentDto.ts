@@ -12,6 +12,7 @@ class Schedule {
     private _motivoConsulta: string;
     private _sexo: string;
     private _tipoCita: string;
+    private _precio: number;
     private _fecha: string;
     private _hora: string;
 
@@ -29,6 +30,7 @@ class Schedule {
         motivoConsulta: string,
         sexo: string,
         tipoCita: string,
+        precio: number,
         fecha: string, 
         hora: string
     ) {
@@ -45,6 +47,7 @@ class Schedule {
         this._motivoConsulta = motivoConsulta;
         this._sexo = sexo;
         this._tipoCita = tipoCita;
+        this._precio = precio;
         this._fecha = fecha;
         this._hora = hora;
     }
@@ -100,7 +103,11 @@ class Schedule {
     public get tipoCita() : string {
         return this._tipoCita;
     }
-
+    
+    public get precio() : number {
+        return this._precio;
+    }
+    
     public get hora() : string {
         return this._hora;
     }
@@ -160,6 +167,11 @@ class Schedule {
     public set tipoCita(tipoCita : string) {
         this._tipoCita = tipoCita;
     }
+    
+    public set precio(precio : number) {
+        this._precio = precio;
+    }
+    
 
     public set hora(hora : string) {
         this._hora = hora;

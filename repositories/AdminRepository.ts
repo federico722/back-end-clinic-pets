@@ -2,6 +2,7 @@ import db from "../config/config-db";
 import UploadProducts from "../Dto/Dto-Admin/uploadProductsDto";
 import DeleteProduct from "../Dto/Dto-Admin/deleteProductDto";
 import UploadProductId from "../Dto/Dto-Admin/uploadProductIdDto";
+import VeterinaryStatus from "../Dto/Dto-Admin/veterinaryStatusDto";
 import bcrypt from 'bcryptjs';
 
 class AdminRepository {
@@ -142,6 +143,27 @@ class AdminRepository {
             console.error('Error al insertar el producto en la tabla:', error);
             return { insert: false, status: 'Error inserting data', error: error.message };
         }
+    }
+
+    static async veterinaryManagement() {
+        const sql = 'SELECT IdVeterinario, nombreVeterinario, estadoVet FROM veterinario';
+        const [result]: any = await db.execute(sql);
+        return result;
+    }
+
+    static async veterinaryStatus(vetStatus: VeterinaryStatus) {
+        // Obtener el estado actual del veterinario
+        const estadoQuery = 'SELECT estadoVet FROM veterinario WHERE IdVeterinario = ?';
+        const [currentStatusResult]: any = await db.execute(estadoQuery, [vetStatus.IdVeterinario]);
+        const currentStatus = currentStatusResult[0].estadoVet;
+
+        // Determinar el nuevo estado
+        const newStatus = currentStatus === 'Activo' ? 'Inactivo' : 'Activo';
+
+        // Actualizar el estado del veterinario
+        const sql = 'UPDATE veterinario SET estadoVet = ? WHERE IdVeterinario = ?';
+        const values = [newStatus, vetStatus.IdVeterinario];
+        await db.execute(sql, values);
     }
 }
 

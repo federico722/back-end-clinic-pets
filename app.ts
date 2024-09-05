@@ -30,6 +30,8 @@ import DeleteProduct from "./routes/deleteProduct";
 import UploadProductId from "./routes/uploadProductId";
 
 
+import veterinaryManagement from "./routes/veterinaryManagementAdmin"
+import veterinaryStatus from "./routes/veterinaryStatusAdmin";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -65,8 +67,8 @@ app.use('/deleteProduct', DeleteProduct); //eliminar producto
 app.use("/filesUpload", fileRoutes); 
 app.use("/uploadProductId", UploadProductId);
 
-
-
+app.use('/veterinaryManagement', veterinaryManagement);
+app.use('/veterinaryStatus', veterinaryStatus)
 const PORT = process.env.PORT || 10101;
 
 app.listen(PORT, () => {
