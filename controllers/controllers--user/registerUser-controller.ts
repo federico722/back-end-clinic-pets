@@ -42,7 +42,7 @@ let register = async (req: Request, res: Response) => {
         console.log(registerUser);
 
         // Verifica si el registro del usuario fue exitoso
-        if (registerUser) {
+        if (registerUser) { 
 
              res.status(201).json({ status: 'register ok'});
 

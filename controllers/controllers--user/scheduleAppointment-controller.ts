@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Schedule from "../../Dto/Dto-User/scheduleAppointmentDto";
 import UserService from '../../services/userServices';
+import { emailAddDateService } from "../../services/emailAddDateService";
 
 let schedule = async (req: Request, res: Response) => {
     try {
@@ -64,7 +65,14 @@ let schedule = async (req: Request, res: Response) => {
         
         console.log('Resultado de la programación de la cita:', newScheduleAppointment);
 
-        return res.status(201).json({ status: 'schedule appointment created', schedule: newScheduleAppointment });
+        if (newScheduleAppointment) {
+            res.status(201).json({ status: 'schedule appointment created', schedule: newScheduleAppointment });
+            emailAddDateService(correo,nombre,fecha,hora,tipoDeCita, nombreMascota)
+               .then(() => console.log("Correo de cita enviado"))
+               .catch(emailError => console.error("Error al enviar el correo de cita:", emailError));
+        }
+
+        
 
     } catch (error: any) {
         console.error(error.message);

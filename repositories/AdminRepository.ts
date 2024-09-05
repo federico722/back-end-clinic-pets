@@ -1,13 +1,43 @@
 import db from "../config/config-db";
 import UploadProducts from "../Dto/Dto-Admin/uploadProductsDto";
 import DeleteProduct from "../Dto/Dto-Admin/deleteProductDto";
+import UploadProductId from "../Dto/Dto-Admin/uploadProductIdDto";
 import bcrypt from 'bcryptjs';
 
 class AdminRepository {
 
+    static async uploadProductId(uploadProductId: UploadProductId){
+        const sql = 'SELECT IdProducto, imagen, nombreProducto, precio, stock, categoria, seleccionTallaPresentacion, descripcion, informacion FROM producto WHERE IdProducto = ?';
+        const values = [uploadProductId.IdProducto];
+        try {
+            const [result]: any = await db.execute(sql,values);
+             
+            if (result.length > 0) {
+                return {
+                    status: 'product obtained successfully',
+                    result: result,
+                    obtainedProduct: true
+                }
+            }else{
+                return {
+                    status: 'product obtained failed',
+                    obtainedProduct: false
+                }
+            }
+        } catch (error: any) {
+            console.error('error obtenido', error);
+            
+            return {
+                status: 'error al obtener el producto',
+                obtainedProduct: false,
+                error: error.message
+            }
+        }
+    }
+
     static async deleteProduct(deleteProduct: DeleteProduct) {
-        const sql = 'DELETE FROM producto WHERE IdProducto = ? AND nombreProducto = ? ';
-        const values = [deleteProduct.IdProducto, deleteProduct.nombreProducto]
+        const sql = 'DELETE FROM producto WHERE IdProducto = ? ';
+        const values = [deleteProduct.IdProducto]
 
         try {
             const [result]: any = await db.execute(sql,values);

@@ -1,5 +1,6 @@
 import UploadProducts from "../Dto/Dto-Admin/uploadProductsDto";
 import DeleteProduct from "../Dto/Dto-Admin/deleteProductDto";
+import UploadProductId from "../Dto/Dto-Admin/uploadProductIdDto";
 import AdminRepository from "../repositories/AdminRepository";
 
 class AdminServices {
@@ -14,6 +15,9 @@ class AdminServices {
 
     static async deleteProduct(deleteProduct: DeleteProduct){
         return await AdminRepository.deleteProduct(deleteProduct);
+    }
+    static async uploadProductId(uploadProductId: UploadProductId){
+        return await AdminRepository.uploadProductId(uploadProductId);
     }
 }
 

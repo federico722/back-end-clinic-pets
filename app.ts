@@ -27,6 +27,7 @@ import UpdatePets from "./routes/updatePets";
 import AskForAllProducts from './routes/askForAllProducts';
 import fileRoutes from "./routes/fileRoutes";
 import DeleteProduct from "./routes/deleteProduct";
+import UploadProductId from "./routes/uploadProductId";
 
 
 import dotenv from "dotenv";
@@ -60,8 +61,10 @@ app.use('/deleteProductCart', deleteProductCart); // eliminar todos los producto
 app.use('/askForAllPets', AskForAllPets); // llamar a todas las mascotas
 app.use('/updatePets', UpdatePets ); // actualiza los datos de la mascota 
 app.use('/askAllForProducts', AskForAllProducts); // llamar a todos los productos
-app.use('deleteProduct', DeleteProduct); //eliminar producto
+app.use('/deleteProduct', DeleteProduct); //eliminar producto
 app.use("/filesUpload", fileRoutes); 
+app.use("/uploadProductId", UploadProductId);
+
 
 
 const PORT = process.env.PORT || 10101;

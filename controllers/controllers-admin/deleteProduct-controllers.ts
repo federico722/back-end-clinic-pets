@@ -6,15 +6,10 @@ let deleteProduct = async (req: Request, res: Response) => {
 
     try {
 
-    const {
-        IdProducto,
-        nombreProducto
-    } = req.body
-
-    console.log('valores del body', req.body);
+    const IdProducto = req.params.IdProducto 
+    const deleteProduct: any = await AdminServices.deleteProduct( new DeleteProduct(IdProducto));
+    console.log(deleteProduct);
     
-
-    const deleteProduct: any = AdminServices.deleteProduct( new DeleteProduct(IdProducto, nombreProducto));
 
     if (!deleteProduct.deleteProduct) {
         return res.status(404).json({
@@ -28,7 +23,7 @@ let deleteProduct = async (req: Request, res: Response) => {
         consultSuccessful: deleteProduct.deleteProduct
       })
     } catch (error: any) {
-        return res.status(200).json({
+        return res.status(500).json({
             status: 'error',
             message: 'error en la consulta',
             error: error.message
