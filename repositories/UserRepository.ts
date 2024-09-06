@@ -18,6 +18,7 @@ import AddPet from '../Dto/Dto-User/addPetDto';
 import DeleteProductCart from '../Dto/Dto-User/deleteProductCartDto';
 import RemoveAllProduct from '../Dto/Dto-User/removeAllProductDto';
 import UpdatePets from '../Dto/Dto-User/updatePetsDto';
+import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
 import bcrypt from 'bcryptjs';
 
 //importacion de funciones de recoverPassword
@@ -274,7 +275,7 @@ class UserRepository {
     }
 
     static async callDateUser(callDateUser: CallDateUser){
-        const sql = 'SELECT IdCita, fecha, hora, nombreUsuario, tipoCita, estado, FROM cita WHERE IdUsuario = ?';
+        const sql = 'SELECT IdCita, fecha, hora, nombreUsuario, tipoCita, estado, precio FROM cita WHERE IdUsuario = ?';
         const values = [callDateUser.IdUsuario];
         const [result] = await db.execute(sql, values);
 
@@ -454,10 +455,11 @@ class UserRepository {
     }
 
     static async addProductCart(addProductCart: AddProductCart) {
-        const sql = 'INSERT INTO usuarioProducto (IdUsuario, IdProducto, nombreProducto, cantidad, precioUnitario, precioTotal) VALUES (?, ?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO usuarioProducto (IdUsuario, IdProducto, imagen, nombreProducto, cantidad, precioUnitario, precioTotal) VALUES (?, ?, ?, ?, ?, ?, ?)';
         const values = [
             addProductCart.IdUsuario, 
             addProductCart.IdProducto, 
+            addProductCart.imagenProducto,
             addProductCart.nombre,
             addProductCart.cantidad, 
             addProductCart.precioUnitario, 
@@ -581,6 +583,35 @@ class UserRepository {
             }; 
         };
     };
+
+    static async uploadProductUser(uploadProductUser: UploadProductUser){
+      const  sql = 'SELECT IdUsuarioProducto, IdUsuario, IdProducto, imagen, nombreProducto, cantidad, precioUnitario, precioTotal FROM usuarioProducto ';
+      const values = [uploadProductUser.IdUsuario];
+
+      try {
+        const [result]: any = db.execute(sql, values);
+        if (result.length > 0) {
+            return {
+                status: 'consulta de productos del usuario exitosa',
+                consult: true,
+                result: result
+            }
+        } else {
+            return {
+                status: 'consulta fallida no se pudo recuperar los datos',
+                consult: false
+            }
+        }
+      } catch (error: any) {
+          console.error('error en la base de datos', error);
+          return {
+            status: 'error en la consulta',
+            consult: false,
+            error: error.message 
+          }
+          
+      }
+    }
 
 
 }

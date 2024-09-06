@@ -5,9 +5,7 @@ import AdminServices from "../../services/AdminServices";
 let uploadProductId = async (req: Request, res: Response)=> {
 
     try {
-        const {
-            IdProducto
-        } = req.body
+        const IdProducto = req.params.IdProducto;
     
         const uploadProductId: any = await AdminServices.uploadProductId(new UploadProductId(IdProducto));
     

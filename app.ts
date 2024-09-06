@@ -57,7 +57,7 @@ app.use('/appointments', AdminRepository);
 app.use('/recoverPassword', RecoverPassword);
 app.use('/addProductsAdmin', addProductsAdmin);  // agregar productos por el admin
 app.use('/createHistorialMedicVet',createHistorialMedicVet); // crear historial medico  por el vet
-app.use('/addProductCart', AddProductCart); // agregar productos al carrito del usuario
+app.use('/addProductCart', AddProductCart); // !agregar productos al carrito del usuario
 app.use('/addPetsUser', addPetUser); // agregar mascotas por el usuario
 app.use('/deleteProductCart', deleteProductCart); // eliminar todos los productos agregados al carrito del usuario
 app.use('/askForAllPets', AskForAllPets); // llamar a todas las mascotas

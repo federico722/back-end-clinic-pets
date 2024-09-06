@@ -4,6 +4,6 @@ import verifyToken from "../middlewere/VerifyToken";
 
 const router = Express.Router();
 
-router.get('', verifyToken, uploadProductId);
+router.get('/:IdProducto', verifyToken, uploadProductId);
 
 export default router;

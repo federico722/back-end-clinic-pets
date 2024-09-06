@@ -1,13 +1,14 @@
 import db from "../../config/config-db";
 import Veterinary from "../../Dto/Dto-Veterinary/registerVeterinaryDto";
 
-export async function consultIdAdmin() {
+export async function consultIdAdmin(correo: string) {
 
-    const IdAdministrador: string = "miguel@gmail.com";
+    const IdAdministrador: string = correo;
+    const IdAdministrador1: string = "miguel@gmail.com";
 
 
     const sql = "SELECT IdAdministrador FROM administrador WHERE correoAdministrador = ? ";
-    const values = [IdAdministrador];
+    const values = [IdAdministrador1];
 
     try {
 

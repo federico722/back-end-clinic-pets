@@ -19,11 +19,12 @@ import AddPet from '../Dto/Dto-User/addPetDto';
 import DeleteProductCart from '../Dto/Dto-User/deleteProductCartDto';
 import RemoveAllProducts from '../Dto/Dto-User/removeAllProductDto';
 import UpdatePets from '../Dto/Dto-User/updatePetsDto';
+import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
 
 class UserService {
     static async register(user: User){
         user.contrasenia = await generateHash(user.contrasenia); 
-        return  await UserRepository.add(user);
+       return  await UserRepository.add(user);
         
         
         //return  await UserRepository.addAdmin(user);
@@ -136,6 +137,10 @@ class UserService {
 
     static async updatePets(updatePets: UpdatePets){
         return await UserRepository.updatePets(updatePets);
+    }
+
+    static async uploadProductUser(uploadProductUser: UploadProductUser){
+        return await UserRepository.uploadProductUser(uploadProductUser);
     }
 
 }

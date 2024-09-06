@@ -19,7 +19,7 @@ let callDate = async (req: Request ,res: Response) =>{
          const IdUsuario: any = req.user?.id;
          console.log('IdUsuario extraído:', IdUsuario);
 
-        // Validar el ID de usuario
+        // Validar el ID de usuario   
         if (typeof IdUsuario !== 'string' ) {
          return res.status(400).json({
            status: 'error',

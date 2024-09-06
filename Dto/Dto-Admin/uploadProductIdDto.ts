@@ -1,20 +1,20 @@
 class uploadProductId{
-    private _IdProducto: number;
+    private _IdProducto: string;
 
     constructor(
-        IdProducto: number
+        IdProducto: string
     ){
         this._IdProducto = IdProducto
 
     }
 
     //Getters 
-    public get IdProducto (): number {
+    public get IdProducto (): string {
         return this._IdProducto;
     }
 
     //Setters
-    public set IdProducto (IdProducto: number) {
+    public set IdProducto (IdProducto: string) {
         this._IdProducto = IdProducto;
     }
 }

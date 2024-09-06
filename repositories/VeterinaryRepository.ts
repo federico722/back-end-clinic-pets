@@ -13,7 +13,7 @@ class VeterinaryRepository {
         
         let IdAdministrador: string | null = null;
 
-        const consultaIdAdmin  = await consultIdAdmin();
+        const consultaIdAdmin  = await consultIdAdmin(veterinary.email);
 
         
 

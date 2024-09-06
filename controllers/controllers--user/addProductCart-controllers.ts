@@ -10,11 +10,15 @@ let addProductsCartUser = async (req: Request, res: Response) => {
 
         const {
             IdProducto,
-            nombre,
+            imagen,
+            nombreProducto,
             cantidad,
             precioUnitario,
             precioTotal
         } = req.body
+
+        console.log('datos del producto', req.body);
+        
 
         if ( typeof IdUsuario !== 'string') {
             return res.status(400).json({
@@ -23,7 +27,7 @@ let addProductsCartUser = async (req: Request, res: Response) => {
             })
         }
 
-        const addProductCart: any = await UserService.addProductCart( new AddProductCart(IdUsuario, IdProducto, nombre, precioUnitario, precioTotal, cantidad ));
+        const addProductCart: any = await UserService.addProductCart( new AddProductCart(IdUsuario, IdProducto, imagen, nombreProducto, precioUnitario, precioTotal, cantidad ));
         console.log('datos de los productos: ', addProductCart);
 
         if (!addProductCart.insertToCart) {
