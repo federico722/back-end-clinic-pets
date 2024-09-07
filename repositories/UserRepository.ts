@@ -274,7 +274,7 @@ class UserRepository {
     }
 
     static async callDateUser(callDateUser: CallDateUser){
-        const sql = 'SELECT IdCita, fecha, hora, nombreUsuario, tipoCita, estado, FROM cita WHERE IdUsuario = ?';
+        const sql = 'SELECT IdCita, fecha, hora, nombreUsuario, tipoCita, precio, estado FROM cita WHERE IdUsuario = ?';
         const values = [callDateUser.IdUsuario];
         const [result] = await db.execute(sql, values);
 
