@@ -19,6 +19,7 @@ import DeleteProductCart from '../Dto/Dto-User/deleteProductCartDto';
 import RemoveAllProduct from '../Dto/Dto-User/removeAllProductDto';
 import UpdatePets from '../Dto/Dto-User/updatePetsDto';
 import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
+import UpdateProductCart from '../Dto/Dto-User/updateProductCartDto';
 import bcrypt from 'bcryptjs';
 
 //importacion de funciones de recoverPassword
@@ -27,6 +28,10 @@ import {updatePasswordUser, capitalizeFirstLetter, querySql} from '../repositori
 import { updateAdmin, updateUser, updateVet } from './UserFunction/updateProfile-function';
 //importar funcion para quitar am y pm 
 import { converTime } from './UserFunction/converTime-functions';
+// importar actualizar carrito de compras
+import { updateCartUser } from './UserFunction/updateCartUser-functions';
+// importar obtener productos del carro del usuario
+import { uploadCartProduct } from './UserFunction/callDataCartUser-functions';
 
 
 
@@ -589,7 +594,7 @@ class UserRepository {
       const values = [uploadProductUser.IdUsuario];
 
       try {
-        const [result]: any = db.execute(sql, values);
+        const [result]: any = await db.execute(sql, values);
         if (result.length > 0) {
             return {
                 status: 'consulta de productos del usuario exitosa',
@@ -611,6 +616,34 @@ class UserRepository {
           }
           
       }
+    }
+
+    static async updateProductCart(updateCart: UpdateProductCart){
+        
+        try {
+            const updateResult: any = await updateCartUser(updateCart.cantidad, updateCart.IdUsuarioProducto);
+
+
+            if (updateResult.update ) {
+                return {
+                    status: 'cantidad actualizada',
+                    successfully: true,
+                }
+            }else{
+                return {
+                    status: 'fallo al actualizar la cantidad',
+                    successfully: false,
+                }
+            }
+
+        } catch (error: any) {
+            console.error('Error en el servidor: ', error);
+            return {
+                status: 'error',
+                successfully: false,
+                error: error.message
+            }
+        }  
     }
 
 

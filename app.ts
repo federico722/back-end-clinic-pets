@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from 'body-parser';
+
 import register from './routes/registerUser'
 import auth from './routes/auth';
 import scheduleAppointment from './routes/scheduleAppointment';
@@ -28,7 +29,8 @@ import AskForAllProducts from './routes/askForAllProducts';
 import fileRoutes from "./routes/fileRoutes";
 import DeleteProduct from "./routes/deleteProduct";
 import UploadProductId from "./routes/uploadProductId";
-
+import uploadProductUser from "./routes/uploadProductUser";
+import updateCartProduct from "./routes/updateProductCart";
 
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
@@ -66,6 +68,8 @@ app.use('/askAllForProducts', AskForAllProducts); // llamar a todos los producto
 app.use('/deleteProduct', DeleteProduct); //eliminar producto
 app.use("/filesUpload", fileRoutes); 
 app.use("/uploadProductId", UploadProductId);
+app.use("/uploadProductUser", uploadProductUser);// !subir productos al carrito
+app.use("/actualizarCantidadProductoCarrito", updateCartProduct); // !actualiza la cantidad  del carrito 
 
 app.use('/veterinaryManagement', veterinaryManagement);
 app.use('/veterinaryStatus', veterinaryStatus)
