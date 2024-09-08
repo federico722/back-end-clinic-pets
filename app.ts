@@ -31,6 +31,9 @@ import DeleteProduct from "./routes/deleteProduct";
 import UploadProductId from "./routes/uploadProductId";
 import uploadProductUser from "./routes/uploadProductUser";
 import updateCartProduct from "./routes/updateProductCart";
+import RemoveAllProduct from "./routes/removeAllProduct";
+import AskProductInfo from "./routes/askProductInfo";
+import UpdateProduct from "./routes/updateProduct";
 
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
@@ -70,7 +73,9 @@ app.use("/filesUpload", fileRoutes);
 app.use("/uploadProductId", UploadProductId);
 app.use("/uploadProductUser", uploadProductUser);// !subir productos al carrito
 app.use("/actualizarCantidadProductoCarrito", updateCartProduct); // !actualiza la cantidad  del carrito 
-
+app.use("/removeAllProductCart", RemoveAllProduct) //! remover productos 
+app.use('/askProductInfo',AskProductInfo ) //! mostrar productos para actualizar
+app.use('/updateProduct', UpdateProduct)
 app.use('/veterinaryManagement', veterinaryManagement);
 app.use('/veterinaryStatus', veterinaryStatus)
 const PORT = process.env.PORT || 10101;

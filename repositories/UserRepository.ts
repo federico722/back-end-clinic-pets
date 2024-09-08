@@ -20,6 +20,7 @@ import RemoveAllProduct from '../Dto/Dto-User/removeAllProductDto';
 import UpdatePets from '../Dto/Dto-User/updatePetsDto';
 import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
 import UpdateProductCart from '../Dto/Dto-User/updateProductCartDto';
+import deleteAllProduct from '../Dto/Dto-User/deleteAllProductDto';
 import bcrypt from 'bcryptjs';
 
 //importacion de funciones de recoverPassword
@@ -320,7 +321,7 @@ class UserRepository {
     };
 
     static async removeAllProduct(removeAllProduct: RemoveAllProduct){
-        const sql = 'DELETE FROM usuarioProduct WHERE IdUsuario = ?';
+        const sql = 'DELETE FROM usuarioProducto WHERE IdUsuario = ?';
         const values = [removeAllProduct.IdUsuario];
 
         try {
@@ -335,6 +336,8 @@ class UserRepository {
             return { status: "error remove to table ", statusRemove: false, error: error.message};
         };
     };
+
+   
 
     static async verifyRol(verifyRol: VerifyRol){
         console.log('repository funciona');
@@ -590,7 +593,7 @@ class UserRepository {
     };
 
     static async uploadProductUser(uploadProductUser: UploadProductUser){
-      const  sql = 'SELECT IdUsuarioProducto, IdUsuario, IdProducto, imagen, nombreProducto, cantidad, precioUnitario, precioTotal FROM usuarioProducto ';
+      const  sql = 'SELECT IdUsuarioProducto, IdUsuario, IdProducto, imagen, nombreProducto, cantidad, precioUnitario, precioTotal FROM usuarioProducto WHERE IdUsuario = ?';
       const values = [uploadProductUser.IdUsuario];
 
       try {
@@ -645,7 +648,6 @@ class UserRepository {
             }
         }  
     }
-
 
 }
 
