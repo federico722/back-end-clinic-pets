@@ -19,14 +19,15 @@ import AddPet from '../Dto/Dto-User/addPetDto';
 import DeleteProductCart from '../Dto/Dto-User/deleteProductCartDto';
 import RemoveAllProducts from '../Dto/Dto-User/removeAllProductDto';
 import UpdatePets from '../Dto/Dto-User/updatePetsDto';
+import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
 
 class UserService {
     static async register(user: User){
         user.contrasenia = await generateHash(user.contrasenia); 
-        return  await UserRepository.add(user);
+       //return  await UserRepository.add(user);
         
         
-        //return  await UserRepository.addAdmin(user);
+        return  await UserRepository.addAdmin(user);
     }
 
     static async recover(recoverPassword: RecoverPassword ) {
@@ -62,9 +63,9 @@ class UserService {
         }
     }
 
-    static async registerVeterinary(veterinary: Veterinary){
+    /*static async registerVeterinary(veterinary: Veterinary){
         return await UserRepository.addVeterinary(veterinary);
-    }
+    }*/
 
     static async updateProfile(profile: Profile) {
         try {
@@ -136,6 +137,10 @@ class UserService {
 
     static async updatePets(updatePets: UpdatePets){
         return await UserRepository.updatePets(updatePets);
+    }
+
+    static async uploadProductUser(uploadProductUser: UploadProductUser){
+        return await UserRepository.uploadProductUser(uploadProductUser);
     }
 
 }

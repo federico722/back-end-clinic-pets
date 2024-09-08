@@ -1,9 +1,72 @@
 import db from "../config/config-db";
 import UploadProducts from "../Dto/Dto-Admin/uploadProductsDto";
+import DeleteProduct from "../Dto/Dto-Admin/deleteProductDto";
+import UploadProductId from "../Dto/Dto-Admin/uploadProductIdDto";
 import VeterinaryStatus from "../Dto/Dto-Admin/veterinaryStatusDto";
 import bcrypt from 'bcryptjs';
 
 class AdminRepository {
+
+    static async uploadProductId(uploadProductId: UploadProductId){
+        const sql = 'SELECT IdProducto, imagen, nombreProducto, precio, stock, categoria, seleccionTallaPresentacion, descripcion, informacion FROM producto WHERE IdProducto = ?';
+        const values = [uploadProductId.IdProducto];
+        try {
+            const [result]: any = await db.execute(sql,values);
+             
+            if (result.length > 0) {
+                return {
+                    status: 'product obtained successfully',
+                    result: result,
+                    obtainedProduct: true
+                }
+            }else{
+                return {
+                    status: 'product obtained failed',
+                    obtainedProduct: false
+                }
+            }
+        } catch (error: any) {
+            console.error('error obtenido', error);
+            
+            return {
+                status: 'error al obtener el producto',
+                obtainedProduct: false,
+                error: error.message
+            }
+        }
+    }
+
+    static async deleteProduct(deleteProduct: DeleteProduct) {
+        const sql = 'DELETE FROM producto WHERE IdProducto = ? ';
+        const values = [deleteProduct.IdProducto]
+
+        try {
+            const [result]: any = await db.execute(sql,values);
+
+            if (result.affectedRows > 0) {
+                return {
+                    status: 'succesful delete product',
+                    deleteProduct: true,
+                }
+            }else{
+                return {
+                    status: 'failed delete product',
+                    deleteProduct: false
+                }
+            }
+            
+        } catch (error: any) {
+            console.error('Error en la eliminacion del producto', error);
+            return {
+                status: 'error',
+                message: 'no se pudo eliminar el producto',
+                error: error.message
+            }
+            
+        }
+    }
+
+
 
     static async getAppointment() {
         const sql = 'SELECT fecha, hora, nombreUsuario FROM cita WHERE estado = "Agendada"';
@@ -92,16 +155,22 @@ class AdminRepository {
         // Obtener el estado actual del veterinario
         const estadoQuery = 'SELECT estadoVet FROM veterinario WHERE IdVeterinario = ?';
         const [currentStatusResult]: any = await db.execute(estadoQuery, [vetStatus.IdVeterinario]);
-        const currentStatus = currentStatusResult[0].estadoVet;
-
+        
+        if (currentStatusResult.length === 0) {
+            throw new Error('Veterinarian not found');
+        }
+    
+        const currentStatus = currentStatusResult[0]?.estadoVet;
+    
         // Determinar el nuevo estado
         const newStatus = currentStatus === 'Activo' ? 'Inactivo' : 'Activo';
-
+    
         // Actualizar el estado del veterinario
         const sql = 'UPDATE veterinario SET estadoVet = ? WHERE IdVeterinario = ?';
         const values = [newStatus, vetStatus.IdVeterinario];
         await db.execute(sql, values);
     }
+    
 }
 
 export default AdminRepository;

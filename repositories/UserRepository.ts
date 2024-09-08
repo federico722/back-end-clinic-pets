@@ -18,6 +18,7 @@ import AddPet from '../Dto/Dto-User/addPetDto';
 import DeleteProductCart from '../Dto/Dto-User/deleteProductCartDto';
 import RemoveAllProduct from '../Dto/Dto-User/removeAllProductDto';
 import UpdatePets from '../Dto/Dto-User/updatePetsDto';
+import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
 import bcrypt from 'bcryptjs';
 
 //importacion de funciones de recoverPassword
@@ -87,12 +88,12 @@ class UserRepository {
      * @returns  Resultado de la operación de inserción.
      */
 
-    static async addVeterinary(veterinary: Veterinary){
+    /*static async addVeterinary(veterinary: Veterinary){
         const sql = 'INSERT INTO veterinario (idVeterinario, idAdministrador ,nombreVeterinario, apellidoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [veterinary.idVeterinario, veterinary.idAdministrador, veterinary.nombre, veterinary.apellido, veterinary.email, veterinary.contrasenia];
         return db.execute(sql, values);
         
-    }
+    }*/
 
     /**
      * 
@@ -124,11 +125,12 @@ class UserRepository {
             console.log("ID encontrado:", user.Id);
             console.log('Valores para la consulta:', values);
     
+            // Verifica la contraseña
             const esContraseniaValida = await bcrypt.compare(auth.contrasenia, user.contrasenia);
     
             if (esContraseniaValida) {
-                // Verifica el estado solo si está presente
-                if (user.estadoVet === 'Inactivo' || user.estadoVet === '') {
+                // Verifica el estado solo si el rol es 'veterinario'
+                if (user.rol === 'veterinario' && user.estadoVet !== 'Activo') {
                     return { logged: false, status: "Account is inactive" };
                 }
     
@@ -143,6 +145,7 @@ class UserRepository {
     
         return { logged: false, status: "Invalid username or password" };
     }
+    
     
     /*static async login(auth: Auth){
        const sql = 'SELECT IdUsuario AS Id, contrasenaUsuario AS contrasenia, rol  FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador AS Id, contrasenaAdministrador AS contrasenia, rol FROM administrador WHERE correoAdministrador=? UNION SELECT IdVeterinario AS Id, contrasenaVeterinario AS contrasenia, rol FROM veterinario WHERE correoVeterinario=?'
@@ -454,10 +457,11 @@ class UserRepository {
     }
 
     static async addProductCart(addProductCart: AddProductCart) {
-        const sql = 'INSERT INTO usuarioProducto (IdUsuario, IdProducto, nombreProducto, cantidad, precioUnitario, precioTotal) VALUES (?, ?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO usuarioProducto (IdUsuario, IdProducto, imagen, nombreProducto, cantidad, precioUnitario, precioTotal) VALUES (?, ?, ?, ?, ?, ?, ?)';
         const values = [
             addProductCart.IdUsuario, 
             addProductCart.IdProducto, 
+            addProductCart.imagenProducto,
             addProductCart.nombre,
             addProductCart.cantidad, 
             addProductCart.precioUnitario, 
@@ -581,6 +585,35 @@ class UserRepository {
             }; 
         };
     };
+
+    static async uploadProductUser(uploadProductUser: UploadProductUser){
+      const  sql = 'SELECT IdUsuarioProducto, IdUsuario, IdProducto, imagen, nombreProducto, cantidad, precioUnitario, precioTotal FROM usuarioProducto ';
+      const values = [uploadProductUser.IdUsuario];
+
+      try {
+        const [result]: any = db.execute(sql, values);
+        if (result.length > 0) {
+            return {
+                status: 'consulta de productos del usuario exitosa',
+                consult: true,
+                result: result
+            }
+        } else {
+            return {
+                status: 'consulta fallida no se pudo recuperar los datos',
+                consult: false
+            }
+        }
+      } catch (error: any) {
+          console.error('error en la base de datos', error);
+          return {
+            status: 'error en la consulta',
+            consult: false,
+            error: error.message 
+          }
+          
+      }
+    }
 
 
 }

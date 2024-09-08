@@ -26,10 +26,12 @@ import registerVet from "./routes/registerVet";
 import UpdatePets from "./routes/updatePets";
 import AskForAllProducts from './routes/askForAllProducts';
 import fileRoutes from "./routes/fileRoutes";
+import DeleteProduct from "./routes/deleteProduct";
+import UploadProductId from "./routes/uploadProductId";
+
+
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
-
-
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -55,13 +57,16 @@ app.use('/appointments', AdminRepository);
 app.use('/recoverPassword', RecoverPassword);
 app.use('/addProductsAdmin', addProductsAdmin);  // agregar productos por el admin
 app.use('/createHistorialMedicVet',createHistorialMedicVet); // crear historial medico  por el vet
-app.use('/addProductCart', AddProductCart); // agregar productos al carrito del usuario
+app.use('/addProductCart', AddProductCart); // !agregar productos al carrito del usuario
 app.use('/addPetsUser', addPetUser); // agregar mascotas por el usuario
 app.use('/deleteProductCart', deleteProductCart); // eliminar todos los productos agregados al carrito del usuario
 app.use('/askForAllPets', AskForAllPets); // llamar a todas las mascotas
 app.use('/updatePets', UpdatePets ); // actualiza los datos de la mascota 
-app.use('/askAllForProducts', AskForAllProducts);
-app.use("/filesUpload", fileRoutes);
+app.use('/askAllForProducts', AskForAllProducts); // llamar a todos los productos
+app.use('/deleteProduct', DeleteProduct); //eliminar producto
+app.use("/filesUpload", fileRoutes); 
+app.use("/uploadProductId", UploadProductId);
+
 app.use('/veterinaryManagement', veterinaryManagement);
 app.use('/veterinaryStatus', veterinaryStatus)
 const PORT = process.env.PORT || 10101;

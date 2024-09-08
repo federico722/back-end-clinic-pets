@@ -4,7 +4,7 @@ import { validator, validatorParams } from "../middlewere/registerVet-validator"
 
 const router = Express.Router();
 
-router.post('/', validatorParams, validator, registerVeterinary);
+router.post('/', registerVeterinary);
 
 
 export default router;
