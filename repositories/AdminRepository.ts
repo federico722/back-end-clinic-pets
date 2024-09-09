@@ -6,6 +6,8 @@ import VeterinaryStatus from "../Dto/Dto-Admin/veterinaryStatusDto";
 import AskProductInfo from "../Dto/Dto-Admin/askProductInfoDto";
 import updateProduct from "../Dto/Dto-Admin/updateTiendaDto";
 import bcrypt from 'bcryptjs';
+import { Connection, RowDataPacket } from 'mysql2/promise';
+
 
 class AdminRepository {
 
@@ -180,11 +182,16 @@ class AdminRepository {
         // Obtener el estado actual del veterinario
         const estadoQuery = 'SELECT estadoVet FROM veterinario WHERE IdVeterinario = ?';
         const [currentStatusResult]: any = await db.execute(estadoQuery, [vetStatus.IdVeterinario]);
-        const currentStatus = currentStatusResult[0].estadoVet;
-
+        
+        if (currentStatusResult.length === 0) {
+            throw new Error('Veterinarian not found');
+        }
+    
+        const currentStatus = currentStatusResult[0]?.estadoVet;
+    
         // Determinar el nuevo estado
         const newStatus = currentStatus === 'Activo' ? 'Inactivo' : 'Activo';
-
+    
         // Actualizar el estado del veterinario
         const sql = 'UPDATE veterinario SET estadoVet = ? WHERE IdVeterinario = ?';
         const values = [newStatus, vetStatus.IdVeterinario];
@@ -221,6 +228,86 @@ class AdminRepository {
         }
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    static async desactivateDay(date: any) {
+        const sql = `INSERT INTO desactivate (date, type) VALUES (?, 'day') ON DUPLICATE KEY UPDATE type = 'day'`;
+        const values = [date];
+
+        try {
+            const connection = await db.getConnection();
+            await connection.execute(sql, values);
+            connection.release();
+            return { message: 'Day deactivated successfully' };
+        } catch (error) {
+            console.error("Error desactivating day:", error);
+            throw error;
+        }
+    }
+
+    // Desactivar una Hora
+    static async desactivateTime(date: any, time: any) {
+        const sql = `INSERT INTO desactivate (date, time, type) VALUES (?, ?, 'time') ON DUPLICATE KEY UPDATE type = 'time'`;
+        const values = [date, time];
+
+        try {
+            const connection = await db.getConnection();
+            await connection.execute(sql, values);
+            connection.release();
+            return { message: 'Time deactivated successfully' };
+        } catch (error) {
+            console.error("Error desactivating time:", error);
+            throw error;
+        }
+    }
+
+    // Consultar Días Desactivados
+    static async getDisabledDays() {
+        const sql = `SELECT DISTINCT date FROM desactivate WHERE type = 'day'`;
+
+        try {
+            const connection = await db.getConnection();
+            const [results] = await connection.execute<RowDataPacket[]>(sql);
+            connection.release();
+            return results.map(row => row.date);
+        } catch (error) {
+            console.error("Error fetching disabled days:", error);
+            throw error;
+        }
+    }
+
+    // Consultar Horas Desactivadas
+    static async getDisabledTimes(): Promise<string[]> {
+        const sql = `SELECT DISTINCT time FROM desactivate WHERE type = 'time'`;
+    
+        try {
+            const connection = await db.getConnection();
+            const [results] = await connection.execute<RowDataPacket[]>(sql);
+            connection.release();
+            
+            // Verifica que results es un arreglo y usa map para extraer los tiempos
+            return results.map(row => row.time);
+        } catch (error) {
+            console.error("Error fetching disabled times:", error);
+            throw error;
+        }
+    }
+    
+    
 }
 
 export default AdminRepository;

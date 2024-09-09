@@ -64,9 +64,9 @@ class UserService {
         }
     }
 
-    static async registerVeterinary(veterinary: Veterinary){
+    /*static async registerVeterinary(veterinary: Veterinary){
         return await UserRepository.addVeterinary(veterinary);
-    }
+    }*/
 
     static async updateProfile(profile: Profile) {
         try {

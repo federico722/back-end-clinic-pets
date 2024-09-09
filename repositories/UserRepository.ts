@@ -94,12 +94,12 @@ class UserRepository {
      * @returns  Resultado de la operación de inserción.
      */
 
-    static async addVeterinary(veterinary: Veterinary){
+    /*static async addVeterinary(veterinary: Veterinary){
         const sql = 'INSERT INTO veterinario (idVeterinario, idAdministrador ,nombreVeterinario, apellidoVeterinario, correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [veterinary.idVeterinario, veterinary.idAdministrador, veterinary.nombre, veterinary.apellido, veterinary.email, veterinary.contrasenia];
         return db.execute(sql, values);
         
-    }
+    }*/
 
     /**
      * 
@@ -131,11 +131,12 @@ class UserRepository {
             console.log("ID encontrado:", user.Id);
             console.log('Valores para la consulta:', values);
     
+            // Verifica la contraseña
             const esContraseniaValida = await bcrypt.compare(auth.contrasenia, user.contrasenia);
     
             if (esContraseniaValida) {
-                // Verifica el estado solo si está presente
-                if (user.estadoVet === 'Inactivo' || user.estadoVet === '') {
+                // Verifica el estado solo si el rol es 'veterinario'
+                if (user.rol === 'veterinario' && user.estadoVet !== 'Activo') {
                     return { logged: false, status: "Account is inactive" };
                 }
     
@@ -150,6 +151,7 @@ class UserRepository {
     
         return { logged: false, status: "Invalid username or password" };
     }
+    
     
     /*static async login(auth: Auth){
        const sql = 'SELECT IdUsuario AS Id, contrasenaUsuario AS contrasenia, rol  FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador AS Id, contrasenaAdministrador AS contrasenia, rol FROM administrador WHERE correoAdministrador=? UNION SELECT IdVeterinario AS Id, contrasenaVeterinario AS contrasenia, rol FROM veterinario WHERE correoVeterinario=?'
@@ -281,7 +283,7 @@ class UserRepository {
     }
 
     static async callDateUser(callDateUser: CallDateUser){
-        const sql = 'SELECT IdCita, fecha, hora, nombreUsuario, tipoCita, estado, precio FROM cita WHERE IdUsuario = ?';
+        const sql = 'SELECT IdCita, fecha, hora, nombreUsuario, tipoCita, precio, estado FROM cita WHERE IdUsuario = ?';
         const values = [callDateUser.IdUsuario];
         const [result] = await db.execute(sql, values);
 

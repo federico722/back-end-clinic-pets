@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import UpdateProductCart from "../../Dto/Dto-User/updateProductCartDto";
 import UserService from "../../services/userServices";
 
-let updateProductCart = async (req: Request, res: Response) => {
+/*let updateProductCart = async (req: Request, res: Response) => {
     try {
         const IdUsuarioProducto = req.params.IdUsuarioProducto;
         const {
@@ -39,4 +39,4 @@ let updateProductCart = async (req: Request, res: Response) => {
     
 }
 
-export default updateProductCart;
+export default updateProductCart;*/

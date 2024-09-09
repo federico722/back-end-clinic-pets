@@ -5,6 +5,8 @@ let callCardsPets = async (req:Request, res: Response) => {
     
     try {
            const callCardsPets: any = await UserService.callCardsPets();
+           console.log(callCardsPets);
+           
            if (!callCardsPets.select) {
               return res.status(404).json({
                 status: 'Error al obtener informacion',

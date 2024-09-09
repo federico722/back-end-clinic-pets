@@ -15,8 +15,8 @@ import cancelAppointment from './routes/cancelAppointmentUser'
 import verifyRolUser from './routes/verifyRol';
 import callTutorData from './routes/callTutorData';
 import AskForAllPets from './routes/askForAllPets';
-
-import AdminRepository from "./routes/getAppointmentAdmin";
+import getAppointmentAdmin from './routes/getAppointmentAdmin';
+//import disabledTimesRoutes from './routes/disabledTimesRoutes'; // Asimport AdminRepository from "./routes/getAppointmentAdmin";
 import RecoverPassword from './routes/recoverPassword';
 import addProductsAdmin from "./routes/addProductsAdmin";
 import createHistorialMedicVet from "./routes/createHistorialVet";
@@ -60,7 +60,7 @@ app.use('/callDateAppointments', callDateAppointment);
 app.use('/updateAppointment', updateAppointment);
 app.use('/updateAppointment', cancelAppointment);
 app.use('/verifyRolUser', verifyRolUser);
-app.use('/appointments', AdminRepository);
+//app.use('/appointments', AdminRepository);
 app.use('/recoverPassword', RecoverPassword);
 app.use('/addProductsAdmin', addProductsAdmin);  // agregar productos por el admin
 app.use('/createHistorialMedicVet',createHistorialMedicVet); // crear historial medico  por el vet
@@ -84,7 +84,15 @@ app.use('/veterinaryStatus', veterinaryStatus);
 
 app.use('/chat', IAchat);
 
+app.use('/admin', getAppointmentAdmin); // Ruta para las funciones del admin
+app.use('/disabledTimes', );
 const PORT = process.env.PORT || 10101;
+
+
+
+
+
+
 
 app.listen(PORT, () => {
     console.log("servidor ejecutandose  en el puerto: ", PORT);
