@@ -34,6 +34,8 @@ import updateCartProduct from "./routes/updateProductCart";
 import RemoveAllProduct from "./routes/removeAllProduct";
 import AskProductInfo from "./routes/askProductInfo";
 import UpdateProduct from "./routes/updateProduct";
+import callCardsPets from "./routes/callCardsPets";
+import IAchat from "./routes/AIChatServicesRouter";
 
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
@@ -73,11 +75,15 @@ app.use("/filesUpload", fileRoutes);
 app.use("/uploadProductId", UploadProductId);
 app.use("/uploadProductUser", uploadProductUser);// !subir productos al carrito
 app.use("/actualizarCantidadProductoCarrito", updateCartProduct); // !actualiza la cantidad  del carrito 
-app.use("/removeAllProductCart", RemoveAllProduct) //! remover productos 
-app.use('/askProductInfo',AskProductInfo ) //! mostrar productos para actualizar
-app.use('/updateProduct', UpdateProduct)
+app.use("/removeAllProductCart", RemoveAllProduct); //! remover productos 
+app.use('/askProductInfo',AskProductInfo ); //! mostrar productos para actualizar
+app.use('/updateProduct', UpdateProduct);
+app.use('/askPetsData', callCardsPets); // ! llamar cards de mascotas
 app.use('/veterinaryManagement', veterinaryManagement);
-app.use('/veterinaryStatus', veterinaryStatus)
+app.use('/veterinaryStatus', veterinaryStatus);
+
+app.use('/chat', IAchat);
+
 const PORT = process.env.PORT || 10101;
 
 app.listen(PORT, () => {

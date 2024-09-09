@@ -148,6 +148,10 @@ class UserService {
         return await UserRepository.updateProductCart(updateCart);
     }
 
+    static async callCardsPets(){
+        return await UserRepository.callCardsPets();
+    }
+
 }
 
    

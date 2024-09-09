@@ -649,6 +649,33 @@ class UserRepository {
         }  
     }
 
+    static async callCardsPets(){
+        const sql = 'SELECT IdAdopcionMascota, IdUsuario, ImagenMascota, nombreMascota, edadMascota, especieMascota, razaMascota, sexo, esterilizacionMascota, estadoVacunacionMascota, numeroTelefono, ubicacion, historia FROM adopcionMascota WHERE estado = "en adopcion" ';
+        
+        try {
+            const [result]: any = await db.execute(sql);
+            if (result.length > 0) {
+                return {
+                    status: 'informacion de mascotas obtenida',
+                    select: true,
+                    result: result
+                }
+            }else{
+                return {
+                    status: 'no se pudo obtener la informacion de las mascotas',
+                    select: false,
+                }
+            }
+        } catch (error: any) {
+            console.error('error en el servidor al intentar obtener la info de las mascotas', error);
+            return{
+                status: 'Error',
+                select: false,
+                error: error.message
+            };
+        };
+    };
+
 }
 
 export default UserRepository; 
