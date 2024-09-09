@@ -4,6 +4,8 @@ import DeleteProduct from "../Dto/Dto-Admin/deleteProductDto";
 import UploadProductId from "../Dto/Dto-Admin/uploadProductIdDto";
 import VeterinaryStatus from "../Dto/Dto-Admin/veterinaryStatusDto";
 import bcrypt from 'bcryptjs';
+import { Connection, RowDataPacket } from 'mysql2/promise';
+
 
 class AdminRepository {
 
@@ -170,6 +172,86 @@ class AdminRepository {
         const values = [newStatus, vetStatus.IdVeterinario];
         await db.execute(sql, values);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    static async desactivateDay(date: any) {
+        const sql = `INSERT INTO desactivate (date, type) VALUES (?, 'day') ON DUPLICATE KEY UPDATE type = 'day'`;
+        const values = [date];
+
+        try {
+            const connection = await db.getConnection();
+            await connection.execute(sql, values);
+            connection.release();
+            return { message: 'Day deactivated successfully' };
+        } catch (error) {
+            console.error("Error desactivating day:", error);
+            throw error;
+        }
+    }
+
+    // Desactivar una Hora
+    static async desactivateTime(date: any, time: any) {
+        const sql = `INSERT INTO desactivate (date, time, type) VALUES (?, ?, 'time') ON DUPLICATE KEY UPDATE type = 'time'`;
+        const values = [date, time];
+
+        try {
+            const connection = await db.getConnection();
+            await connection.execute(sql, values);
+            connection.release();
+            return { message: 'Time deactivated successfully' };
+        } catch (error) {
+            console.error("Error desactivating time:", error);
+            throw error;
+        }
+    }
+
+    // Consultar Días Desactivados
+    static async getDisabledDays() {
+        const sql = `SELECT DISTINCT date FROM desactivate WHERE type = 'day'`;
+
+        try {
+            const connection = await db.getConnection();
+            const [results] = await connection.execute<RowDataPacket[]>(sql);
+            connection.release();
+            return results.map(row => row.date);
+        } catch (error) {
+            console.error("Error fetching disabled days:", error);
+            throw error;
+        }
+    }
+
+    // Consultar Horas Desactivadas
+    static async getDisabledTimes(): Promise<string[]> {
+        const sql = `SELECT DISTINCT time FROM desactivate WHERE type = 'time'`;
+    
+        try {
+            const connection = await db.getConnection();
+            const [results] = await connection.execute<RowDataPacket[]>(sql);
+            connection.release();
+            
+            // Verifica que results es un arreglo y usa map para extraer los tiempos
+            return results.map(row => row.time);
+        } catch (error) {
+            console.error("Error fetching disabled times:", error);
+            throw error;
+        }
+    }
+    
     
 }
 

@@ -11,7 +11,7 @@ class VeterinaryRepository {
 
     static async addVeterinary(veterinary: veterinary ){
         
-        let IdAdministrador:string ='1456724389';
+        let IdAdministrador:string ='1092455612';
 
         /*const consultaIdAdmin  = await consultIdAdmin(veterinary.email);
 
@@ -26,13 +26,13 @@ class VeterinaryRepository {
             return { error: consultaIdAdmin.error, status: consultaIdAdmin.error  }
         }*/
 
-        const sql = 'INSERT INTO veterinario (IdVeterinario, IdAdministrador ,nombreVeterinario, apellidoVeterinario,  correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO veterinario (IdVeterinario, IdAdministrador ,nombreVeterinario, apellidoVeterinario, telefonoVeterinario,  correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?, ?)';
         const values = [
             veterinary.idVeterinario, 
             IdAdministrador, 
             veterinary.nombre, 
             veterinary.apellido, 
-            //veterinary.telefono, 
+            veterinary.telefono, 
             veterinary.email, 
             veterinary.contrasenia];
         try {

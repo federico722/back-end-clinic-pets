@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from 'body-parser';
+
 import register from './routes/registerUser'
 import auth from './routes/auth';
 import scheduleAppointment from './routes/scheduleAppointment';
@@ -14,8 +15,8 @@ import cancelAppointment from './routes/cancelAppointmentUser'
 import verifyRolUser from './routes/verifyRol';
 import callTutorData from './routes/callTutorData';
 import AskForAllPets from './routes/askForAllPets';
-
-import AdminRepository from "./routes/getAppointmentAdmin";
+import getAppointmentAdmin from './routes/getAppointmentAdmin';
+//import disabledTimesRoutes from './routes/disabledTimesRoutes'; // Asimport AdminRepository from "./routes/getAppointmentAdmin";
 import RecoverPassword from './routes/recoverPassword';
 import addProductsAdmin from "./routes/addProductsAdmin";
 import createHistorialMedicVet from "./routes/createHistorialVet";
@@ -28,8 +29,8 @@ import AskForAllProducts from './routes/askForAllProducts';
 import fileRoutes from "./routes/fileRoutes";
 import DeleteProduct from "./routes/deleteProduct";
 import UploadProductId from "./routes/uploadProductId";
-
-
+import uploadProductUser from "./routes/uploadProductUser";
+import updateCartProduct from "./routes/updateProductCart";
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
 import dotenv from "dotenv";
@@ -53,7 +54,7 @@ app.use('/callDateAppointments', callDateAppointment);
 app.use('/updateAppointment', updateAppointment);
 app.use('/updateAppointment', cancelAppointment);
 app.use('/verifyRolUser', verifyRolUser);
-app.use('/appointments', AdminRepository);
+//app.use('/appointments', AdminRepository);
 app.use('/recoverPassword', RecoverPassword);
 app.use('/addProductsAdmin', addProductsAdmin);  // agregar productos por el admin
 app.use('/createHistorialMedicVet',createHistorialMedicVet); // crear historial medico  por el vet
@@ -66,10 +67,20 @@ app.use('/askAllForProducts', AskForAllProducts); // llamar a todos los producto
 app.use('/deleteProduct', DeleteProduct); //eliminar producto
 app.use("/filesUpload", fileRoutes); 
 app.use("/uploadProductId", UploadProductId);
+app.use("/uploadProductUser", uploadProductUser);// !subir productos al carrito
+app.use("/actualizarCantidadProductoCarrito", updateCartProduct); // !actualiza la cantidad  del carrito 
 
 app.use('/veterinaryManagement', veterinaryManagement);
-app.use('/veterinaryStatus', veterinaryStatus)
+app.use('/veterinaryStatus', veterinaryStatus);
+app.use('/admin', getAppointmentAdmin); // Ruta para las funciones del admin
+app.use('/disabledTimes', );
 const PORT = process.env.PORT || 10101;
+
+
+
+
+
+
 
 app.listen(PORT, () => {
     console.log("servidor ejecutandose  en el puerto: ", PORT);

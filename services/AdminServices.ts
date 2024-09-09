@@ -24,6 +24,48 @@ class AdminServices {
     static async veterinaryStatus(vetStatus: VeterinaryStatus) {
         return await AdminRepository.veterinaryStatus(vetStatus);
     }
+
+
+
+
+
+
+
+
+    static async desactivateDay(date: any) {
+        try {
+            return await AdminRepository.desactivateDay(date);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // Desactivar una Hora
+    static async desactivateTime(date: any, time: any) {
+        try {
+            return await AdminRepository.desactivateTime(date, time);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // Consultar Días Desactivados
+    static async getDisabledDays() {
+        try {
+            return await AdminRepository.getDisabledDays();
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // Consultar Horas Desactivadas
+    static async getDisabledTimes() {
+        try {
+            return await AdminRepository.getDisabledTimes();
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default AdminServices;
