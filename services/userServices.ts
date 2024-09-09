@@ -136,21 +136,21 @@ class UserService {
         return await UserRepository.askForAllPets();
     }
 
-    static async updatePets(updatePets: UpdatePets){
-        return await UserRepository.updatePets(updatePets);
-    }
+                static async updatePets(updatePets: UpdatePets){
+                    return await UserRepository.updatePets(updatePets);
+                }
 
-    static async uploadProductUser(uploadProductUser: UploadProductUser){
-        return await UserRepository.uploadProductUser(uploadProductUser);
-    }
+                static async uploadProductUser(uploadProductUser: UploadProductUser){
+                    return await UserRepository.uploadProductUser(uploadProductUser);
+                }
 
-    static async updateProductCart(updateCart: UpdateProductCart){
-        return await UserRepository.updateProductCart(updateCart);
-    }
+                static async updateProductCart(updateCart: UpdateProductCart){
+                    return await UserRepository.updateProductCart(updateCart);
+                }
 
-    static async callCardsPets(){
-        return await UserRepository.callCardsPets();
-    }
+                static async callCardsPets(){
+                    return await UserRepository.callCardsPets();
+                }
 
 }
 

@@ -11,11 +11,12 @@ class VeterinaryRepository {
 
     static async addVeterinary(veterinary: veterinary ){
         
-        let IdAdministrador:string ='1092455612';
+        let IdAdministrador:string ='1230469857';
 
-        /*const consultaIdAdmin  = await consultIdAdmin(veterinary.email);
+        const consultaIdAdmin  = await consultIdAdmin(veterinary.email);
 
         
+            
 
         if (consultaIdAdmin.consultAdmin) {
             IdAdministrador = consultaIdAdmin.IdAdministrador;
@@ -24,7 +25,7 @@ class VeterinaryRepository {
             console.log('activated error');
             
             return { error: consultaIdAdmin.error, status: consultaIdAdmin.error  }
-        }*/
+        }
 
         const sql = 'INSERT INTO veterinario (IdVeterinario, IdAdministrador ,nombreVeterinario, apellidoVeterinario, telefonoVeterinario,  correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?, ?)';
         const values = [
@@ -37,6 +38,8 @@ class VeterinaryRepository {
             veterinary.contrasenia];
         try {
 
+               console.log(values);
+               
             const [result]: any = await db.execute(sql,values);
 
          //  console.log('imprimo valores para la consulta:', values);

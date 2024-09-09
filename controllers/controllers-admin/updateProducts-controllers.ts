@@ -21,7 +21,7 @@ let updateProduct = async (req:Request, res: Response) => {
         console.log(updateProduct);
         
 
-        if (updateProduct.update) {
+        if (!updateProduct.update) {
             return res.status(404).json({
                 status: updateProduct.status,
                 update: updateProduct.update
