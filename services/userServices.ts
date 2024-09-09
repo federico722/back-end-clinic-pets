@@ -20,6 +20,7 @@ import DeleteProductCart from '../Dto/Dto-User/deleteProductCartDto';
 import RemoveAllProducts from '../Dto/Dto-User/removeAllProductDto';
 import UpdatePets from '../Dto/Dto-User/updatePetsDto';
 import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
+import UpdateProductCart from '../Dto/Dto-User/updateProductCartDto';
 
 class UserService {
     static async register(user: User){
@@ -27,7 +28,7 @@ class UserService {
        return  await UserRepository.add(user);
         
         
-        //return  await UserRepository.addAdmin(user);
+       // return  await UserRepository.addAdmin(user);
     }
 
     static async recover(recoverPassword: RecoverPassword ) {
@@ -141,6 +142,14 @@ class UserService {
 
     static async uploadProductUser(uploadProductUser: UploadProductUser){
         return await UserRepository.uploadProductUser(uploadProductUser);
+    }
+
+    static async updateProductCart(updateCart: UpdateProductCart){
+        return await UserRepository.updateProductCart(updateCart);
+    }
+
+    static async callCardsPets(){
+        return await UserRepository.callCardsPets();
     }
 
 }

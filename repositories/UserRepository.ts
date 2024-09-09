@@ -19,6 +19,8 @@ import DeleteProductCart from '../Dto/Dto-User/deleteProductCartDto';
 import RemoveAllProduct from '../Dto/Dto-User/removeAllProductDto';
 import UpdatePets from '../Dto/Dto-User/updatePetsDto';
 import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
+import UpdateProductCart from '../Dto/Dto-User/updateProductCartDto';
+import deleteAllProduct from '../Dto/Dto-User/deleteAllProductDto';
 import bcrypt from 'bcryptjs';
 
 //importacion de funciones de recoverPassword
@@ -27,6 +29,10 @@ import {updatePasswordUser, capitalizeFirstLetter, querySql} from '../repositori
 import { updateAdmin, updateUser, updateVet } from './UserFunction/updateProfile-function';
 //importar funcion para quitar am y pm 
 import { converTime } from './UserFunction/converTime-functions';
+// importar actualizar carrito de compras
+import { updateCartUser } from './UserFunction/updateCartUser-functions';
+// importar obtener productos del carro del usuario
+import { uploadCartProduct } from './UserFunction/callDataCartUser-functions';
 
 
 
@@ -315,7 +321,7 @@ class UserRepository {
     };
 
     static async removeAllProduct(removeAllProduct: RemoveAllProduct){
-        const sql = 'DELETE FROM usuarioProduct WHERE IdUsuario = ?';
+        const sql = 'DELETE FROM usuarioProducto WHERE IdUsuario = ?';
         const values = [removeAllProduct.IdUsuario];
 
         try {
@@ -330,6 +336,8 @@ class UserRepository {
             return { status: "error remove to table ", statusRemove: false, error: error.message};
         };
     };
+
+   
 
     static async verifyRol(verifyRol: VerifyRol){
         console.log('repository funciona');
@@ -585,11 +593,11 @@ class UserRepository {
     };
 
     static async uploadProductUser(uploadProductUser: UploadProductUser){
-      const  sql = 'SELECT IdUsuarioProducto, IdUsuario, IdProducto, imagen, nombreProducto, cantidad, precioUnitario, precioTotal FROM usuarioProducto ';
+      const  sql = 'SELECT IdUsuarioProducto, IdUsuario, IdProducto, imagen, nombreProducto, cantidad, precioUnitario, precioTotal FROM usuarioProducto WHERE IdUsuario = ?';
       const values = [uploadProductUser.IdUsuario];
 
       try {
-        const [result]: any = db.execute(sql, values);
+        const [result]: any = await db.execute(sql, values);
         if (result.length > 0) {
             return {
                 status: 'consulta de productos del usuario exitosa',
@@ -613,6 +621,60 @@ class UserRepository {
       }
     }
 
+    static async updateProductCart(updateCart: UpdateProductCart){
+        
+        try {
+            const updateResult: any = await updateCartUser(updateCart.cantidad, updateCart.IdUsuarioProducto);
+
+
+            if (updateResult.update ) {
+                return {
+                    status: 'cantidad actualizada',
+                    successfully: true,
+                }
+            }else{
+                return {
+                    status: 'fallo al actualizar la cantidad',
+                    successfully: false,
+                }
+            }
+
+        } catch (error: any) {
+            console.error('Error en el servidor: ', error);
+            return {
+                status: 'error',
+                successfully: false,
+                error: error.message
+            }
+        }  
+    }
+
+    static async callCardsPets(){
+        const sql = 'SELECT IdAdopcionMascota, IdUsuario, ImagenMascota, nombreMascota, edadMascota, especieMascota, razaMascota, sexo, esterilizacionMascota, estadoVacunacionMascota, numeroTelefono, ubicacion, historia FROM adopcionMascota WHERE estado = "en adopcion" ';
+        
+        try {
+            const [result]: any = await db.execute(sql);
+            if (result.length > 0) {
+                return {
+                    status: 'informacion de mascotas obtenida',
+                    select: true,
+                    result: result
+                }
+            }else{
+                return {
+                    status: 'no se pudo obtener la informacion de las mascotas',
+                    select: false,
+                }
+            }
+        } catch (error: any) {
+            console.error('error en el servidor al intentar obtener la info de las mascotas', error);
+            return{
+                status: 'Error',
+                select: false,
+                error: error.message
+            };
+        };
+    };
 
 }
 

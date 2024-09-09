@@ -1,4 +1,4 @@
-class uploadProducts {
+class updateProduct {
     private _imagenProducto: string;
     private _nombre: string;
     private _precio: number;
@@ -7,11 +7,14 @@ class uploadProducts {
     private _stock: number;
     private _categoria: string;
     private _seleccionTallaPresentacion: string;
+    private _IdProducto: string;
  
+
     constructor(
         imagenProducto: string, nombre: string, precio: number, descripcion: string, informacion: string,
-        stock: number, categoria: string, seleccionTallaPresentacion: string
-    ){
+        stock: number, categoria: string, seleccionTallaPresentacion: string, IdProducto: string
+
+    ) {
         this._imagenProducto = imagenProducto;
         this._nombre = nombre;
         this._precio = precio;
@@ -20,12 +23,12 @@ class uploadProducts {
         this._stock = stock;
         this._categoria = categoria;
         this._seleccionTallaPresentacion= seleccionTallaPresentacion;
+        this._IdProducto= IdProducto;
     }
 
+     //Getters   
 
-    //Getters   
-
-    public get imagenProducto(): string {
+     public get imagenProducto(): string {
         return this._imagenProducto;
     }
 
@@ -55,6 +58,10 @@ class uploadProducts {
 
     public get seleccionTallaPresentacion(): string {
         return this._seleccionTallaPresentacion
+    }
+
+    public get IdProducto(): string {
+        return this._IdProducto
     }
 
 
@@ -92,7 +99,10 @@ class uploadProducts {
     public set seleccionTallaPresentacion(seleccionTallaPresentacion: string){
         this._seleccionTallaPresentacion = seleccionTallaPresentacion;
     }
+
+    public set IdProducto(IdProducto: string){
+        this._IdProducto = IdProducto;
+    }
 }
 
-
-export default uploadProducts;
+export default updateProduct;

@@ -3,6 +3,8 @@ import UploadProducts from "../Dto/Dto-Admin/uploadProductsDto";
 import DeleteProduct from "../Dto/Dto-Admin/deleteProductDto";
 import UploadProductId from "../Dto/Dto-Admin/uploadProductIdDto";
 import VeterinaryStatus from "../Dto/Dto-Admin/veterinaryStatusDto";
+import AskProductInfo from "../Dto/Dto-Admin/askProductInfoDto";
+import updateProduct from "../Dto/Dto-Admin/updateTiendaDto";
 import bcrypt from 'bcryptjs';
 
 class AdminRepository {
@@ -112,6 +114,29 @@ class AdminRepository {
 
     }
 
+    static async updateProduct(updateProduct: updateProduct){
+      const sql = "UPDATE producto SET nombreProducto = ?, precio = ?, stock = ?, categoria = ?, descripcion = ?, informacion = ?, seleccionTallaPresentacion = ? WHERE IdProducto = ?";
+      const values = [updateProduct.nombre, updateProduct.precio, updateProduct.stock, updateProduct.categoria, updateProduct.descripcion, updateProduct.informacion, updateProduct.seleccionTallaPresentacion, updateProduct.IdProducto]
+
+      try {
+        const [result]: any = await db.execute(sql, values);
+        if (result.affectedRows > 0) {
+            return { status: 'actualizacion completa', update: true }
+        }else{
+            return { status: 'error al actualizar', update: false }
+        }
+      } catch (error: any) {
+         console.error('error al intentar actualizar', error);
+         return {
+            status: 'error en la actualizacion',
+            update: false,
+            error: error.message
+         }
+      }
+
+
+    }
+
 
     static async addProducts(uploadProducts: UploadProducts) {
         const sql = 'INSERT INTO producto ( imagen, nombreProducto, descripcion, informacion, precio, stock, categoria, seleccionTallaPresentacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
@@ -164,6 +189,37 @@ class AdminRepository {
         const sql = 'UPDATE veterinario SET estadoVet = ? WHERE IdVeterinario = ?';
         const values = [newStatus, vetStatus.IdVeterinario];
         await db.execute(sql, values);
+    }
+
+    static async askProductInfo(askProductInfo: AskProductInfo) {
+        const sql = 'SELECT IdProducto, imagen, nombreProducto, descripcion, informacion, precio, stock, categoria, seleccionTallaPresentacion FROM producto WHERE IdProducto = ?';
+        const values = [askProductInfo.IdProducto];
+
+        try {
+            const [result]: any = await db.execute(sql, values);
+
+            if (result.length > 0) {
+                return {
+                    status: 'Informacion de producto obtenida',
+                    select: true,
+                    result: result
+                }
+            }else{
+               return {
+                status: 'Fallo al obtener la informacion',
+                select: false,
+               }
+            }
+        } catch (error: any) {
+            console.error('error al obtener la informacion');
+            return {
+                status: 'Error',
+                select: false,
+                error: error.message
+            }
+            
+        }
+
     }
 }
 
