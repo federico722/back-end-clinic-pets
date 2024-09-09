@@ -58,7 +58,7 @@ app.use('/callTutorData',callTutorData);
 app.use('/deleteData', deleteData);
 app.use('/callDateAppointments', callDateAppointment);
 app.use('/updateAppointment', updateAppointment);
-app.use('/updateAppointment', cancelAppointment);
+app.use('/cancelAppointment', cancelAppointment);
 app.use('/verifyRolUser', verifyRolUser);
 //app.use('/appointments', AdminRepository);
 app.use('/recoverPassword', RecoverPassword);
@@ -85,7 +85,8 @@ app.use('/veterinaryStatus', veterinaryStatus);
 app.use('/chat', IAchat);
 
 app.use('/admin', getAppointmentAdmin); // Ruta para las funciones del admin
-app.use('/disabledTimes', );
+
+//app.use('/disabledTimes', );
 const PORT = process.env.PORT || 10101;
 
 
