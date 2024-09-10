@@ -136,7 +136,7 @@ class UserRepository {
     
             if (esContraseniaValida) {
                 // Verifica el estado solo si el rol es 'veterinario'
-                if (user.rol === 'veterinario' && user.estadoVet !== 'Activo') {
+                if (user.rol === 'veterinario' && user.estadoVet !== 'activo') {
                     return { logged: false, status: "Account is inactive" };
                 }
     
