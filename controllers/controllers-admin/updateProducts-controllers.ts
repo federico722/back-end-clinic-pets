@@ -14,7 +14,10 @@ let updateProduct = async (req:Request, res: Response) => {
             informacion,
             seleccionTallaPresentacion,
             imagen
-        } = req.body 
+        } = req.body
+        
+        console.log('informacion a actualizar', req.body);
+        
         
         const updateProduct: any = await AdminServices.updateProduct(new UpdateProduct(imagen, nombre, precio, descripcion, informacion, cantidad, categoria, seleccionTallaPresentacion, productId));
 

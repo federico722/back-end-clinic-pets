@@ -33,7 +33,7 @@ let createHistoryMedical =  async (req: Request, res: Response) =>{
         
         // Extraer el ID de usuario de la solicitud
         const IdVeterinario: any = req.user?.id;
-        console.log('IdUsuario extraído:', IdVeterinario);
+        console.log('Idveterinario extraído:', IdVeterinario);
 
         let IdUsuario = " ";
 

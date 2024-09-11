@@ -117,8 +117,8 @@ class AdminRepository {
     }
 
     static async updateProduct(updateProduct: updateProduct){
-      const sql = "UPDATE producto SET nombreProducto = ?, precio = ?, stock = ?, categoria = ?, descripcion = ?, informacion = ?, seleccionTallaPresentacion = ? WHERE IdProducto = ?";
-      const values = [updateProduct.nombre, updateProduct.precio, updateProduct.stock, updateProduct.categoria, updateProduct.descripcion, updateProduct.informacion, updateProduct.seleccionTallaPresentacion, updateProduct.IdProducto]
+      const sql = "UPDATE producto SET imagen = ? nombreProducto = ?, precio = ?, stock = ?, categoria = ?, descripcion = ?, informacion = ?, seleccionTallaPresentacion = ? WHERE IdProducto = ?";
+      const values = [updateProduct.imagenProducto ,updateProduct.nombre, updateProduct.precio, updateProduct.stock, updateProduct.categoria, updateProduct.descripcion, updateProduct.informacion, updateProduct.seleccionTallaPresentacion, updateProduct.IdProducto]
 
       try {
         const [result]: any = await db.execute(sql, values);

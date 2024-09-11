@@ -87,7 +87,11 @@ class VeterinaryRepository {
         let IdUsuario: string | null = null;
         const correoUsuario: string = createHistorial.email;
 
+        console.log('correo usuario', correoUsuario);
+        
         const consultaDelIdUsuario = await consultarUsuario(correoUsuario);
+        console.log('consulta del id vet:',consultaDelIdUsuario);
+        
 
         if (consultaDelIdUsuario.consultUser) {
 
