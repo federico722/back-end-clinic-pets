@@ -25,10 +25,10 @@ import UpdateProductCart from '../Dto/Dto-User/updateProductCartDto';
 class UserService {
     static async register(user: User){
         user.contrasenia = await generateHash(user.contrasenia); 
-       return  await UserRepository.add(user);
+        return  await UserRepository.add(user);
         
         
-       // return  await UserRepository.addAdmin(user);
+       //return  await UserRepository.addAdmin(user);
     }
 
     static async recover(recoverPassword: RecoverPassword ) {

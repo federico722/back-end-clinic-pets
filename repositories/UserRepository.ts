@@ -136,7 +136,7 @@ class UserRepository {
     
             if (esContraseniaValida) {
                 // Verifica el estado solo si el rol es 'veterinario'
-                if (user.rol === 'veterinario' && user.estadoVet !== 'activo') {
+                if (user.rol === 'veterinario' && user.estadoVet !== 'Activo') {
                     return { logged: false, status: "Account is inactive" };
                 }
     
@@ -452,8 +452,8 @@ class UserRepository {
     }
 
     static async cancelAppointment(update: CancelAppointment) {
-        const sql = "UPDATE cita SET estado = ? WHERE IdCita = ?";
-        const values = ['Cancelada', update.idCita];
+        const sql = "UPDATE cita SET estado = Cancelada WHERE IdCita = ?";
+        const values = [update.idCita];
         try {
             const connection = await db.getConnection();
             await connection.execute(sql, values);

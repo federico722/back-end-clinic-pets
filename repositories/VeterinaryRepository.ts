@@ -11,21 +11,21 @@ class VeterinaryRepository {
 
     static async addVeterinary(veterinary: veterinary ){
         
-        let IdAdministrador:string ='1230469857';
+        let IdAdministrador:string ='1546891357';
 
         const consultaIdAdmin  = await consultIdAdmin(veterinary.email);
 
         
             
 
-        if (consultaIdAdmin.consultAdmin) {
+        /*if (consultaIdAdmin.consultAdmin) {
             IdAdministrador = consultaIdAdmin.IdAdministrador;
             
         } else {
             console.log('activated error');
             
             return { error: consultaIdAdmin.error, status: consultaIdAdmin.error  }
-        }
+        }*/
 
         const sql = 'INSERT INTO veterinario (IdVeterinario, IdAdministrador ,nombreVeterinario, apellidoVeterinario, telefonoVeterinario,  correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?, ?)';
         const values = [
