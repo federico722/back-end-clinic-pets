@@ -36,7 +36,12 @@ import AskProductInfo from "./routes/askProductInfo";
 import UpdateProduct from "./routes/updateProduct";
 import callCardsPets from "./routes/callCardsPets";
 import IAchat from "./routes/AIChatServicesRouter";
+<<<<<<< HEAD
 import registerVeterinary from "./controllers/controllers-admin/registerVet-controllers";
+=======
+import UploadPetId from "./routes/uploadPetId";
+
+>>>>>>> origin/develope
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
 import dotenv from "dotenv";
@@ -81,7 +86,12 @@ app.use('/updateProduct', UpdateProduct);
 app.use('/askPetsData', callCardsPets); // ! llamar cards de mascotas
 app.use('/veterinaryManagement', veterinaryManagement);
 app.use('/veterinaryStatus', veterinaryStatus);
+<<<<<<< HEAD
 app.use('/registerVet', registerVet)
+=======
+app.use('/uploadPetId', UploadPetId);
+
+>>>>>>> origin/develope
 app.use('/chat', IAchat);
 
 app.use('/admin', getAppointmentAdmin); // Ruta para las funciones del admin

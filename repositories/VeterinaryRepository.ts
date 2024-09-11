@@ -13,9 +13,10 @@ class VeterinaryRepository {
         
         let IdAdministrador:string ='1094885487';
 
-        /*const consultaIdAdmin  = await consultIdAdmin(veterinary.email);
+        const consultaIdAdmin  = await consultIdAdmin(veterinary.email);
 
         
+            
 
         if (consultaIdAdmin.consultAdmin) {
             IdAdministrador = consultaIdAdmin.IdAdministrador;
@@ -24,7 +25,7 @@ class VeterinaryRepository {
             console.log('activated error');
             
             return { error: consultaIdAdmin.error, status: consultaIdAdmin.error  }
-        }*/
+        }
 
         const sql = 'INSERT INTO veterinario (IdVeterinario, IdAdministrador ,nombreVeterinario, apellidoVeterinario, telefonoVeterinario,  correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?, ?)';
         const values = [
@@ -37,6 +38,8 @@ class VeterinaryRepository {
             veterinary.contrasenia];
         try {
 
+               console.log(values);
+               
             const [result]: any = await db.execute(sql,values);
 
          //  console.log('imprimo valores para la consulta:', values);
@@ -84,7 +87,11 @@ class VeterinaryRepository {
         let IdUsuario: string | null = null;
         const correoUsuario: string = createHistorial.email;
 
+        console.log('correo usuario', correoUsuario);
+        
         const consultaDelIdUsuario = await consultarUsuario(correoUsuario);
+        console.log('consulta del id vet:',consultaDelIdUsuario);
+        
 
         if (consultaDelIdUsuario.consultUser) {
 

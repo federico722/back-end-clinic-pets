@@ -17,7 +17,7 @@ let registerVeterinary = async (req: Request, res: Response) => {
         console.log(req.body);
         
         
-        const registerVeterinary = await VeterinaryService.registerVeterinary( new veterinary(numeroDeDocumento, nombre, apellido, numeroDeTelefono, email, contrasenia ));
+        const registerVeterinary = await VeterinaryService.registerVeterinary( new veterinary(numeroDeDocumento,nombre, apellido, numeroDeTelefono, email, contrasenia ));
         console.log(registerVeterinary);
        // console.log("no funciona registerVeterinary");
         

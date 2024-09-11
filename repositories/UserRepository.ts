@@ -21,6 +21,7 @@ import UpdatePets from '../Dto/Dto-User/updatePetsDto';
 import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
 import UpdateProductCart from '../Dto/Dto-User/updateProductCartDto';
 import deleteAllProduct from '../Dto/Dto-User/deleteAllProductDto';
+import UploadPetId from '../Dto/Dto-User/uploadPetIdDto';
 import bcrypt from 'bcryptjs';
 
 //importacion de funciones de recoverPassword
@@ -240,7 +241,7 @@ class UserRepository {
      */
 
     static async callDataUser(callDataUser: CallDataUser){
-        const sql = 'SELECT nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario FROM usuario WHERE IdUsuario = ? UNION SELECT nombreAdministrador, apellidoAdministrador, telefonoAdministrador, correoAdministrador FROM administrador WHERE IdAdministrador = ? UNION SELECT nombreVeterinario, apellidoVeterinario, telefonoVeterinario, correoVeterinario FROM veterinario WHERE IdVeterinario = ?';
+        const sql = 'SELECT nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario, rol FROM usuario WHERE IdUsuario = ? UNION SELECT nombreAdministrador, apellidoAdministrador, telefonoAdministrador, correoAdministrador, rol FROM administrador WHERE IdAdministrador = ? UNION SELECT nombreVeterinario, apellidoVeterinario, telefonoVeterinario, correoVeterinario, rol FROM veterinario WHERE IdVeterinario = ?';
         const values = [callDataUser.IdUsuario, callDataUser.IdUsuario, callDataUser.IdUsuario];
         const [result] = await db.execute(sql, values);
 
@@ -679,6 +680,37 @@ class UserRepository {
             };
         };
     };
+
+    static async uploadPetId(uploadPetId: UploadPetId){
+        const sql = 'SELECT IdAdopcionMascota, IdUsuario, imagenMascota, nombreMascota, edadMascota, especieMascota, razaMascota, sexo, esterilizacionMascota, estadoVacunacionMascota, numeroTelefono, ubicacion, historia, estado FROM adopcionMascota WHERE IdAdopcionMascota = ?';
+        const values = [uploadPetId.IdAdopcionMascota];
+
+        try {
+            const [result]: any = await db.execute(sql,values);
+            if (result.length > 0) {
+                return {
+                    status: 'exito',
+                    message: 'informacion de mascota obtenida',
+                    select: true,
+                    result
+                }
+            }else{
+                return {
+                status: 'fallo',
+                message: 'no se pudo obtener la informacion de la mascota',
+                select: false
+                }
+            }
+        } catch (error: any) {
+            console.error('error interno en el servidor ', error);
+            return {
+                status: 'error',
+                message: 'error interno en el servidor',
+                select: false,
+                error: error.message
+            }
+        }
+    }
 
 }
 

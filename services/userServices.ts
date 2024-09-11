@@ -21,6 +21,7 @@ import RemoveAllProducts from '../Dto/Dto-User/removeAllProductDto';
 import UpdatePets from '../Dto/Dto-User/updatePetsDto';
 import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
 import UpdateProductCart from '../Dto/Dto-User/updateProductCartDto';
+import UploadPetId from '../Dto/Dto-User/uploadPetIdDto';
 
 class UserService {
     static async register(user: User){
@@ -136,20 +137,24 @@ class UserService {
         return await UserRepository.askForAllPets();
     }
 
-    static async updatePets(updatePets: UpdatePets){
-        return await UserRepository.updatePets(updatePets);
-    }
+                static async updatePets(updatePets: UpdatePets){
+                    return await UserRepository.updatePets(updatePets);
+                }
 
-    static async uploadProductUser(uploadProductUser: UploadProductUser){
-        return await UserRepository.uploadProductUser(uploadProductUser);
-    }
+                static async uploadProductUser(uploadProductUser: UploadProductUser){
+                    return await UserRepository.uploadProductUser(uploadProductUser);
+                }
 
-    static async updateProductCart(updateCart: UpdateProductCart){
-        return await UserRepository.updateProductCart(updateCart);
-    }
+                static async updateProductCart(updateCart: UpdateProductCart){
+                    return await UserRepository.updateProductCart(updateCart);
+                }
 
-    static async callCardsPets(){
-        return await UserRepository.callCardsPets();
+                static async callCardsPets(){
+                    return await UserRepository.callCardsPets();
+                }
+
+    static async uploadPetId(uploadPetId: UploadPetId){
+        return await UserRepository.uploadPetId(uploadPetId);
     }
 
 }
