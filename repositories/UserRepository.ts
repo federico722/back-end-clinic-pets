@@ -130,13 +130,15 @@ class UserRepository {
             const user = result[0][0];
             console.log("ID encontrado:", user.Id);
             console.log('Valores para la consulta:', values);
+            console.log('existe el rol:', user.rol);
+            
     
             // Verifica la contraseña
             const esContraseniaValida = await bcrypt.compare(auth.contrasenia, user.contrasenia);
     
             if (esContraseniaValida) {
                 // Verifica el estado solo si el rol es 'veterinario'
-                if (user.rol === 'veterinario' && user.estadoVet !== 'Activo') {
+                if (user.rol === 'veterinario' && user.estadoVet !== 'activo') {
                     return { logged: false, status: "Account is inactive" };
                 }
     

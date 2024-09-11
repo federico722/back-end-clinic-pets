@@ -26,6 +26,8 @@ let auth = async (req: Request, res: Response) => {
         const login = await UserService.login( new Auth(email, contrasenia));
 
         console.log("existe el rol en auth:",login.rol);
+        console.log('retorno en login',login);
+        
         
       
     // Verifica si el inicio de sesión fue exitoso

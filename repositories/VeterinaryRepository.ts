@@ -11,7 +11,7 @@ class VeterinaryRepository {
 
     static async addVeterinary(veterinary: veterinary ){
         
-        let IdAdministrador:string ='1092455612';
+        let IdAdministrador:string ='1094885487';
 
         /*const consultaIdAdmin  = await consultIdAdmin(veterinary.email);
 
