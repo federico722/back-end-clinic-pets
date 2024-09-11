@@ -36,6 +36,7 @@ import AskProductInfo from "./routes/askProductInfo";
 import UpdateProduct from "./routes/updateProduct";
 import callCardsPets from "./routes/callCardsPets";
 import IAchat from "./routes/AIChatServicesRouter";
+import UploadPetId from "./routes/uploadPetId";
 
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
@@ -81,6 +82,7 @@ app.use('/updateProduct', UpdateProduct);
 app.use('/askPetsData', callCardsPets); // ! llamar cards de mascotas
 app.use('/veterinaryManagement', veterinaryManagement);
 app.use('/veterinaryStatus', veterinaryStatus);
+app.use('/uploadPetId', UploadPetId);
 
 app.use('/chat', IAchat);
 
