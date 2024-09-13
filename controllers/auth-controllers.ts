@@ -24,8 +24,10 @@ let auth = async (req: Request, res: Response) => {
 
       // Llama al método de login del servicio de usuarios con los datos de autenticación
         const login = await UserService.login( new Auth(email, contrasenia));
+        console.log('miro el retorno de auth', login);
+        
 
-        console.log("existe el rol en auth:",login.rol);
+       // console.log("existe el rol en auth:",login.rol);
         
       
     // Verifica si el inicio de sesión fue exitoso

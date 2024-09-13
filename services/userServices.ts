@@ -23,13 +23,14 @@ import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
 import UpdateProductCart from '../Dto/Dto-User/updateProductCartDto';
 import UploadPetId from '../Dto/Dto-User/uploadPetIdDto';
 
+
 class UserService {
     static async register(user: User){
         user.contrasenia = await generateHash(user.contrasenia); 
-       return  await UserRepository.add(user);
+       //return  await UserRepository.add(user);
         
         
-       // return  await UserRepository.addAdmin(user);
+        return  await UserRepository.addAdmin(user);
     }
 
     static async recover(recoverPassword: RecoverPassword ) {
@@ -153,9 +154,9 @@ class UserService {
                     return await UserRepository.callCardsPets();
                 }
 
-    static async uploadPetId(uploadPetId: UploadPetId){
-        return await UserRepository.uploadPetId(uploadPetId);
-    }
+                static async uploadPetId(uploadPetId: UploadPetId){
+                    return await UserRepository.uploadPetId(uploadPetId);
+                }
 
 }
 

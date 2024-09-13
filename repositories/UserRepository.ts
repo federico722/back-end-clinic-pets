@@ -126,6 +126,9 @@ class UserRepository {
         `;
         const values = [auth.email, auth.email, auth.email];
         const result: any = await db.execute(sql, values);
+
+        console.log(result[0]);
+        
     
         if (result[0].length > 0) {
             const user = result[0][0];
@@ -137,7 +140,7 @@ class UserRepository {
     
             if (esContraseniaValida) {
                 // Verifica el estado solo si el rol es 'veterinario'
-                if (user.rol === 'veterinario' && user.estadoVet !== 'activo') {
+                if (user.rol === 'veterinario' && user.estadoVet !== 'Activo') {
                     return { logged: false, status: "Account is inactive" };
                 }
     
@@ -289,7 +292,9 @@ class UserRepository {
         const [result] = await db.execute(sql, values);
 
         return result;
+
     }
+
 
 
     static async deleteDataUser(deleteDataUser:DeleteDataUser){
@@ -709,6 +714,8 @@ class UserRepository {
             }
         }
     }
+
+    
 
 }
 
