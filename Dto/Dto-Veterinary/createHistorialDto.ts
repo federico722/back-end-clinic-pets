@@ -1,5 +1,6 @@
 class createHistorial {
 
+    private _idCita: string;
     private _IdVeterinario: string;
     private _IdUsuario: string;
 
@@ -31,6 +32,7 @@ class createHistorial {
     private _examenMedico: string;
 
     constructor(
+        idCita: string,
         IdVeterinario: string, IdUsuario: string,
         //Informacion del propietario
         nombre: string, telefono: string, direccion: string, email: string,
@@ -41,6 +43,7 @@ class createHistorial {
         //campos de historial 
         motivoConsulta: string, tratamiento: string, diagnostico: string, examenMedico: string
     ){
+        this._idCita = idCita;
        this._IdVeterinario = IdVeterinario;
        this._IdUsuario = IdUsuario;
     // Informacion del propietario 
@@ -74,6 +77,11 @@ class createHistorial {
 
     // getters
 
+    
+    public get idCita() : string {
+        return this._idCita;
+    }
+    
     public get IdVeterinario(): string {
         return this._IdVeterinario;
     }
@@ -166,6 +174,11 @@ class createHistorial {
 
     //Setters 
 
+    
+    public set idCita(idCita : string) {
+        this._idCita = idCita;
+    }
+    
     public set IdVeterinario(IdVeterinario: string){
         this._IdVeterinario = IdVeterinario;
     }

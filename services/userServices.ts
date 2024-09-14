@@ -21,6 +21,7 @@ import RemoveAllProducts from '../Dto/Dto-User/removeAllProductDto';
 import UpdatePets from '../Dto/Dto-User/updatePetsDto';
 import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
 import UpdateProductCart from '../Dto/Dto-User/updateProductCartDto';
+import DownloadHistorial from '../Dto/Dto-User/downloadHistorialDto';
 
 class UserService {
     static async register(user: User){
@@ -152,6 +153,9 @@ class UserService {
         return await UserRepository.callCardsPets();
     }
 
+    static async downloadHistorial(idCita: DownloadHistorial) {
+        return await UserRepository.downloadHistorial(idCita);
+    }
 }
 
    

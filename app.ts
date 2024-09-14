@@ -15,7 +15,8 @@ import cancelAppointment from './routes/cancelAppointmentUser'
 import verifyRolUser from './routes/verifyRol';
 import callTutorData from './routes/callTutorData';
 import AskForAllPets from './routes/askForAllPets';
-import getAppointmentAdmin from './routes/getAppointmentAdmin';
+import AdminRepository from './routes/getAppointmentAdmin';
+
 //import disabledTimesRoutes from './routes/disabledTimesRoutes'; // Asimport AdminRepository from "./routes/getAppointmentAdmin";
 import RecoverPassword from './routes/recoverPassword';
 import addProductsAdmin from "./routes/addProductsAdmin";
@@ -36,9 +37,10 @@ import AskProductInfo from "./routes/askProductInfo";
 import UpdateProduct from "./routes/updateProduct";
 import callCardsPets from "./routes/callCardsPets";
 import IAchat from "./routes/AIChatServicesRouter";
-
+import gestionHorarios from "./routes/desactivateRoutes"
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
+import downloadHistorial from "./routes/downloadHistorial"
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -60,7 +62,7 @@ app.use('/callDateAppointments', callDateAppointment);
 app.use('/updateAppointment', updateAppointment);
 app.use('/cancelAppointment', cancelAppointment);
 app.use('/verifyRolUser', verifyRolUser);
-//app.use('/appointments', AdminRepository);
+app.use('/appointments', AdminRepository);
 app.use('/recoverPassword', RecoverPassword);
 app.use('/addProductsAdmin', addProductsAdmin);  // agregar productos por el admin
 app.use('/createHistorialMedicVet',createHistorialMedicVet); // crear historial medico  por el vet
@@ -81,12 +83,11 @@ app.use('/updateProduct', UpdateProduct);
 app.use('/askPetsData', callCardsPets); // ! llamar cards de mascotas
 app.use('/veterinaryManagement', veterinaryManagement);
 app.use('/veterinaryStatus', veterinaryStatus);
-
+app.use('/desactive',gestionHorarios)
 app.use('/chat', IAchat);
+app.use('/downloadHistorial', downloadHistorial);
+//app.use('/admin', getAppointmentAdmin); // Ruta para las funciones del admin
 
-app.use('/admin', getAppointmentAdmin); // Ruta para las funciones del admin
-
-//app.use('/disabledTimes', );
 const PORT = process.env.PORT || 10101;
 
 

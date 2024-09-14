@@ -8,6 +8,7 @@ let createHistoryMedical =  async (req: Request, res: Response) =>{
 
        const  {   
         // Informacion del usuario 
+        idCita,
         nombre,
         telefono,
         direccion,
@@ -45,6 +46,7 @@ let createHistoryMedical =  async (req: Request, res: Response) =>{
         }
 
         const historialCreado: any = await VeterinaryService.createHistorial(new createHistorial(
+            idCita,
             IdVeterinario,
             IdUsuario,
             nombre,

@@ -81,10 +81,11 @@ class VeterinaryRepository {
 
     static async createHistorial(createHistorial: CreateHistorial){
 
-        let IdUsuario: string | null = null;
+        let IdUsuario = '1036888888'
+        //let IdUsuario: string | null = null;
         const correoUsuario: string = createHistorial.email;
 
-        const consultaDelIdUsuario = await consultarUsuario(correoUsuario);
+        /*const consultaDelIdUsuario = await consultarUsuario(correoUsuario);
 
         if (consultaDelIdUsuario.consultUser) {
 
@@ -92,9 +93,9 @@ class VeterinaryRepository {
             
         } else {
             return { error: consultaDelIdUsuario.error, status: consultaDelIdUsuario.status  }
-        }
+        }*/
 
-        const sql = 'INSERT INTO historialCita (IdVeterinario, IdUsuario, nombre, telefono, direccion, email, nombreMascota, edadMascota, estadoDeVacunacion, especie, raza, tipoDeCita, nombreVeterinario, tituloEspecialidad, especialidadMedicina, telefonoVeterinario, emailVeterinario, motivoConsulta, tratamiento, diagnostico, examenMedico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO historialCita (IdVeterinario, IdUsuario, nombre, telefono, direccion, email, nombreMascota, edadMascota, estadoDeVacunacion, especie, raza, tipoDeCita, nombreVeterinario, tituloEspecialidad, especialidadMedicina, telefonoVeterinario, emailVeterinario, motivoConsulta, tratamiento, diagnostico, examenMedico, idCita) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         const values = [
             createHistorial.IdVeterinario, 
             IdUsuario,
@@ -116,7 +117,8 @@ class VeterinaryRepository {
             createHistorial.motivoConsulta, 
             createHistorial.tratamiento, 
             createHistorial.diagnostico, 
-            createHistorial.examenMedico
+            createHistorial.examenMedico,
+            createHistorial.idCita
         ]; 
        
 

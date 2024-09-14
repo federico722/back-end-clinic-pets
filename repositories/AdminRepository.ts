@@ -73,19 +73,36 @@ class AdminRepository {
 
 
     static async getAppointment() {
-        const sql = 'SELECT fecha, hora, nombreUsuario FROM cita WHERE estado = "Agendada"';
+        const sql = 'SELECT fecha, hora, nombreUsuario, IdCita FROM cita WHERE estado = "Agendada"';
         const result: any = await db.execute(sql);
+    
+        //const sql = 'SELECT fecha, hora, nombreUsuario, IdUsuario numeroTelefonoUsuario, correoUsuario, direccion, nombreMascota, edadMascota, especie, raza, tipoCita, moivoConsulta FROM cita WHERE estado = "Agendada"';
 
         /*const formattedResult = result.map((row: any) => {
+            let formattedDate = '';
+            try {
+                const date = new Date(row.fecha);
+                if (!isNaN(date.getTime())) { // Verifica si la fecha es válida
+                    formattedDate = date.toISOString().split('T')[0];
+                } else {
+                    throw new Error('Invalid date');
+                }
+            } catch (error) {
+                console.error('Error formatting date:', error);
+                formattedDate = 'Invalid date'; // Puedes manejar esto según tus necesidades
+            }
+            
             return {
-                fecha: new Date(row.fecha).toISOString().split('T')[0],
+                fecha: formattedDate,
                 hora: row.hora,
                 nombreUsuario: row.nombreUsuario
             };
         });*/
-
-        return result //formattedResult;
+    
+        return result;
     }
+    
+    
 
     static async askAllForProducts(){
         const sql = 'SELECT IdProducto, imagen, nombreProducto, precio, stock, categoria, seleccionTallaPresentacion, descripcion, informacion FROM producto';
@@ -243,9 +260,10 @@ class AdminRepository {
 
 
 
-
-    static async desactivateDay(date: any) {
+    static async desactivateDay(date: string) {
         const sql = `INSERT INTO desactivate (date, type) VALUES (?, 'day') ON DUPLICATE KEY UPDATE type = 'day'`;
+        console.log('datos para dia', date);
+        
         const values = [date];
 
         try {
@@ -259,9 +277,26 @@ class AdminRepository {
         }
     }
 
-    // Desactivar una Hora
-    static async desactivateTime(date: any, time: any) {
+
+    static async activateDay(date: string) {
+        const sql = 'DELETE FROM desactivate WHERE date = ?'
+        const values = [date];
+        try {
+            const connection = await db.getConnection();
+            await connection.execute(sql, values);
+            connection.release();
+            return { message: 'Day activated successfully' };
+        } catch (error) {
+            console.error(`'Error activating day`, error);
+            throw error;
+        }
+    }
+
+    // Desactivar una hora
+    static async desactivateTime(date: string, time: string) {
         const sql = `INSERT INTO desactivate (date, time, type) VALUES (?, ?, 'time') ON DUPLICATE KEY UPDATE type = 'time'`;
+        console.log('datos para horas', date, time);
+        
         const values = [date, time];
 
         try {
@@ -275,39 +310,59 @@ class AdminRepository {
         }
     }
 
-    // Consultar Días Desactivados
-    static async getDisabledDays() {
+
+    static async activateTime(date: string, time: string) {
+        const sql = 'DELETE from desactivate WHERE date = ? AND time = ?';
+        const values =  [date, time];
+        try {
+            const connection = await db.getConnection();
+            await connection.execute(sql, values);
+            return { message: 'Time activated successfully' };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // Consultar días desactivados
+    static async getDisabledDays(): Promise<string[]> {
         const sql = `SELECT DISTINCT date FROM desactivate WHERE type = 'day'`;
 
         try {
             const connection = await db.getConnection();
-            const [results] = await connection.execute<RowDataPacket[]>(sql);
+            const [results] = await connection.execute(sql);
             connection.release();
-            return results.map(row => row.date);
+
+            // Asegúrate de que results sea un array de objetos
+            if (Array.isArray(results)) {
+                return (results as Array<{ date: string }>).map(row => row.date);
+            } else {
+                throw new Error("Unexpected result format");
+            }
         } catch (error) {
             console.error("Error fetching disabled days:", error);
             throw error;
         }
     }
 
-    // Consultar Horas Desactivadas
     static async getDisabledTimes(): Promise<string[]> {
         const sql = `SELECT DISTINCT time FROM desactivate WHERE type = 'time'`;
     
         try {
             const connection = await db.getConnection();
-            const [results] = await connection.execute<RowDataPacket[]>(sql);
+            const [results] = await connection.execute(sql);
             connection.release();
-            
-            // Verifica que results es un arreglo y usa map para extraer los tiempos
-            return results.map(row => row.time);
+
+            // Asegúrate de que results sea un array de objetos
+            if (Array.isArray(results)) {
+                return (results as Array<{ time: string }>).map(row => row.time);
+            } else {
+                throw new Error("Unexpected result format");
+            }
         } catch (error) {
             console.error("Error fetching disabled times:", error);
             throw error;
         }
     }
-    
-    
 }
 
 export default AdminRepository;

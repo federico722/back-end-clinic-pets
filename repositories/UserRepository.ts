@@ -33,6 +33,7 @@ import { converTime } from './UserFunction/converTime-functions';
 import { updateCartUser } from './UserFunction/updateCartUser-functions';
 // importar obtener productos del carro del usuario
 import { uploadCartProduct } from './UserFunction/callDataCartUser-functions';
+import DownloadHistorial from '../Dto/Dto-User/downloadHistorialDto';
 
 
 
@@ -452,8 +453,8 @@ class UserRepository {
     }
 
     static async cancelAppointment(update: CancelAppointment) {
-        const sql = "UPDATE cita SET estado = ? WHERE IdCita = ?";
-        const values = ['Cancelada', update.idCita];
+        const sql = "UPDATE cita SET estado = Cancelada WHERE IdCita = ?";
+        const values = [update.idCita];
         try {
             const connection = await db.getConnection();
             await connection.execute(sql, values);
@@ -561,8 +562,6 @@ class UserRepository {
         
       }
     }
-
-       
 
     static async askForAllPets(){
         const sql = 'SELECT IdAdopcionMascota, nombreMascota, imagenMascota, edadMascota, sexo, razaMascota, estadoVacunacionMascota, esterilizacionMascota FROM adopcionMascota WHERE estado = en adopcion';
@@ -678,6 +677,12 @@ class UserRepository {
         };
     };
 
+    static async downloadHistorial(idCita: DownloadHistorial) {
+        const sql = 'SELECT IdVeterinario, IdUsuario, nombre, telefono, direccion, email, nombreMascota, edadMascota, especie, raza, nombreVeterinario, tituloEspecialidad, especialidadMedicina, motivoConsulta, tratamiento, diagnostico, examenMedico FROM historialcita WHERE idCita = ?';
+        const values = [idCita.idCita];
+        const [result]: any = await db.execute(sql, values);
+        return result; // Asegúrate de que los datos son retornados aquí
+    }
 }
 
 export default UserRepository; 
