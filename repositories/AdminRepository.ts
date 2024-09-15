@@ -7,6 +7,7 @@ import AskProductInfo from "../Dto/Dto-Admin/askProductInfoDto";
 import updateProduct from "../Dto/Dto-Admin/updateTiendaDto";
 import bcrypt from 'bcryptjs';
 import DeletePet from '../Dto/Dto-Admin/deletePetsDto';
+import UpdatePetVerify from "../Dto/Dto-Admin/updatePetVerifyDto";
 import { Connection, RowDataPacket } from 'mysql2/promise';
 
 
@@ -118,7 +119,7 @@ class AdminRepository {
     }
 
     static async updateProduct(updateProduct: updateProduct){
-      const sql = "UPDATE producto SET imagen = ? nombreProducto = ?, precio = ?, stock = ?, categoria = ?, descripcion = ?, informacion = ?, seleccionTallaPresentacion = ? WHERE IdProducto = ?";
+      const sql = "UPDATE producto SET imagen = ?, nombreProducto = ?, precio = ?, stock = ?, categoria = ?, descripcion = ?, informacion = ?, seleccionTallaPresentacion = ? WHERE IdProducto = ?";
       const values = [updateProduct.imagenProducto ,updateProduct.nombre, updateProduct.precio, updateProduct.stock, updateProduct.categoria, updateProduct.descripcion, updateProduct.informacion, updateProduct.seleccionTallaPresentacion, updateProduct.IdProducto]
 
       try {
@@ -337,7 +338,94 @@ class AdminRepository {
                }
         }
      }
-    
+
+     static async callPetVerify(){
+        const sql = "SELECT IdAdopcionMascota, IdUsuario, imagenMascota, nombreMascota, edadMascota, especieMascota, razaMascota, sexo, esterilizacionMascota, estadoVacunacionMascota, numeroTelefono, ubicacion, historia FROM adopcionMascota WHERE estado = 'En espera'";
+        
+        try {
+            const [result]: any = await db.execute(sql);
+            if (result.length > 0) {
+                return {
+                    status: 'succesfully data',
+                    message: 'datos de las mascotas en verificacion obtenidas',
+                    select: true,
+                    result
+                }
+            }else {
+                return {
+                    status: 'failed obtained data',
+                    message: 'No se pudo obtener los datos de las mascotas',
+                    select: false
+                }
+            }
+        } catch (error: any) {
+            console.error('error interno del servidor', error);
+            return {
+                status: 'error',
+                message: 'error interno del servidor',
+                select: false,
+                error: error.message
+            }
+            
+        }
+     }
+
+    static async updatePetVerify(updatePetVerify: UpdatePetVerify){
+        const sql = "UPDATE adopcionMascota SET estado = 'En adopcion' WHERE IdAdopcionMascota = ?";
+        const values = [updatePetVerify.IdAdopcionMascota]
+
+        try {
+            const [result]: any = await db.execute(sql, values);
+            if (result.affectedRows > 0) {
+                return {
+                    status: 'succesfully update data pets',
+                    message: 'se actualizo el estado de la mascota',
+                    update: true
+                }
+            }else {
+                return {
+                    status: 'failed update data pets',
+                    message: 'error al actualizar el estado de la mascota',
+                    update: false
+                }
+            }
+        } catch (error: any) {
+            console.error('error interno en el servidor',error);
+            return {
+                status: 'error',
+                message: 'error interno del servidor',
+                update: false
+            }
+        }
+    }
+
+    static async deletePetVerify(updatePetVerify: UpdatePetVerify){
+        const sql = "DELETE FROM adopcionMascota WHERE IdAdopcionMascota = ?";
+        const values = [updatePetVerify.IdAdopcionMascota];
+        try {
+            const [result]: any = await db.execute(sql, values);
+            if( result.affectedRows){
+                return{ 
+                    status: 'succesfully delete pets verify',
+                    message: 'se ha borrado exitosamente la mascota',
+                    delete: true
+                }
+            }else{
+                return {
+                    status: 'failed delete pets verify',
+                    message: 'no se pudo eliminar la mascota',
+                    delete: false
+                }
+            }
+        } catch (error: any) {
+            console.error('error interno en el servidor', error);
+            return {
+                status: 'error',
+                message: 'Error interno en el servidor',
+                delete: false
+            }
+        }
+    }
     
 }
 

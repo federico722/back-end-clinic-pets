@@ -658,7 +658,7 @@ class UserRepository {
     }
 
     static async callCardsPets(){
-        const sql = 'SELECT IdAdopcionMascota, IdUsuario, ImagenMascota, nombreMascota, edadMascota, especieMascota, razaMascota, sexo, esterilizacionMascota, estadoVacunacionMascota, numeroTelefono, ubicacion, historia FROM adopcionMascota WHERE estado = "en adopcion" ';
+        const sql = 'SELECT IdAdopcionMascota, IdUsuario, ImagenMascota, nombreMascota, edadMascota, especieMascota, razaMascota, sexo, esterilizacionMascota, estadoVacunacionMascota, numeroTelefono, ubicacion, historia FROM adopcionMascota WHERE estado = "En adopcion" ';
         
         try {
             const [result]: any = await db.execute(sql);

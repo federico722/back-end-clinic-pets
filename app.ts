@@ -39,6 +39,9 @@ import IAchat from "./routes/AIChatServicesRouter";
 import UploadPetId from "./routes/uploadPetId";
 import deletePet from "./routes/deletePet";
 import chatRoutes from "./routes/chatRoutes";   
+import DeletePetVerify from "./routes/deletePetVerify";
+import UpdatePetVerify from "./routes/updatePetVerify";
+import callPetVerify from "./routes/callPetVerify";
 
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
@@ -67,7 +70,7 @@ app.use('/verifyRolUser', verifyRolUser);
 app.use('/recoverPassword', RecoverPassword);
 app.use('/addProductsAdmin', addProductsAdmin);  // agregar productos por el admin
 app.use('/createHistorialMedicVet',createHistorialMedicVet); // crear historial medico  por el vet
-app.use('/addProductCart', AddProductCart); // !agregar productos al carrito del usuario
+app.use('/addProductCart', AddProductCart); // agregar productos al carrito del usuario
 app.use('/addPetsUser', addPetUser); // agregar mascotas por el usuario
 app.use('/deleteProductCart', deleteProductCart); // eliminar todos los productos agregados al carrito del usuario
 app.use('/askForAllPets', AskForAllPets); // llamar a todas las mascotas
@@ -76,12 +79,12 @@ app.use('/askAllForProducts', AskForAllProducts); // llamar a todos los producto
 app.use('/deleteProduct', DeleteProduct); //eliminar producto
 app.use("/filesUpload", fileRoutes); 
 app.use("/uploadProductId", UploadProductId);
-app.use("/uploadProductUser", uploadProductUser);// !subir productos al carrito
-app.use("/actualizarCantidadProductoCarrito", updateCartProduct); // !actualiza la cantidad  del carrito 
-app.use("/removeAllProductCart", RemoveAllProduct); //! remover productos 
-app.use('/askProductInfo',AskProductInfo ); //! mostrar productos para actualizar
+app.use("/uploadProductUser", uploadProductUser);// subir productos al carrito
+app.use("/actualizarCantidadProductoCarrito", updateCartProduct); // actualiza la cantidad  del carrito 
+app.use("/removeAllProductCart", RemoveAllProduct); //remover productos 
+app.use('/askProductInfo',AskProductInfo ); //mostrar productos para actualizar
 app.use('/updateProduct', UpdateProduct);
-app.use('/askPetsData', callCardsPets); // ! llamar cards de mascotas
+app.use('/askPetsData', callCardsPets); // llamar cards de mascotas
 app.use('/veterinaryManagement', veterinaryManagement);
 app.use('/veterinaryStatus', veterinaryStatus);
 app.use('/uploadPetId', UploadPetId);
@@ -89,6 +92,9 @@ app.use('/deletePet', deletePet);
 app.use('/chat', IAchat);
 app.use('/chatIA', chatRoutes);
 app.use('/admin', getAppointmentAdmin); // Ruta para las funciones del admin
+app.use("/deletePetVerify", DeletePetVerify); // !eliminar la solicitud del usuario
+app.use("/updatePetVerify", UpdatePetVerify); // !actualizar la solicitud del usuario
+app.use("/callPetVerify", callPetVerify); // !llamar a las mascotas
 
 //app.use('/disabledTimes', );
 const PORT = process.env.PORT || 10101;
