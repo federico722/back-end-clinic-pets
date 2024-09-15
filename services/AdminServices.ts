@@ -6,6 +6,7 @@ import AskProductInfo from "../Dto/Dto-Admin/askProductInfoDto";
 import UpdateProduct from "../Dto/Dto-Admin/updateTiendaDto";
 import DeletePet from '../Dto/Dto-Admin/deletePetsDto'
 import AdminRepository from "../repositories/AdminRepository";
+import UpdatePetVerify from "../Dto/Dto-Admin/updatePetVerifyDto";
 
 class AdminServices {
    
@@ -74,6 +75,20 @@ class AdminServices {
     static async deletePet(deletePet: DeletePet){
        return await AdminRepository.deletePet(deletePet);
     }
+
+    static async callPetVerify(){
+        return await AdminRepository.callPetVerify();
+    }
+
+    static async updatePetVerify(updatePetVerify: UpdatePetVerify){
+        return await AdminRepository.updatePetVerify(updatePetVerify);
+    }
+
+    static async deletePetVerify(updatePetVerify: UpdatePetVerify){
+        return await AdminRepository.deletePetVerify(updatePetVerify);
+    }
+
+    
 }
 
 export default AdminServices;
