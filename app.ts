@@ -41,6 +41,10 @@ import gestionHorarios from "./routes/desactivateRoutes"
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
 import downloadHistorial from "./routes/downloadHistorial"
+import addMascotasPerdidas from "./routes/addMascotaPerdida";
+import getMascotasPerdidas from "./routes/getMascotasPerdidas"
+import addComentario from "./routes/comentar";
+import getComentarios from "./routes/getComentarios";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -60,7 +64,7 @@ app.use('/callTutorData',callTutorData);
 app.use('/deleteData', deleteData);
 app.use('/callDateAppointments', callDateAppointment);
 app.use('/updateAppointment', updateAppointment);
-app.use('/cancelAppointment', cancelAppointment);
+//app.use('/cancelAppointment', cancelAppointment);
 app.use('/verifyRolUser', verifyRolUser);
 app.use('/appointments', AdminRepository);
 app.use('/recoverPassword', RecoverPassword);
@@ -86,6 +90,10 @@ app.use('/veterinaryStatus', veterinaryStatus);
 app.use('/desactive',gestionHorarios)
 app.use('/chat', IAchat);
 app.use('/downloadHistorial', downloadHistorial);
+app.use('/uploadPet', addMascotasPerdidas);
+app.use('/mascotas', getMascotasPerdidas);
+app.use('/enviarComentario', addComentario);
+app.use('/comentarios', getComentarios);
 //app.use('/admin', getAppointmentAdmin); // Ruta para las funciones del admin
 
 const PORT = process.env.PORT || 10101;

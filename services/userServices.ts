@@ -22,6 +22,9 @@ import UpdatePets from '../Dto/Dto-User/updatePetsDto';
 import UploadProductUser from '../Dto/Dto-User/uploadProductUserDto';
 import UpdateProductCart from '../Dto/Dto-User/updateProductCartDto';
 import DownloadHistorial from '../Dto/Dto-User/downloadHistorialDto';
+import MascotasPerdidas from '../Dto/mascotasPerdidasDto';
+import AddComentario from '../Dto/comentarDto';
+import GetComentarios from '../Dto/getComentariosDto';
 
 class UserService {
     static async register(user: User){
@@ -155,6 +158,22 @@ class UserService {
 
     static async downloadHistorial(idCita: DownloadHistorial) {
         return await UserRepository.downloadHistorial(idCita);
+    }
+
+    static async addMascotaPerdida(mascotasPerdidas: MascotasPerdidas) {
+        return await UserRepository.addMascotaPerdida(mascotasPerdidas);
+    }
+
+    static async mascotasPerdidas() {
+        return await UserRepository.mascotasPerdidas();
+    }
+
+    static async addComentario(comentario: AddComentario) {
+        return await UserRepository.addComentario(comentario);
+    }
+
+    static async getComentarios(getComentarios:GetComentarios) {
+        return await UserRepository.getComentarios(getComentarios);
     }
 }
 

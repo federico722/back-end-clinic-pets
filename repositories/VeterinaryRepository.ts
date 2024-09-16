@@ -96,6 +96,7 @@ class VeterinaryRepository {
         }*/
 
         const sql = 'INSERT INTO historialCita (IdVeterinario, IdUsuario, nombre, telefono, direccion, email, nombreMascota, edadMascota, estadoDeVacunacion, especie, raza, tipoDeCita, nombreVeterinario, tituloEspecialidad, especialidadMedicina, telefonoVeterinario, emailVeterinario, motivoConsulta, tratamiento, diagnostico, examenMedico, idCita) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const sql2 = "UPDATE cita SET estado = ? WHERE IdCita = ?";
         const values = [
             createHistorial.IdVeterinario, 
             IdUsuario,
@@ -120,11 +121,14 @@ class VeterinaryRepository {
             createHistorial.examenMedico,
             createHistorial.idCita
         ]; 
+        console.log('valorres en la data:', values);
+        
+        const values2 = ['Completada', createHistorial.idCita];
        
 
         try {
             const [result]: any = await db.execute(sql,values);
-
+            const [result2]: any = await db.execute(sql2, values2);
             console.log('imprimo valores para la consulta:', values);
             
             console.log('imprimir INSERCION de datos:', result);

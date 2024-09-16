@@ -34,8 +34,9 @@ import { updateCartUser } from './UserFunction/updateCartUser-functions';
 // importar obtener productos del carro del usuario
 import { uploadCartProduct } from './UserFunction/callDataCartUser-functions';
 import DownloadHistorial from '../Dto/Dto-User/downloadHistorialDto';
-
-
+import MascotasPerdidas from '../Dto/mascotasPerdidasDto';
+import AddComentario from '../Dto/comentarDto';
+import GetComentarios from '../Dto/getComentariosDto';
 
 /**
  * Clase que maneja las operaciones de base de datos relacionadas con usuarios y citas.
@@ -61,7 +62,6 @@ class UserRepository {
         const [result] = await db.execute(sql, values);
         return result 
     }
-
 
     static async recover(recoverPassword: RecoverPassword) {
         let resultadoTipoRol: string | null = null;
@@ -152,7 +152,6 @@ class UserRepository {
     
         return { logged: false, status: "Invalid username or password" };
     }
-    
     
     /*static async login(auth: Auth){
        const sql = 'SELECT IdUsuario AS Id, contrasenaUsuario AS contrasenia, rol  FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador AS Id, contrasenaAdministrador AS contrasenia, rol FROM administrador WHERE correoAdministrador=? UNION SELECT IdVeterinario AS Id, contrasenaVeterinario AS contrasenia, rol FROM veterinario WHERE correoVeterinario=?'
@@ -291,7 +290,6 @@ class UserRepository {
         return result;
     }
 
-
     static async deleteDataUser(deleteDataUser:DeleteDataUser){
        // const sql = 'UPDATE cita SET deleted = 1 WHERE IdCita = ?';}
        const sql = 'DELETE FROM cita WHERE IdCita = ? '
@@ -340,8 +338,6 @@ class UserRepository {
         };
     };
 
-   
-
     static async verifyRol(verifyRol: VerifyRol){
         console.log('repository funciona');
         
@@ -363,7 +359,6 @@ class UserRepository {
        }
     }
 
-
     /**
      * 
      * Programa una nueva cita.
@@ -371,7 +366,6 @@ class UserRepository {
      * @param schedule Objeto con los detalles de la cita a programar.
      * @returns Resultado de la programación de la cita.
      */
-
 
     static async scheduleAppointment(schedule: Schedule) {
         console.log('Datos para la base de datos:', schedule);
@@ -453,8 +447,8 @@ class UserRepository {
     }
 
     static async cancelAppointment(update: CancelAppointment) {
-        const sql = "UPDATE cita SET estado = Cancelada WHERE IdCita = ?";
-        const values = [update.idCita];
+        const sql = "UPDATE cita SET estado = ? WHERE IdCita = ?";
+        const values = ['Cancelada', update.idCita];
         try {
             const connection = await db.getConnection();
             await connection.execute(sql, values);
@@ -682,6 +676,109 @@ class UserRepository {
         const values = [idCita.idCita];
         const [result]: any = await db.execute(sql, values);
         return result; // Asegúrate de que los datos son retornados aquí
+    }
+
+    static async addMascotaPerdida(mascotasPerdidas: MascotasPerdidas) {
+        const sql = 'INSERT INTO buscarMascota ( IdUsuario, imagenMascota, nombreMascota, infoMascota, numeroTelefono) VALUES (?, ?, ?, ?, ?)';
+        const values = [
+            mascotasPerdidas.IdUsuario,
+            mascotasPerdidas.imagenMascota,
+            mascotasPerdidas.nombreMascota,
+            mascotasPerdidas.infoMascota,
+            mascotasPerdidas.numeroTelefono
+        ];
+
+        try {
+            const [result]: any = await db.execute(sql, values);
+    
+            console.log('Valores para la inserción:', values);
+            console.log('Resultado de la inserción:', result);
+    
+            if (result && result.affectedRows > 0) {
+                return { status: 'Publish', insertToCart: true };
+            } else {
+                return { status: 'Failed', insertToCart: false, errorSql: result };
+            }
+        } catch (error: any) {
+            console.error('Error al insertar datos en la tabla:', error);
+            return { status: 'Error inserting data', insertToCart: false, error: error.message };
+        }
+    }
+
+    static async mascotasPerdidas() {
+        const sql = 'SELECT * FROM buscarMascota';
+        try {
+            const [result]: any = await db.execute(sql);
+            if (result.length > 0) {
+                return {
+                    status: 'informacion de mascotas obtenida',
+                    select: true,
+                    result: result
+                }
+            }else{
+                return {
+                    status: 'no se pudo obtener la informacion de las mascotas',
+                    select: false,
+                }
+            }
+        } catch (error: any) {
+            console.error('error en el servidor al intentar obtener la info de las mascotas', error);
+            return{
+                status: 'Error',
+                select: false,
+                error: error.message
+            };
+        };
+    }    
+
+    static async addComentario(comentario: AddComentario) {
+        const sql = 'INSERT INTO comentarios (IdBuscarMascota, IdUsuario, comentario) VALUES (?, ?, ?)'
+        const values = [comentario.IdBuscarMascota, comentario.IdUsuario, comentario.comentario];
+
+        try {
+            const [result]: any = await db.execute(sql, values);
+    
+            console.log('Valores para la inserción:', values);
+            console.log('Resultado de la inserción:', result);
+    
+            if (result && result.affectedRows > 0) {
+                return { status: 'Publish', insertToCart: true };
+            } else {
+                return { status: 'Failed', insertToCart: false, errorSql: result };
+            }
+        } catch (error: any) {
+            console.error('Error al insertar datos en la tabla:', error);
+            return { status: 'Error inserting data', insertToCart: false, error: error.message };
+        }
+    }
+
+    static async getComentarios(getComentarios: GetComentarios) {
+        const sql = 'SELECT * FROM comentarios WHERE IdBuscarMascota = ?';
+        const values = [getComentarios.IdBuscarMascota];
+
+
+        try {
+            const [result]: any = await db.execute(sql, values);
+            if (result.length > 0) {
+                return {
+                    status: 'Comentarios obtenidos de la base',
+                    select: true,
+                    result: result
+                }
+            }else{
+                return {
+                    status: 'no se pudo obtener los comentarios',
+                    select: false,
+                }
+            }
+        } catch (error: any) {
+            console.error('error en el servidor al intentar obtener los comentarios', error);
+            return{
+                status: 'Error',
+                select: false,
+                error: error.message
+            };
+        };
     }
 }
 
