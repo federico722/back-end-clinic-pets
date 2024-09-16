@@ -4,6 +4,7 @@ import UserService from "../services/userServices";
 let traerMascotasPerdidas = async (req:Request, res: Response) => {
     
     try {
+            const id = req.user?.id;       
            const callCardsPets: any = await UserService.mascotasPerdidas();
            console.log(callCardsPets);
            
