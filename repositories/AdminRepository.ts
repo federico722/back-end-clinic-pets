@@ -6,6 +6,7 @@ import VeterinaryStatus from "../Dto/Dto-Admin/veterinaryStatusDto";
 import AskProductInfo from "../Dto/Dto-Admin/askProductInfoDto";
 import updateProduct from "../Dto/Dto-Admin/updateTiendaDto";
 import bcrypt from 'bcryptjs';
+import DeletePet from '../Dto/Dto-Admin/deletePetsDto';
 import { Connection, RowDataPacket } from 'mysql2/promise';
 
 
@@ -306,6 +307,36 @@ class AdminRepository {
             throw error;
         }
     }
+
+    static async deletePet(deletePet: DeletePet){
+        const sql = "DELETE FROM adopcionMascota WHERE IdAdopcionMascota = ?";
+        const values = [deletePet.IdAdopcionMascota];
+ 
+        try {
+             const [result]: any = await db.execute(sql, values);
+ 
+             if (result.affectedRows > 0) {
+                 return {
+                     status: 'mascota eliminada',
+                     message: 'mascota eliminada de adopciones',
+                     delete: true
+                 }
+             }else{
+                 return {
+                     status: 'error al eliminar la mascota',
+                     message: 'no se pudo eliminar la mascota de adopciones',
+                     delete: false
+                 }
+             }
+        } catch (error: any) {
+               console.error('error en el servidor ');
+               return {
+                 status: 'error',
+                 message: 'error interno en el servidor',
+                 delete: false
+               }
+        }
+     }
     
     
 }

@@ -37,6 +37,8 @@ import UpdateProduct from "./routes/updateProduct";
 import callCardsPets from "./routes/callCardsPets";
 import IAchat from "./routes/AIChatServicesRouter";
 import UploadPetId from "./routes/uploadPetId";
+import deletePet from "./routes/deletePet";
+import chatRoutes from "./routes/chatRoutes";   
 
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
@@ -83,18 +85,13 @@ app.use('/askPetsData', callCardsPets); // ! llamar cards de mascotas
 app.use('/veterinaryManagement', veterinaryManagement);
 app.use('/veterinaryStatus', veterinaryStatus);
 app.use('/uploadPetId', UploadPetId);
-
+app.use('/deletePet', deletePet);
 app.use('/chat', IAchat);
-
+app.use('/chatIA', chatRoutes);
 app.use('/admin', getAppointmentAdmin); // Ruta para las funciones del admin
 
 //app.use('/disabledTimes', );
 const PORT = process.env.PORT || 10101;
-
-
-
-
-
 
 
 app.listen(PORT, () => {

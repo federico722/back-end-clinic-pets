@@ -4,6 +4,7 @@ import UploadProductId from "../Dto/Dto-Admin/uploadProductIdDto";
 import VeterinaryStatus from "../Dto/Dto-Admin/veterinaryStatusDto";
 import AskProductInfo from "../Dto/Dto-Admin/askProductInfoDto";
 import UpdateProduct from "../Dto/Dto-Admin/updateTiendaDto";
+import DeletePet from '../Dto/Dto-Admin/deletePetsDto'
 import AdminRepository from "../repositories/AdminRepository";
 
 class AdminServices {
@@ -68,6 +69,10 @@ class AdminServices {
         } catch (error) {
             throw error;
         }
+    }
+
+    static async deletePet(deletePet: DeletePet){
+       return await AdminRepository.deletePet(deletePet);
     }
 }
 
