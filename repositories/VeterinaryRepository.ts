@@ -18,14 +18,14 @@ class VeterinaryRepository {
         
             
 
-        if (consultaIdAdmin.consultAdmin) {
+        /*if (consultaIdAdmin.consultAdmin) {
             IdAdministrador = consultaIdAdmin.IdAdministrador;
             
         } else {
             console.log('activated error');
             
             return { error: consultaIdAdmin.error, status: consultaIdAdmin.error  }
-        }
+        }*/
 
         const sql = 'INSERT INTO veterinario (IdVeterinario, IdAdministrador ,nombreVeterinario, apellidoVeterinario, telefonoVeterinario,  correoVeterinario, contrasenaVeterinario) VALUES (?, ?, ?, ?, ?, ?, ?)';
         const values = [
