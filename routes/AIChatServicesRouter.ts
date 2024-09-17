@@ -16,6 +16,27 @@ if (!genAI || !model) {
 
 const router = Express.Router();
 
+// Función para verificar si la pregunta está relacionada con temas prohibidos
+function isProhibitedTopic(question:string): boolean {
+     const prohibitedTopics = [
+        'series animadas', 'television', 
+        'drogas ilicitas', 'estupefacientes',
+        'terrorismo', 'peppa pig',
+        'actos ilegales', 'pacho',
+        'suicidio', 'personaje animado',
+        'paises', 'anime',
+        'libros', 'politica', 'gobiernos',
+        'entretenimiento', 'primera guerra mundial',
+         'segunda guerra mundial', 'tercera guerra mundial',
+         'videojuegos', 'tecnologia', 'viajes espaciales',
+        'historia mundial', 'free fire', 
+        'pornografia', 'actrices de pornografia',
+         'videos para adultos', 'conflictos'
+     ]
+     const lowercaseQuestion = question.toLowerCase();
+     return prohibitedTopics.some(topic => lowercaseQuestion.includes(topic));
+}
+
 
 router.post('', async (req: Request, res: Response) => {
    console.log("Received request:", req.body);
@@ -24,6 +45,17 @@ router.post('', async (req: Request, res: Response) => {
        parts: [{ text: msg.parts }]
    }));
    let question = req.body.question;
+   if (isProhibitedTopic(question)) {
+      const response  = "No puedo responder ese tipo de preguntas. Por favor, pregunta otra cosa relacionada con animales, mascotas, veterinaria o los servicios de Tamvobet.";
+      history.push({role: "user", parts: [{text: question}]});
+       history.push({role: "model", parts: [{text: response}]});
+       return res.status(200).json({
+        history: history.map((msg: { role: string; parts: { text: string }[] }) => ({
+            role: msg.role,
+            parts: msg.parts[0].text
+        }))
+    });
+   }
    let historyChat: any = START_CHAT.concat(history);
 
    

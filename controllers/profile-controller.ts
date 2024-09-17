@@ -29,7 +29,11 @@ let updateProfile = async (req: Request, res: Response) => {
            // numeroDeDocumento,
             numeroDeTelefono,
             email,
+            imagenPerfil
         } = req.body;
+
+        console.log('devolucion del front edit perfil', req.body);
+        
 
 
     // Obtiene el ID del usuario de la solicitud
@@ -44,7 +48,8 @@ let updateProfile = async (req: Request, res: Response) => {
            // numeroDeDocumento,
             numeroDeTelefono,
             email,
-            IdUsuario
+            IdUsuario,
+            imagenPerfil
         ));
 
         console.log(editProfile);

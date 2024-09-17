@@ -242,7 +242,7 @@ class UserRepository {
      */
 
     static async callDataUser(callDataUser: CallDataUser){
-        const sql = 'SELECT nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario, rol FROM usuario WHERE IdUsuario = ? UNION SELECT nombreAdministrador, apellidoAdministrador, telefonoAdministrador, correoAdministrador, rol FROM administrador WHERE IdAdministrador = ? UNION SELECT nombreVeterinario, apellidoVeterinario, telefonoVeterinario, correoVeterinario, rol FROM veterinario WHERE IdVeterinario = ?';
+        const sql = 'SELECT nombreUsuario, apellidoUsuario, telefonoUsuario, correoUsuario, rol, imagenPerfil FROM usuario WHERE IdUsuario = ? UNION SELECT nombreAdministrador, apellidoAdministrador, telefonoAdministrador, correoAdministrador, rol, imagenPerfil FROM administrador WHERE IdAdministrador = ? UNION SELECT nombreVeterinario, apellidoVeterinario, telefonoVeterinario, correoVeterinario, rol, imagenPerfil FROM veterinario WHERE IdVeterinario = ?';
         const values = [callDataUser.IdUsuario, callDataUser.IdUsuario, callDataUser.IdUsuario];
         const [result] = await db.execute(sql, values);
 
