@@ -9,6 +9,8 @@ const updateAppointment = async(req: Request, res: Response) => {
         const { idCita } = req.params;
         const { fecha, hora, estado } = req.body;
         console.log('datos recibidos', fecha, hora);
+        console.log(estado);
+        
 
         if (estado === 'Cancelada') {
             await UserService.cancelAppointment(new CancelAppointment(idCita, estado));

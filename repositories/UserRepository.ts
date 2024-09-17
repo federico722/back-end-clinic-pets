@@ -458,8 +458,8 @@ class UserRepository {
     }
 
     static async cancelAppointment(update: CancelAppointment) {
-        const sql = "UPDATE cita SET estado = ? WHERE IdCita = ?";
-        const values = ['Cancelada', update.idCita];
+        const sql = "UPDATE cita SET estado = Cancelada WHERE IdCita = ?";
+        const values = [update.idCita];
         try {
             const connection = await db.getConnection();
             await connection.execute(sql, values);
