@@ -14,6 +14,10 @@ class AdminServices {
         return await AdminRepository.addProducts(uploadProducts);
     }
 
+    static async callAllDateUser(){
+        return await AdminRepository.callAllDateUser();
+    }
+
     static async askForAllProducts(){
         return await AdminRepository.askAllForProducts();
     }

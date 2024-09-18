@@ -42,6 +42,7 @@ import chatRoutes from "./routes/chatRoutes";
 import DeletePetVerify from "./routes/deletePetVerify";
 import UpdatePetVerify from "./routes/updatePetVerify";
 import callPetVerify from "./routes/callPetVerify";
+import callAllDateUser from "./routes/callAllDateUser";
 
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
@@ -95,6 +96,7 @@ app.use('/admin', getAppointmentAdmin); // Ruta para las funciones del admin
 app.use("/deletePetVerify", DeletePetVerify); // !eliminar la solicitud del usuario
 app.use("/updatePetVerify", UpdatePetVerify); // !actualizar la solicitud del usuario
 app.use("/callPetVerify", callPetVerify); // !llamar a las mascotas
+app.use("/callAllDateUser", callAllDateUser); // llama los datos de las citas que tengan el estado de completada
 
 //app.use('/disabledTimes', );
 const PORT = process.env.PORT || 10101;

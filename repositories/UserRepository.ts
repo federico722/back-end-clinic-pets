@@ -295,8 +295,7 @@ class UserRepository {
 
     }
 
-
-
+   
     static async deleteDataUser(deleteDataUser:DeleteDataUser){
        // const sql = 'UPDATE cita SET deleted = 1 WHERE IdCita = ?';}
        const sql = 'DELETE FROM cita WHERE IdCita = ? '

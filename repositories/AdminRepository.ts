@@ -13,6 +13,13 @@ import { Connection, RowDataPacket } from 'mysql2/promise';
 
 class AdminRepository {
 
+    static async callAllDateUser(){
+        const sql = "SELECT IdCita, fecha, hora, nombreUsuario, tipoCita, precio, estado, especie FROM cita WHERE estado = 'Completada'"
+        const [result] = await db.execute(sql);
+
+        return result;
+    }
+
     static async uploadProductId(uploadProductId: UploadProductId){
         const sql = 'SELECT IdProducto, imagen, nombreProducto, precio, stock, categoria, seleccionTallaPresentacion, descripcion, informacion FROM producto WHERE IdProducto = ?';
         const values = [uploadProductId.IdProducto];
