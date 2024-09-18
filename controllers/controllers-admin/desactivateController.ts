@@ -5,7 +5,8 @@ import AdminServices from '../../services/AdminServices';
 const desactivateDay = async (req: Request, res: Response) => {
     try {
         const { date } = req.body;
-        // Validación simple
+        console.log('Fecha recibida', date);
+        
         if (!date) {
             return res.status(400).json({ error: 'Date is required' });
         }
@@ -17,11 +18,28 @@ const desactivateDay = async (req: Request, res: Response) => {
     }
 };
 
+
+const acivateDay = async (req: Request, res: Response) => {
+    try {
+        const { date } = req.body;
+        
+        if (!date) {
+            return res.status(400).json({ error: 'Date is required' });
+        }
+        const result = await AdminServices.activateDay(date);
+        res.status(200).json(result);
+    } catch (error: any) {
+        console.error('Error activing day:', error);
+        res.status(500).json({ error: error.message});
+    }
+}
+
 // Controlador para desactivar una hora
 const desactivateTime = async (req: Request, res: Response) => {
     try {
         const { date, time } = req.body;
-        // Validación simple
+        console.log('hora recibida', date, time);
+
         if (!date || !time) {
             return res.status(400).json({ error: 'Date and time are required' });
         }
@@ -33,10 +51,26 @@ const desactivateTime = async (req: Request, res: Response) => {
     }
 };
 
+const activateTime = async (req: Request, res: Response) => {
+    try {
+        const { date, time } = req.body;
+        if (!date || !time) {
+            return res.status(400).json({ error: 'Date and time are required'});
+        }
+        const result = await AdminServices.activateTime(date, time);
+        res.status(200).json(result);
+    } catch (error: any) {
+        console.error('Error activating time', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
 // Controlador para consultar días desactivados
 const getDisabledDays = async (req: Request, res: Response) => {
     try {
         const days = await AdminServices.getDisabledDays();
+        console.log('consult days');
+        
         res.status(200).json(days);
     } catch (error: any) {
         console.error("Error fetching disabled days:", error);
@@ -48,6 +82,8 @@ const getDisabledDays = async (req: Request, res: Response) => {
 const getDisabledTimes = async (req: Request, res: Response) => {
     try {
         const times = await AdminServices.getDisabledTimes();
+        console.log('consult times');
+        
         res.status(200).json(times);
     } catch (error: any) {
         console.error("Error fetching disabled times:", error);
@@ -57,7 +93,9 @@ const getDisabledTimes = async (req: Request, res: Response) => {
 
 export default {
     desactivateDay,
+    acivateDay,
     desactivateTime,
+    activateTime,
     getDisabledDays,
     getDisabledTimes
 };
