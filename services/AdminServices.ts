@@ -43,6 +43,8 @@ class AdminServices {
 
     static async desactivateDay(date: any) {
         try {
+            console.log('Service desactive dias');
+
             return await AdminRepository.desactivateDay(date);
         } catch (error) {
             throw error;
@@ -51,6 +53,8 @@ class AdminServices {
 
     static async activateDay(date: any) {
         try {
+            console.log('Service active dias');
+
             return await AdminRepository.activateDay(date);
         } catch (error) {
             throw error;
@@ -60,6 +64,8 @@ class AdminServices {
     // Desactivar una Hora
     static async desactivateTime(date: any, time: any) {
         try {
+            console.log('Service desactive horas');
+
             return await AdminRepository.desactivateTime(date, time);
         } catch (error) {
             throw error;
@@ -68,6 +74,8 @@ class AdminServices {
 
     static async activateTime(date: any, time: any) {
         try {
+            console.log('Service active horas');
+
             return await AdminRepository.activateTime(date, time);
         } catch (error) {
             throw error;
@@ -76,7 +84,10 @@ class AdminServices {
 
     // Consultar Días Desactivados
     static async getDisabledDays() {
+        
         try {
+            console.log('Service buscar dias');
+
             return await AdminRepository.getDisabledDays();
         } catch (error) {
             throw error;
@@ -85,7 +96,10 @@ class AdminServices {
 
     // Consultar Horas Desactivadas
     static async getDisabledTimes() {
+
         try {
+            console.log('Service buscar horas');
+
             return await AdminRepository.getDisabledTimes();
         } catch (error) {
             throw error;
