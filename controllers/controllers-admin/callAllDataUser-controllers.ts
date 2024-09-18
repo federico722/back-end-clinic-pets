@@ -30,4 +30,5 @@ let callAllData = async (req: Request, res: Response) => {
     }
 }
 
+
 export default callAllData;
