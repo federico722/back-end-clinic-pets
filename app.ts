@@ -15,7 +15,8 @@ import cancelAppointment from './routes/cancelAppointmentUser'
 import verifyRolUser from './routes/verifyRol';
 import callTutorData from './routes/callTutorData';
 import AskForAllPets from './routes/askForAllPets';
-import getAppointmentAdmin from './routes/getAppointmentAdmin';
+import AdminRepository from './routes/getAppointmentAdmin';
+
 //import disabledTimesRoutes from './routes/disabledTimesRoutes'; // Asimport AdminRepository from "./routes/getAppointmentAdmin";
 import RecoverPassword from './routes/recoverPassword';
 import addProductsAdmin from "./routes/addProductsAdmin";
@@ -43,9 +44,21 @@ import DeletePetVerify from "./routes/deletePetVerify";
 import UpdatePetVerify from "./routes/updatePetVerify";
 import callPetVerify from "./routes/callPetVerify";
 
+import gestionHorarios from "./routes/desactivateRoutes"
 import veterinaryManagement from "./routes/veterinaryManagementAdmin"
 import veterinaryStatus from "./routes/veterinaryStatusAdmin";
+import downloadHistorial from "./routes/downloadHistorial"
+import addMascotasPerdidas from "./routes/addMascotaPerdida";
+import getMascotasPerdidas from "./routes/getMascotasPerdidas"
+import addComentario from "./routes/comentar";
+import getComentarios from "./routes/getComentarios";
+import getAppointmentAdmin from "./routes/getAppointmentAdmin"
+import getIds from "./routes/ids";
+import obtenetId from "./routes/obtenerId";
+
 import dotenv from "dotenv";
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, { apiVersion: '2024-06-20' });
 
 dotenv.config();
 
@@ -64,9 +77,9 @@ app.use('/callTutorData',callTutorData);
 app.use('/deleteData', deleteData);
 app.use('/callDateAppointments', callDateAppointment);
 app.use('/updateAppointment', updateAppointment);
-app.use('/cancelAppointment', cancelAppointment);
+//app.use('/cancelAppointment', cancelAppointment);
 app.use('/verifyRolUser', verifyRolUser);
-//app.use('/appointments', AdminRepository);
+app.use('/appointments', AdminRepository);
 app.use('/recoverPassword', RecoverPassword);
 app.use('/addProductsAdmin', addProductsAdmin);  // agregar productos por el admin
 app.use('/createHistorialMedicVet',createHistorialMedicVet); // crear historial medico  por el vet
@@ -97,6 +110,31 @@ app.use("/updatePetVerify", UpdatePetVerify); // !actualizar la solicitud del us
 app.use("/callPetVerify", callPetVerify); // !llamar a las mascotas
 
 //app.use('/disabledTimes', );
+app.use('/desactive',gestionHorarios)
+app.use('/downloadHistorial', downloadHistorial);
+app.use('/uploadPet', addMascotasPerdidas);
+app.use('/mascotas', getMascotasPerdidas);
+app.use('/enviarComentario', addComentario);
+app.use('/comentarios', getComentarios);
+app.use('/sendIds', getIds);
+app.use('/obtenerIdUsuario', obtenetId);
+//app.use('/admin', getAppointmentAdmin); // Ruta para las funciones del admin
+
+
+app.post('/create-payment-intent', async (req, res) => {
+    const { amount } = req.body;
+  
+    try {
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount,
+        currency: 'usd',
+      });
+      res.send({ clientSecret: paymentIntent.client_secret });
+    } catch (error: any) {
+      res.status(500).send({ error: error.message });
+    }
+  });
+
 const PORT = process.env.PORT || 10101;
 
 

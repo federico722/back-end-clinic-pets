@@ -8,6 +8,8 @@ let createHistoryMedical =  async (req: Request, res: Response) =>{
 
        const  {   
         // Informacion del usuario 
+        IdUsuario,
+        idCita,
         nombre,
         telefono,
         direccion,
@@ -35,7 +37,7 @@ let createHistoryMedical =  async (req: Request, res: Response) =>{
         const IdVeterinario: any = req.user?.id;
         console.log('Idveterinario extraído:', IdVeterinario);
 
-        let IdUsuario = " ";
+        //let IdUsuario = " ";
 
         if (typeof IdVeterinario !== 'string') {
             return res.status(400).json({
@@ -45,8 +47,9 @@ let createHistoryMedical =  async (req: Request, res: Response) =>{
         }
 
         const historialCreado: any = await VeterinaryService.createHistorial(new createHistorial(
-            IdVeterinario,
             IdUsuario,
+            idCita,
+            IdVeterinario,
             nombre,
             telefono,
             direccion,

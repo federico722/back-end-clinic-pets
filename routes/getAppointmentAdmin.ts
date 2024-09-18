@@ -1,16 +1,18 @@
-import Express from "express";
-import AdminRepository from "../repositories/AdminRepository";
+import Express from 'express';
+import AdminRepository from '../repositories/AdminRepository';
 
 const router = Express.Router();
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const appointments = await AdminRepository.getAppointment();
+        console.log('Fetched appointments:', appointments); // Verifica el formato de los datos
         res.json(appointments);
-        console.log('back', appointments); // Revisa el formato de fecha aquí
-    } catch (error) {
+    } catch (error: any) {
+        console.error('Error fetching appointments:', error.message, error.stack); 
         res.status(500).json({ message: 'Error fetching appointments' });
     }
 });
+
 
 export default router;

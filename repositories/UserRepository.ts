@@ -34,8 +34,12 @@ import { converTime } from './UserFunction/converTime-functions';
 import { updateCartUser } from './UserFunction/updateCartUser-functions';
 // importar obtener productos del carro del usuario
 import { uploadCartProduct } from './UserFunction/callDataCartUser-functions';
-
-
+import DownloadHistorial from '../Dto/Dto-User/downloadHistorialDto';
+import MascotasPerdidas from '../Dto/mascotasPerdidasDto';
+import AddComentario from '../Dto/comentarDto';
+import GetComentarios from '../Dto/getComentariosDto';
+import GetIds from '../Dto/Dto-User/idsDto';
+import Id from '../Dto/idDto';
 
 /**
  * Clase que maneja las operaciones de base de datos relacionadas con usuarios y citas.
@@ -61,7 +65,6 @@ class UserRepository {
         const [result] = await db.execute(sql, values);
         return result 
     }
-
 
     static async recover(recoverPassword: RecoverPassword) {
         let resultadoTipoRol: string | null = null;
@@ -155,7 +158,6 @@ class UserRepository {
     
         return { logged: false, status: "Invalid username or password" };
     }
-    
     
     /*static async login(auth: Auth){
        const sql = 'SELECT IdUsuario AS Id, contrasenaUsuario AS contrasenia, rol  FROM usuario WHERE correoUsuario=? UNION SELECT IdAdministrador AS Id, contrasenaAdministrador AS contrasenia, rol FROM administrador WHERE correoAdministrador=? UNION SELECT IdVeterinario AS Id, contrasenaVeterinario AS contrasenia, rol FROM veterinario WHERE correoVeterinario=?'
@@ -345,8 +347,6 @@ class UserRepository {
         };
     };
 
-   
-
     static async verifyRol(verifyRol: VerifyRol){
         console.log('repository funciona');
         
@@ -368,7 +368,6 @@ class UserRepository {
        }
     }
 
-
     /**
      * 
      * Programa una nueva cita.
@@ -376,7 +375,6 @@ class UserRepository {
      * @param schedule Objeto con los detalles de la cita a programar.
      * @returns Resultado de la programación de la cita.
      */
-
 
     static async scheduleAppointment(schedule: Schedule) {
         console.log('Datos para la base de datos:', schedule);
@@ -568,8 +566,6 @@ class UserRepository {
       }
     }
 
-       
-
     static async askForAllPets(){
         const sql = 'SELECT IdAdopcionMascota, nombreMascota, imagenMascota, edadMascota, sexo, razaMascota, estadoVacunacionMascota, esterilizacionMascota FROM adopcionMascota WHERE estado = en adopcion';
 
@@ -717,6 +713,210 @@ class UserRepository {
 
     
 
+    static async downloadHistorial(idCita: DownloadHistorial) {
+        const sql = 'SELECT IdVeterinario, IdUsuario, nombre, telefono, direccion, email, nombreMascota, edadMascota, especie, raza, nombreVeterinario, tituloEspecialidad, especialidadMedicina, motivoConsulta, tratamiento, diagnostico, examenMedico FROM historialcita WHERE idCita = ?';
+        const values = [idCita.idCita];
+        const [result]: any = await db.execute(sql, values);
+        return result; // Asegúrate de que los datos son retornados aquí
+    }
+
+    static async addMascotaPerdida(mascotasPerdidas: MascotasPerdidas) {
+        const sql = 'INSERT INTO buscarMascota ( IdUsuario, imagenMascota, nombreMascota, infoMascota, numeroTelefono) VALUES (?, ?, ?, ?, ?)';
+        const values = [
+            mascotasPerdidas.IdUsuario,
+            mascotasPerdidas.imagenMascota,
+            mascotasPerdidas.nombreMascota,
+            mascotasPerdidas.infoMascota,
+            mascotasPerdidas.numeroTelefono
+        ];
+
+        try {
+            const [result]: any = await db.execute(sql, values);
+    
+            console.log('Valores para la inserción:', values);
+            console.log('Resultado de la inserción:', result);
+    
+            if (result && result.affectedRows > 0) {
+                return { status: 'Publish', insertToCart: true };
+            } else {
+                return { status: 'Failed', insertToCart: false, errorSql: result };
+            }
+        } catch (error: any) {
+            console.error('Error al insertar datos en la tabla:', error);
+            return { status: 'Error inserting data', insertToCart: false, error: error.message };
+        }
+    }
+
+    static async mascotasPerdidas() {
+        const sql = 'SELECT * FROM buscarMascota';
+        try {
+            const [result]: any = await db.execute(sql);
+            if (result.length > 0) {
+                return {
+                    status: 'informacion de mascotas obtenida',
+                    select: true,
+                    result: result
+                }
+            }else{
+                return {
+                    status: 'no se pudo obtener la informacion de las mascotas',
+                    select: false,
+                }
+            }
+        } catch (error: any) {
+            console.error('error en el servidor al intentar obtener la info de las mascotas', error);
+            return{
+                status: 'Error',
+                select: false,
+                error: error.message
+            };
+        };
+    }    
+
+    static async addComentario(comentario: AddComentario) {
+        const sql = 'INSERT INTO comentarios (IdBuscarMascota, IdUsuario, comentario) VALUES (?, ?, ?)'
+        const values = [comentario.IdBuscarMascota, comentario.IdUsuario, comentario.comentario];
+
+        try {
+            const [result]: any = await db.execute(sql, values);
+    
+            console.log('Valores para la inserción:', values);
+            console.log('Resultado de la inserción:', result);
+    
+            if (result && result.affectedRows > 0) {
+                return { status: 'Publish', insertToCart: true };
+            } else {
+                return { status: 'Failed', insertToCart: false, errorSql: result };
+            }
+        } catch (error: any) {
+            console.error('Error al insertar datos en la tabla:', error);
+            return { status: 'Error inserting data', insertToCart: false, error: error.message };
+        }
+    }
+
+    static async getComentarios(getComentarios: GetComentarios) {
+        const sql = 'SELECT * FROM comentarios WHERE IdBuscarMascota = ?';
+        const values = [getComentarios.IdBuscarMascota];
+
+
+        try {
+            const [result]: any = await db.execute(sql, values);
+            if (result.length > 0) {
+                return {
+                    status: 'Comentarios obtenidos de la base',
+                    select: true,
+                    result: result
+                }
+            }else{
+                return {
+                    status: 'no se pudo obtener los comentarios',
+                    select: false,
+                }
+            }
+        } catch (error: any) {
+            console.error('error en el servidor al intentar obtener los comentarios', error);
+            return{
+                status: 'Error',
+                select: false,
+                error: error.message
+            };
+        };
+    }
+
+    static async getIds(ids: GetIds) {
+        const sql1 = 'SELECT IdUsuario, nombreUsuario, numeroTelefonoUsuario,  correousuario, direccion, nombreMascota, edadMascota, especie, raza, tipoCita, motivoConsulta FROM cita WHERE IdCita = ?';
+        const sql2 = 'SELECT nombreVeterinario, telefonoVeterinario, correoVeterinario FROM veterinario WHERE IdVeterinario = ?';
+        const values1 = [ids.idCita];
+        const values2 = [ids.IdUsuario];
+    
+        try {
+            // Ejecutar la primera consulta
+            const [result1]: any = await db.execute(sql1, values1);
+    
+            // Ejecutar la segunda consulta
+            const [result2]: any = await db.execute(sql2, values2);
+    
+            // Combinar los resultados
+            const combinedResult = {
+                citaData: result1,
+                veterinarioData: result2
+            };
+    console.log('resultados de la base:', combinedResult);
+    
+            if (result1.length > 0 && result2.length > 0) {
+                return {
+                    status: 'Datos obtenidos de la base',
+                    select: true,
+                    result: combinedResult
+                };
+            } else {
+                return {
+                    status: 'No se pudo obtener todos los datos',
+                    select: false,
+                };
+            }
+        } catch (error: any) {
+            console.error('Error en el servidor al intentar obtener los datos', error);
+            return {
+                status: 'Error',
+                select: false,
+                error: error.message
+            };
+        }
+    }
+
+    static async obtenerId(id: Id) {
+        // Extrae el valor del IdUsuario del objeto `Id`
+        const idUsuario = id.IdUsuario;
+    
+        console.log('IdUsuario extraído de la base:', idUsuario); // Verifica el valor antes de la consulta
+    
+        const sql = `
+            SELECT IdUsuario AS id, nombreUsuario AS nombre
+            FROM usuario
+            WHERE IdUsuario = ?
+    
+            UNION ALL
+    
+            SELECT IdAdministrador AS id, nombreAdministrador AS nombre
+            FROM administrador
+            WHERE IdAdministrador = ?
+    
+            UNION ALL
+    
+            SELECT IdVeterinario AS id, nombreVeterinario AS nombre
+            FROM veterinario
+            WHERE IdVeterinario = ?;
+        `;
+    
+        const values = [idUsuario, idUsuario, idUsuario];
+    
+        try {
+            const [result]: any = await db.execute(sql, values);
+            console.log('resultados:', result);
+            
+            if (result.length > 0) {
+                return {
+                    status: 'Id obtenido',
+                    select: true,
+                    result: result
+                }
+            } else {
+                return {
+                    status: 'No se pudo obtener el Id',
+                    select: false,
+                }
+            }
+        } catch (error: any) {
+            console.error('Error en el servidor al intentar obtener el Id', error);
+            return {
+                status: 'Error',
+                select: false,
+                error: error.message
+            };
+        }
+    }
+    
 }
 
 export default UserRepository; 
