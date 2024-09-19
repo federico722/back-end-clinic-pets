@@ -85,7 +85,8 @@ class AdminRepository {
         const sql = 'SELECT fecha, hora, nombreUsuario, IdCita FROM cita WHERE estado = "Agendada"';
         const result: any = await db.execute(sql);
         console.log('Id Cita sql', result);
-        
+        return result;
+    }
     
         //const sql = 'SELECT fecha, hora, nombreUsuario, IdUsuario numeroTelefonoUsuario, correoUsuario, direccion, nombreMascota, edadMascota, especie, raza, tipoCita, moivoConsulta FROM cita WHERE estado = "Agendada"';
 
@@ -109,10 +110,6 @@ class AdminRepository {
                 nombreUsuario: row.nombreUsuario
             };
         });*/
-    
-        return result;
-    }
-    
     
 
     static async askAllForProducts(){
