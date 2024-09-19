@@ -290,6 +290,8 @@ class AdminRepository {
 
 
     static async activateDay(date: string) {
+        console.log('Activar fecha', date);
+        
         const sql = 'DELETE FROM desactivate WHERE date = ?'
         const values = [date];
         try {
@@ -336,7 +338,7 @@ class AdminRepository {
 
     // Consultar días desactivados
     static async getDisabledDays(): Promise<string[]> {
-        const sql = `SELECT DISTINCT date FROM desactivate WHERE type = 'day'`;
+        const sql = `SELECT * FROM desactivate WHERE type = 'day'`;
 
         try {
             const connection = await db.getConnection();
@@ -345,6 +347,8 @@ class AdminRepository {
 
             // Asegúrate de que results sea un array de objetos
             if (Array.isArray(results)) {
+                console.log('consultar dias esta en sql');
+                
                 return (results as Array<{ date: string }>).map(row => row.date);
             } else {
                 throw new Error("Unexpected result format");

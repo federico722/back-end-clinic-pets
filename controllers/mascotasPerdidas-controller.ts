@@ -10,11 +10,13 @@ let mascotasPerdidas = async (req: Request, res: Response) => {
             IdUsuario,
             nombreMascota,
             infoMascota,
-            numeroTelefono
+            numeroTelefono,
+            imagenMascota
         } = req.body;
+        
 
         // Accede al archivo subido
-        const imagenMascota = req.file?.filename || '';
+       
 
         console.log('datos recibidos:', IdUsuario, imagenMascota, nombreMascota, infoMascota, numeroTelefono);
 
