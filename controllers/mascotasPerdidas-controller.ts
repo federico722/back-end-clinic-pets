@@ -13,6 +13,7 @@ let mascotasPerdidas = async (req: Request, res: Response) => {
             numeroTelefono,
             imagenMascota
         } = req.body;
+        
 
         // Accede al archivo subido
        
