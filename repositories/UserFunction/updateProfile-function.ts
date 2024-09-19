@@ -3,8 +3,8 @@ import db from '../../config/config-db';
 
 async function updateUser(profile:Profile) {
     try {
-        const sql = 'UPDATE usuario SET nombreUsuario = ?, apellidoUsuario = ?, telefonoUsuario = ?, correoUsuario = ? WHERE IdUsuario = ?';
-        const values = [profile.nombre, profile.apellido, profile.numeroDeTelefono, profile.email, profile.IdUsuario];
+        const sql = 'UPDATE usuario SET nombreUsuario = ?, apellidoUsuario = ?, telefonoUsuario = ?, correoUsuario = ?,  imagenPerfil = ? WHERE IdUsuario = ?';
+        const values = [profile.nombre, profile.apellido, profile.numeroDeTelefono, profile.email, profile.imagenPerfil, profile.IdUsuario];
         const [result]: any = await db.execute(sql, values);
         return result;
     } catch (error: any) {
@@ -15,8 +15,8 @@ async function updateUser(profile:Profile) {
 
   async function updateAdmin(profile:Profile) {
     try {
-        const sql = 'UPDATE administrador SET nombreAdministrador = ?, apellidoAdministrador = ?, telefonoAdministrador = ?, correoAdministrador = ? WHERE IdAdministrador = ?';
-        const values = [profile.nombre, profile.apellido, profile.numeroDeTelefono, profile.email, profile.IdUsuario];
+        const sql = 'UPDATE administrador SET nombreAdministrador = ?, apellidoAdministrador = ?, telefonoAdministrador = ?, correoAdministrador = ?, imagenPerfil = ?  WHERE IdAdministrador = ?';
+        const values = [profile.nombre, profile.apellido, profile.numeroDeTelefono, profile.email, profile.imagenPerfil ,profile.IdUsuario];
         const [result]: any = await db.execute(sql, values);
         return result;
     } catch (error: any) {
@@ -27,8 +27,8 @@ async function updateUser(profile:Profile) {
 
   async function updateVet(profile:Profile) {
     try {
-        const sql = 'UPDATE veterinario SET nombreVeterinario = ?, apellidoVeterinario = ?, telefonoVeterinario = ?, correoVeterinario = ? WHERE IdVeterinario = ?';
-        const values = [profile.nombre, profile.apellido, profile.numeroDeTelefono, profile.email, profile.IdUsuario];
+        const sql = 'UPDATE veterinario SET nombreVeterinario = ?, apellidoVeterinario = ?, telefonoVeterinario = ?, correoVeterinario = ?, imagenPerfil = ?  WHERE IdVeterinario = ?';
+        const values = [profile.nombre, profile.apellido, profile.numeroDeTelefono, profile.email, profile.imagenPerfil ,profile.IdUsuario];
         const [result]: any = await db.execute(sql, values);
         return result;
     } catch (error: any) {

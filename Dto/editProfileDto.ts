@@ -5,6 +5,7 @@ class Profile {
     private _numeroDeTelefono: string;
     private _email: string;   
     private _IdUsuario: string;
+    private _imagenPerfil: string;
     
     constructor(
         nombre: string,
@@ -12,7 +13,8 @@ class Profile {
       //  numeroDeDocumento: string,
         numeroDeTelefono: string,
         email: string,
-        IdUsuario: string
+        IdUsuario: string,
+        imagenPerfil: string
     ) {
         this._nombre = nombre;
         this._apellido = apellido;
@@ -20,6 +22,7 @@ class Profile {
         this._numeroDeTelefono = numeroDeTelefono;
         this._email = email;
         this._IdUsuario = IdUsuario;
+        this._imagenPerfil = imagenPerfil
     }
     
     public get nombre() : string {
@@ -44,6 +47,10 @@ class Profile {
     
     public get IdUsuario() : string {
         return this._IdUsuario;
+    }
+
+    public get imagenPerfil(): string {
+        return this._imagenPerfil;
     }
       
     
@@ -72,6 +79,10 @@ class Profile {
     
     public set IdUsuario(IdUsuario : string) {
         this._IdUsuario = IdUsuario;
+    }
+
+    public set imagenPerfil(imagenPerfil: string){
+        this._imagenPerfil = imagenPerfil;
     }
 }
 

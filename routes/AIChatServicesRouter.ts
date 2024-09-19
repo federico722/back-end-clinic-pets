@@ -16,6 +16,27 @@ if (!genAI || !model) {
 
 const router = Express.Router();
 
+// Función para verificar si la pregunta está relacionada con temas prohibidos
+function isProhibitedTopic(question:string): boolean {
+     const prohibitedTopics = [
+        'series animadas', 'television', 
+        'drogas ilicitas', 'estupefacientes',
+        'terrorismo', 'peppa pig',
+        'actos ilegales', 'pacho',
+        'suicidio', 'personaje animado',
+        'paises', 'anime',
+        'libros', 'politica', 'gobiernos',
+        'entretenimiento', 'primera guerra mundial',
+         'segunda guerra mundial', 'tercera guerra mundial',
+         'videojuegos', 'tecnologia', 'viajes espaciales',
+        'historia mundial', 'free fire', 
+        'pornografia', 'actrices de pornografia',
+         'videos para adultos', 'conflictos'
+     ]
+     const lowercaseQuestion = question.toLowerCase();
+     return prohibitedTopics.some(topic => lowercaseQuestion.includes(topic));
+}
+
 
 router.post('', async (req: Request, res: Response) => {
    console.log("Received request:", req.body);
@@ -23,7 +44,14 @@ router.post('', async (req: Request, res: Response) => {
        role: msg.role,
        parts: [{ text: msg.parts }]
    }));
+
    let question = req.body.question;
+
+   if (isProhibitedTopic(question)) {
+    const response = "No puedo responder ese tipo de preguntas. Por favor, pregunta otra cosa relacionada con animales, mascotas, veterinaria o los servicios de Tamvobet.";
+    return res.status(200).json({ response: response });
+   }
+
    let historyChat: any = START_CHAT.concat(history);
 
    
@@ -42,25 +70,19 @@ router.post('', async (req: Request, res: Response) => {
        const sendQuestion = await chat.sendMessage([{text: question}]);
        const response = await sendQuestion.response;
        const text = response.text();
-       console.log("AI response:", text);
+      // console.log("AI response:", text);
 
-       // Actualizar historial y enviar respuesta
-       history.push({role: "user", parts: [{text: question}]});
-       history.push({role: "model", parts: [{text: text}]});
-       return res.status(200).json({history: history.map((msg: { role: string; parts: { text: string }[] }) => ({
-           role: msg.role,
-           parts: msg.parts[0].text
-       }))});
+       return res.status(200).json({ response: text });
    } catch (error: any) {
-       console.error("Error in AI processing:", error);
-       if (error instanceof GoogleGenerativeAIError) {
-           return res.status(500).json({ 
-               message: "Error en la API de Google", 
-               error: error.message,
-               details: error.toString()
-           });
-       }
-       return res.status(500).json({ message: "Error processing AI request", error: error.toString() });
+    console.error("Error in AI processing:", error);
+    if (error instanceof GoogleGenerativeAIError) {
+        return res.status(500).json({ 
+            message: "Error en la API de Google", 
+            error: error.message,
+            details: error.toString()
+        });
+    }
+    return res.status(500).json({ message: "Error processing AI request", error: error.toString() });
    }
 });
 

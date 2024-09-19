@@ -14,6 +14,10 @@ class AdminServices {
         return await AdminRepository.addProducts(uploadProducts);
     }
 
+    static async callAllDateUser(){
+        return await AdminRepository.callAllDateUser();
+    }
+
     static async askForAllProducts(){
         return await AdminRepository.askAllForProducts();
     }
@@ -45,10 +49,26 @@ class AdminServices {
         }
     }
 
+    static async activateDay(date: any) {
+        try {
+            return await AdminRepository.activateDay(date);
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // Desactivar una Hora
     static async desactivateTime(date: any, time: any) {
         try {
             return await AdminRepository.desactivateTime(date, time);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async activateTime(date: any, time: any) {
+        try {
+            return await AdminRepository.activateTime(date, time);
         } catch (error) {
             throw error;
         }
