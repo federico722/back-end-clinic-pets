@@ -137,6 +137,11 @@ app.post('/create-payment-intent', async (req, res) => {
     }
   });
 
+  app.get('/', (req, res) => {
+    res.send('Bienvenido a la API');
+});
+
+
 const PORT = process.env.PORT || 10101;
 
 
