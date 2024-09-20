@@ -9,9 +9,6 @@ const db = mysql.createPool({
     port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10): undefined, 
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    ssl: {
-      ca:fs.readFileSync(process.env.CA_CERT_PATH!)
-    },
     connectionLimit: 10,
     queueLimit: 0
 
